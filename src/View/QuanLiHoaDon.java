@@ -62,7 +62,7 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        cboLoaiSanPham = new javax.swing.JComboBox<>();
+        cboTrangThai = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblQuanLyHoaDon = new javax.swing.JTable();
         btnTimByID = new javax.swing.JButton();
@@ -172,10 +172,10 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
         jLabel2.setText("QUẢN LÍ HÓA ĐƠN");
         jLabel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        cboLoaiSanPham.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đã Thanh Toán", "Chưa Thanh Toán", "Hoá Đơn Chờ", " " }));
-        cboLoaiSanPham.addActionListener(new java.awt.event.ActionListener() {
+        cboTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đã Thanh Toán", "Chưa Thanh Toán", "Hoá Đơn Chờ", " " }));
+        cboTrangThai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboLoaiSanPhamActionPerformed(evt);
+                cboTrangThaiActionPerformed(evt);
             }
         });
 
@@ -288,7 +288,7 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addGap(49, 49, 49)
-                                .addComponent(cboLoaiSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cboTrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel10)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(139, 139, 139)
@@ -353,12 +353,12 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
                 .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(cboLoaiSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboTrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(97, 97, 97)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(182, 182, 182)
+                .addGap(265, 265, 265)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -393,7 +393,7 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
                             .addComponent(jLabel7)
                             .addGap(270, 270, 270))
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(54, Short.MAX_VALUE)))
+                    .addContainerGap(137, Short.MAX_VALUE)))
         );
 
         pack();
@@ -439,7 +439,15 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
     }//GEN-LAST:event_tblQuanLyHoaDonMouseClicked
 
     private void btnTimByIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimByIDActionPerformed
-      
+      DefaultTableModel model = (DefaultTableModel) tblQuanLyHoaDon.getModel();
+        model.setRowCount(0);
+        
+        try {
+            list = hoaDonDAO.searchDataByID(Integer.parseInt(txtID.getText()));  
+            customShowData(model, list);
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnTimByIDActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
@@ -462,8 +470,8 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
             } else {
                 int nhanVienID = Integer.parseInt(txtTenSanPham.getText());
                 int khachHangID = Integer.parseInt(txtTenSanPham1.getText());
-                String trangThai = (String) cboLoaiSanPham.getSelectedItem();
-                JOptionPane.showMessageDialog(this,hoaDonDAO.addData(id, nhanVienID, khachHangID, nhanVienID));
+                int trangThai =  cboTrangThai.getSelectedIndex();
+                JOptionPane.showMessageDialog(this,hoaDonDAO.addData(id, nhanVienID, khachHangID, trangThai));
                 showData(hoaDonDAO.getAll());
             }
         } catch (SQLException ex) {
@@ -474,20 +482,68 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
+         int selectedRow = tblQuanLyHoaDon.getSelectedRow();
+        if(selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Chưa chọn dòng để sửa!");
+        } else {
+            try {
+                int id = Integer.parseInt(txtID.getText());
+                list = hoaDonDAO.getAll();
+
+                boolean isIdDuplicated = false;
+
+                for (HoaDon hoaDon : list) {
+                    if (id == hoaDon.getID()) {
+                        isIdDuplicated = true;
+                        break; 
+                    }
+                }
+
+                if (isIdDuplicated == false) {
+                    JOptionPane.showMessageDialog(this, "Không có mã hóa đơn cần sửa!");
+                } else {
+                    int nhanVienID = Integer.parseInt(txtTenSanPham.getText());
+                    int khachHangID = Integer.parseInt(txtTenSanPham.getText());
+                    int trangThai = cboTrangThai.getSelectedIndex();
+                    JOptionPane.showMessageDialog(this, hoaDonDAO.updateData(id, nhanVienID, khachHangID, trangThai));
+                    showData(hoaDonDAO.getAll());
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
       
 
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnTimByNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimByNameActionPerformed
         // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) tblQuanLyHoaDon.getModel();
+        model.setRowCount(0);
+        
+        try {
+            list = hoaDonDAO.searchDataByNhanVienID(Integer.parseInt(txtTenSanPham.getText()));
+            customShowData(model, list);
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnTimByNameActionPerformed
 
-    private void cboLoaiSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboLoaiSanPhamActionPerformed
+    private void cboTrangThaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTrangThaiActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cboLoaiSanPhamActionPerformed
+    }//GEN-LAST:event_cboTrangThaiActionPerformed
 
     private void btnTimByName1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimByName1ActionPerformed
         // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) tblQuanLyHoaDon.getModel();
+        model.setRowCount(0);
+        
+        try {
+            list = hoaDonDAO.searchDataByKhachHangID(Integer.parseInt(txtTenSanPham1.getText()));
+            customShowData(model, list);
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnTimByName1ActionPerformed
 
     /**
@@ -538,7 +594,7 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
                 hoaDon.getID(),
                 hoaDon.getNhanVienID(),
                 hoaDon.getKhachHangID(),
-                hoaDon.getTrangThaiHoaDon()
+                getTrangThaiName(hoaDon.getTrangThaiHoaDon())
             };
             dtm.addRow(data);
         }
@@ -547,9 +603,36 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
         txtID.setText(String.valueOf(hoaDon.getID()));
         txtTenSanPham.setText(String.valueOf(hoaDon.getNhanVienID()));
         txtTenSanPham1.setText(String.valueOf(hoaDon.getKhachHangID()));
-        cboLoaiSanPham.setSelectedIndex(hoaDon.getTrangThaiHoaDon());
+        cboTrangThai.setSelectedIndex(hoaDon.getTrangThaiHoaDon());
         
        
+    }
+    private String getTrangThaiName(int trangThai) {
+        switch (trangThai) {
+            case 0:
+                return "Đã thanh toán";
+            case 1:
+                return "Chưa thanh toán ";
+            case 2:
+                return "Hóa đơn chờ";
+            default:
+                return "";
+        }
+    }
+        private void customShowData(DefaultTableModel model, List<HoaDon> list) {
+        int stt = 1;
+        model.setRowCount(0);
+        
+        for (HoaDon hoaDon : list) {
+            Object obj[] = {
+                stt++,
+                hoaDon.getID(),
+                hoaDon.getNhanVienID(),
+                hoaDon.getKhachHangID(),
+                getTrangThaiName(hoaDon.getTrangThaiHoaDon())
+            };
+            model.addRow(obj);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -558,7 +641,7 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
     private javax.swing.JButton btnTimByID;
     private javax.swing.JButton btnTimByName;
     private javax.swing.JButton btnTimByName1;
-    private javax.swing.JComboBox<String> cboLoaiSanPham;
+    private javax.swing.JComboBox<String> cboTrangThai;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

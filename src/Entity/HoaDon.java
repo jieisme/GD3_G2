@@ -14,6 +14,16 @@ public class HoaDon {
     private int KhachHangID ;
     private int TrangThaiHoaDon;
 
+    public HoaDon() {
+    }
+
+    public HoaDon(int ID, int NhanVienID, int KhachHangID, int TrangThaiHoaDon) {
+        this.ID = ID;
+        this.NhanVienID = NhanVienID;
+        this.KhachHangID = KhachHangID;
+        this.TrangThaiHoaDon = TrangThaiHoaDon;
+    }
+
     public int getID() {
         return ID;
     }
@@ -46,14 +56,5 @@ public class HoaDon {
         this.TrangThaiHoaDon = TrangThaiHoaDon;
     }
 
-    public HoaDon() {
-    }
-
-    public HoaDon(int ID, int NhanVienID, int KhachHangID, int TrangThaiHoaDon) {
-        this.ID = ID;
-        this.NhanVienID = NhanVienID;
-        this.KhachHangID = KhachHangID;
-        this.TrangThaiHoaDon = TrangThaiHoaDon;
-    }
-    
+   
 }
