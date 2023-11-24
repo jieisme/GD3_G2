@@ -3,14 +3,20 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package View;
+
+
 import Entity.NhanVien;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author ngoho
  */
 public class DangNhap extends javax.swing.JFrame {
-    NhanVien nv = new NhanVien();
+    ArrayList<NhanVien> lst = new ArrayList<>();
+    
+
     /**
      * Creates new form DangNhap
      */
@@ -131,6 +137,16 @@ public class DangNhap extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+      
+        for (NhanVien nhanVien : lst) {
+             if(txtTenDangNhap.getText().equals(nhanVien.getUserName()) && txtMatKhau.getText().equals(nhanVien.getMatKhau())){
+                 JOptionPane.showMessageDialog(this,"Đăng nhập thành công !");
+                 this.dispose();
+             }else{
+                 JOptionPane.showMessageDialog(this,"Sai tên đăng nhập hoặc mật khẩu!");
+             }
+             
+         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMatKhauActionPerformed
@@ -171,10 +187,11 @@ public class DangNhap extends javax.swing.JFrame {
             }
         });
     }
-    void dangnhap(){
+
+    void dangnhap() {
         String tenDangNhap = txtTenDangNhap.getText();
         String maKhau = new String(txtMatKhau.getText());
-        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

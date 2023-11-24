@@ -75,5 +75,10 @@ public class NhanVien {
     public void setSoDienThoai(String SoDienThoai) {
         this.SoDienThoai = SoDienThoai;
     }
+
+    @Override
+    public String toString() {
+        return "NhanVien{" + "ID=" + ID + ", UserName=" + UserName + ", MatKhau=" + MatKhau + ", HoTen=" + HoTen + ", ChucVu=" + ChucVu + ", SoDienThoai=" + SoDienThoai + '}';
+    }
     
 }
