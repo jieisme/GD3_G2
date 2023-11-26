@@ -9,17 +9,8 @@ package Entity;
  * @author zudd4
  */
 public class MauSac {
-
     private int id;
-    private String loai;
-
-    public MauSac() {
-    }
-
-    public MauSac(int id, String loai) {
-        this.id = id;
-        this.loai = loai;
-    }
+    private String ten;
 
     public int getId() {
         return id;
@@ -29,11 +20,19 @@ public class MauSac {
         this.id = id;
     }
 
-    public String getLoai() {
-        return loai;
+    public String getTen() {
+        return ten;
     }
 
-    public void setLoai(String loai) {
-        this.loai = loai;
+    public void setTen(String ten) {
+        this.ten = ten;
+    }
+
+    public MauSac(int id, String ten) {
+        this.id = id;
+        this.ten = ten;
+    }
+
+    public MauSac() {
     }
 }

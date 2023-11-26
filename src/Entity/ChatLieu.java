@@ -11,14 +11,14 @@ package Entity;
 public class ChatLieu {
 
     private int id;
-    private String loai;
+    private String tenChatLieu;
 
     public ChatLieu() {
     }
 
-    public ChatLieu(int id, String loai) {
+    public ChatLieu(int id, String tenChatLieu) {
         this.id = id;
-        this.loai = loai;
+        this.tenChatLieu = tenChatLieu;
     }
 
     public int getId() {
@@ -30,10 +30,10 @@ public class ChatLieu {
     }
 
     public String getLoai() {
-        return loai;
+        return tenChatLieu;
     }
 
-    public void setLoai(String loai) {
-        this.loai = loai;
+    public void setLoai(String tenChatLieu) {
+        this.tenChatLieu = tenChatLieu;
     }
 }
