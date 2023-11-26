@@ -9,12 +9,13 @@ package Entity;
  * @author Thuylq
  */
 public class NhanVien {
-    private int ID ;
-    private String UserName  ;
-    private String  MatKhau ;
-    private String HoTen ;
-    private int ChucVu ;
-    private String SoDienThoai ;
+
+    private int ID;
+    private String UserName;
+    private String MatKhau;
+    private String HoTen;
+    private int ChucVu;
+    private String SoDienThoai;
 
     public NhanVien(int ID, String UserName, String MatKhau, String HoTen, int ChucVu, String SoDienThoai) {
         this.ID = ID;
@@ -75,5 +76,10 @@ public class NhanVien {
     public void setSoDienThoai(String SoDienThoai) {
         this.SoDienThoai = SoDienThoai;
     }
-    
+
+    @Override
+    public String toString() {
+        return "NhanVien{" + "ID=" + ID + ", UserName=" + UserName + ", MatKhau=" + MatKhau + ", HoTen=" + HoTen + ", ChucVu=" + ChucVu + ", SoDienThoai=" + SoDienThoai + '}';
+    }
+
 }

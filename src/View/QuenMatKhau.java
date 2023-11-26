@@ -64,7 +64,7 @@ public class QuenMatKhau extends javax.swing.JFrame {
         jLabel2.setText("TÊN ĐĂNG NHẬP");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel3.setText("EMAIL");
+        jLabel3.setText("NHẬP MẬT KHẨU MỚI");
 
         jTextField1.setForeground(new java.awt.Color(204, 204, 204));
         jTextField1.setText("Nhập tên đăng nhập");

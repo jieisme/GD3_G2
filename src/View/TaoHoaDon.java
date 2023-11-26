@@ -186,7 +186,7 @@ public class TaoHoaDon extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addGap(929, 929, 929)
                         .addComponent(jLabel4)))
-                .addGap(0, 77, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel7)
@@ -199,7 +199,7 @@ public class TaoHoaDon extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(375, 375, 375)
                         .addComponent(btnThem)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(536, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

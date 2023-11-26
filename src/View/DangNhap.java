@@ -3,20 +3,32 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package View;
+
+
+import DAO.NhanVienDAO;
 import Entity.NhanVien;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author ngoho
  */
 public class DangNhap extends javax.swing.JFrame {
-    NhanVien nv = new NhanVien();
     /**
      * Creates new form DangNhap
      */
-    public DangNhap() {
+    
+   List<NhanVien> list;
+   NhanVienDAO nhanVienDAO = new NhanVienDAO();
+    
+    public DangNhap() throws SQLException {
         initComponents();
         setLocationRelativeTo(null);
+        list = nhanVienDAO.getAll();
     }
 
     /**
@@ -35,7 +47,7 @@ public class DangNhap extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        txtMatKhau = new javax.swing.JTextField();
+        txtMatKhau = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -49,7 +61,6 @@ public class DangNhap extends javax.swing.JFrame {
         jLabel3.setText("MẬT KHẨU");
 
         txtTenDangNhap.setForeground(new java.awt.Color(204, 204, 204));
-        txtTenDangNhap.setText("Nhập tên đăng nhập");
         txtTenDangNhap.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTenDangNhapActionPerformed(evt);
@@ -70,14 +81,6 @@ public class DangNhap extends javax.swing.JFrame {
             }
         });
 
-        txtMatKhau.setForeground(new java.awt.Color(204, 204, 204));
-        txtMatKhau.setText("Nhập mật khẩu");
-        txtMatKhau.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMatKhauActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -88,16 +91,16 @@ public class DangNhap extends javax.swing.JFrame {
                 .addGap(242, 242, 242))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel3)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(26, 26, 26)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtTenDangNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTenDangNhap, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+                    .addComponent(txtMatKhau))
                 .addGap(47, 47, 47))
         );
         layout.setVerticalGroup(
@@ -131,11 +134,21 @@ public class DangNhap extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        String username = txtTenDangNhap.getText();
+        char[] charPassword = txtMatKhau.getPassword();
+        String password = String.valueOf(charPassword);
+        int check = 0;
+        for (NhanVien nhanVien : list) {
+             if(username.equals(nhanVien.getUserName()) && password.equals(nhanVien.getMatKhau())){
+                check++;
+             }
+         }
+        if(check != 0) {
+            JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
+        } else {
+            JOptionPane.showMessageDialog(this, "Sai tên đăng nhập hoặc mật khẩu, vui lòng thử lại!");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void txtMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMatKhauActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMatKhauActionPerformed
 
     /**
      * @param args the command line arguments
@@ -167,14 +180,13 @@ public class DangNhap extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DangNhap().setVisible(true);
+                try {
+                    new DangNhap().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(DangNhap.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
-    }
-    void dangnhap(){
-        String tenDangNhap = txtTenDangNhap.getText();
-        String maKhau = new String(txtMatKhau.getText());
-        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -184,7 +196,7 @@ public class DangNhap extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField txtMatKhau;
+    private javax.swing.JPasswordField txtMatKhau;
     private javax.swing.JTextField txtTenDangNhap;
     // End of variables declaration//GEN-END:variables
 }
