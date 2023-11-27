@@ -13,12 +13,12 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author ngoho
+ * @author zudd4
  */
 public class TrangChuJFrame extends javax.swing.JFrame {
-  
+
     /**
-     * Creates new form TrangChu
+     * Creates new form NewJFrame
      */
     
     private String loggedInUser = Session.getInstance().getLoggedInUsername();
@@ -45,238 +45,199 @@ public class TrangChuJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtTile = new javax.swing.JLabel();
-        txtLogo = new javax.swing.JLabel();
-        btnTaoHoaDonMoi = new javax.swing.JButton();
-        btnQuanLySanPham = new javax.swing.JButton();
-        btnQuanLyKhachHang = new javax.swing.JButton();
-        btnQuanLyHoaDon = new javax.swing.JButton();
-        btnQuanLyNhanVien = new javax.swing.JButton();
-        btnQuanLyVoucher = new javax.swing.JButton();
-        btnQuanLyThuocTinh = new javax.swing.JButton();
+        Background = new javax.swing.JPanel();
         btnTaiKhoan = new javax.swing.JButton();
         btnDoiMatKhau = new javax.swing.JButton();
         btnDangXuat = new javax.swing.JButton();
         txtXinChao = new javax.swing.JLabel();
         txtChucVu = new javax.swing.JLabel();
         txtDongHo = new javax.swing.JLabel();
+        txtTile = new javax.swing.JLabel();
+        txtLogo = new javax.swing.JLabel();
+        btnBanHang = new javax.swing.JButton();
+        btnQuanLySanPham = new javax.swing.JButton();
+        btnQuanLyKhachHang = new javax.swing.JButton();
+        btnQuanLyHoaDon = new javax.swing.JButton();
+        btnQuanLyNhanVien = new javax.swing.JButton();
+        btnQuanLyVoucher = new javax.swing.JButton();
+        btnTrangChu = new javax.swing.JButton();
+        btnQuanLyThuocTinh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Trang chủ");
-        setBackground(new java.awt.Color(204, 255, 255));
 
-        txtTile.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        txtTile.setText("HỆ THỐNG QUẢN LÝ BẢN ÁO");
+        Background.setBackground(new java.awt.Color(166, 227, 233));
+        Background.setForeground(new java.awt.Color(253, 247, 228));
+        Background.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/logo2Clothes.png"))); // NOI18N
-
-        btnTaoHoaDonMoi.setBackground(new java.awt.Color(153, 255, 255));
-        btnTaoHoaDonMoi.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnTaoHoaDonMoi.setText("TẠO HÓA ĐƠN MỚI");
-        btnTaoHoaDonMoi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTaoHoaDonMoiActionPerformed(evt);
-            }
-        });
-
-        btnQuanLySanPham.setBackground(new java.awt.Color(153, 255, 255));
-        btnQuanLySanPham.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnQuanLySanPham.setText("QUẢN LÝ SẢN PHẨM");
-        btnQuanLySanPham.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnQuanLySanPhamActionPerformed(evt);
-            }
-        });
-
-        btnQuanLyKhachHang.setBackground(new java.awt.Color(153, 255, 255));
-        btnQuanLyKhachHang.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnQuanLyKhachHang.setText("QUẢN LÝ KHÁCH HÀNG");
-        btnQuanLyKhachHang.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnQuanLyKhachHangActionPerformed(evt);
-            }
-        });
-
-        btnQuanLyHoaDon.setBackground(new java.awt.Color(153, 255, 255));
-        btnQuanLyHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnQuanLyHoaDon.setText("QUẢN LÝ HÓA ĐƠN");
-        btnQuanLyHoaDon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnQuanLyHoaDonActionPerformed(evt);
-            }
-        });
-
-        btnQuanLyNhanVien.setBackground(new java.awt.Color(153, 255, 255));
-        btnQuanLyNhanVien.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnQuanLyNhanVien.setText("QUẢN LÝ NHÂN VIÊN");
-        btnQuanLyNhanVien.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnQuanLyNhanVienActionPerformed(evt);
-            }
-        });
-
-        btnQuanLyVoucher.setBackground(new java.awt.Color(153, 255, 255));
-        btnQuanLyVoucher.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnQuanLyVoucher.setText("QUẢN LÝ VOUCHER");
-        btnQuanLyVoucher.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnQuanLyVoucherActionPerformed(evt);
-            }
-        });
-
-        btnQuanLyThuocTinh.setBackground(new java.awt.Color(153, 255, 255));
-        btnQuanLyThuocTinh.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnQuanLyThuocTinh.setText("QUẢN LÝ THUỘC TÍNH");
-        btnQuanLyThuocTinh.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnQuanLyThuocTinhActionPerformed(evt);
-            }
-        });
-
-        btnTaiKhoan.setBackground(new java.awt.Color(153, 255, 255));
+        btnTaiKhoan.setBackground(new java.awt.Color(203, 241, 245));
         btnTaiKhoan.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnTaiKhoan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Gear.png"))); // NOI18N
         btnTaiKhoan.setText("TÀI KHOẢN");
+        btnTaiKhoan.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, -1, -1, new java.awt.Color(0, 0, 0)));
+        btnTaiKhoan.setBorderPainted(false);
         btnTaiKhoan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTaiKhoanActionPerformed(evt);
             }
         });
+        Background.add(btnTaiKhoan, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 594, 284, 78));
 
-        btnDoiMatKhau.setBackground(new java.awt.Color(153, 255, 255));
+        btnDoiMatKhau.setBackground(new java.awt.Color(203, 241, 245));
         btnDoiMatKhau.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnDoiMatKhau.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Key.png"))); // NOI18N
         btnDoiMatKhau.setText("ĐỔI MẬT KHẨU");
+        btnDoiMatKhau.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, -1, -1, new java.awt.Color(0, 0, 0)));
+        btnDoiMatKhau.setBorderPainted(false);
         btnDoiMatKhau.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDoiMatKhauActionPerformed(evt);
             }
         });
+        Background.add(btnDoiMatKhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 678, 284, -1));
 
-        btnDangXuat.setBackground(new java.awt.Color(153, 255, 255));
+        btnDangXuat.setBackground(new java.awt.Color(203, 241, 245));
         btnDangXuat.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnDangXuat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Exit.png"))); // NOI18N
         btnDangXuat.setText("ĐĂNG XUẤT");
+        btnDangXuat.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, -1, -1, new java.awt.Color(0, 0, 0)));
+        btnDangXuat.setBorderPainted(false);
         btnDangXuat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDangXuatActionPerformed(evt);
             }
         });
+        Background.add(btnDangXuat, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 715, 284, -1));
 
         txtXinChao.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtXinChao.setText("Xin chào,");
+        Background.add(txtXinChao, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 752, -1, -1));
 
         txtChucVu.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtChucVu.setText("Chức vụ: ");
+        Background.add(txtChucVu, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 774, -1, -1));
 
         txtDongHo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txtDongHo.setForeground(new java.awt.Color(255, 0, 0));
+        txtDongHo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Alarm.png"))); // NOI18N
         txtDongHo.setText("09:11:2001");
+        Background.add(txtDongHo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1480, 750, -1, -1));
+
+        txtTile.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        txtTile.setText("HỆ THỐNG QUẢN LÝ BẢN ÁO");
+        Background.add(txtTile, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 10, -1, -1));
+
+        txtLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/logo2Clothes.png"))); // NOI18N
+        Background.add(txtLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 80, 491, 91));
+
+        btnBanHang.setBackground(new java.awt.Color(203, 241, 245));
+        btnBanHang.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnBanHang.setText("BÁN HÀNG");
+        btnBanHang.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, -1, -1, new java.awt.Color(0, 0, 0)));
+        btnBanHang.setBorderPainted(false);
+        btnBanHang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBanHangActionPerformed(evt);
+            }
+        });
+        Background.add(btnBanHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 6, 284, 78));
+
+        btnQuanLySanPham.setBackground(new java.awt.Color(203, 241, 245));
+        btnQuanLySanPham.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnQuanLySanPham.setText("QUẢN LÝ SẢN PHẨM");
+        btnQuanLySanPham.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, -1, -1, new java.awt.Color(0, 0, 0)));
+        btnQuanLySanPham.setBorderPainted(false);
+        btnQuanLySanPham.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuanLySanPhamActionPerformed(evt);
+            }
+        });
+        Background.add(btnQuanLySanPham, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 90, 284, 78));
+
+        btnQuanLyKhachHang.setBackground(new java.awt.Color(203, 241, 245));
+        btnQuanLyKhachHang.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnQuanLyKhachHang.setText("QUẢN LÝ KHÁCH HÀNG");
+        btnQuanLyKhachHang.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, -1, -1, new java.awt.Color(0, 0, 0)));
+        btnQuanLyKhachHang.setBorderPainted(false);
+        btnQuanLyKhachHang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuanLyKhachHangActionPerformed(evt);
+            }
+        });
+        Background.add(btnQuanLyKhachHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 174, 284, 78));
+
+        btnQuanLyHoaDon.setBackground(new java.awt.Color(203, 241, 245));
+        btnQuanLyHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnQuanLyHoaDon.setText("QUẢN LÝ HÓA ĐƠN");
+        btnQuanLyHoaDon.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, -1, -1, new java.awt.Color(0, 0, 0)));
+        btnQuanLyHoaDon.setBorderPainted(false);
+        btnQuanLyHoaDon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuanLyHoaDonActionPerformed(evt);
+            }
+        });
+        Background.add(btnQuanLyHoaDon, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 258, 284, 78));
+
+        btnQuanLyNhanVien.setBackground(new java.awt.Color(203, 241, 245));
+        btnQuanLyNhanVien.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnQuanLyNhanVien.setText("QUẢN LÝ NHÂN VIÊN");
+        btnQuanLyNhanVien.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, -1, -1, new java.awt.Color(0, 0, 0)));
+        btnQuanLyNhanVien.setBorderPainted(false);
+        btnQuanLyNhanVien.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuanLyNhanVienActionPerformed(evt);
+            }
+        });
+        Background.add(btnQuanLyNhanVien, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 342, 284, 78));
+
+        btnQuanLyVoucher.setBackground(new java.awt.Color(203, 241, 245));
+        btnQuanLyVoucher.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnQuanLyVoucher.setText("QUẢN LÝ VOUCHER");
+        btnQuanLyVoucher.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, -1, -1, new java.awt.Color(0, 0, 0)));
+        btnQuanLyVoucher.setBorderPainted(false);
+        btnQuanLyVoucher.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuanLyVoucherActionPerformed(evt);
+            }
+        });
+        Background.add(btnQuanLyVoucher, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 426, 284, 78));
+
+        btnTrangChu.setBackground(new java.awt.Color(203, 241, 245));
+        btnTrangChu.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnTrangChu.setText("Trang chủ");
+        btnTrangChu.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, -1, -1, new java.awt.Color(0, 0, 0)));
+        btnTrangChu.setBorderPainted(false);
+        btnTrangChu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTrangChuActionPerformed(evt);
+            }
+        });
+        Background.add(btnTrangChu, new org.netbeans.lib.awtextra.AbsoluteConstraints(1510, 10, 83, 28));
+
+        btnQuanLyThuocTinh.setBackground(new java.awt.Color(203, 241, 245));
+        btnQuanLyThuocTinh.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnQuanLyThuocTinh.setText("QUẢN LÝ THUỘC TÍNH");
+        btnQuanLyThuocTinh.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, -1, -1, new java.awt.Color(0, 0, 0)));
+        btnQuanLyThuocTinh.setBorderPainted(false);
+        btnQuanLyThuocTinh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuanLyThuocTinhActionPerformed(evt);
+            }
+        });
+        Background.add(btnQuanLyThuocTinh, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 510, 284, 78));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnQuanLySanPham, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
-                            .addComponent(btnTaoHoaDonMoi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnTaiKhoan, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnQuanLyThuocTinh, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnQuanLyVoucher, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnQuanLyNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnQuanLyHoaDon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnQuanLyKhachHang, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
-                            .addComponent(btnDoiMatKhau, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnDangXuat, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(174, 174, 174)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtTile, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(txtLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(86, 86, 86)))
-                        .addContainerGap(176, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtXinChao)
-                            .addComponent(txtChucVu))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtDongHo)
-                        .addGap(20, 20, 20))))
+            .addComponent(Background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(txtTile)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(640, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtDongHo)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnTaoHoaDonMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnQuanLySanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnQuanLyKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnQuanLyHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnQuanLyNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnQuanLyVoucher, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnQuanLyThuocTinh, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnTaiKhoan, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnDoiMatKhau)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnDangXuat)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtXinChao)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtChucVu)))
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(Background, javax.swing.GroupLayout.DEFAULT_SIZE, 801, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnTaoHoaDonMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoHoaDonMoiActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnTaoHoaDonMoiActionPerformed
-
-    private void btnQuanLyNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyNhanVienActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnQuanLyNhanVienActionPerformed
-
-    private void btnQuanLyKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyKhachHangActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnQuanLyKhachHangActionPerformed
-
-    private void btnQuanLyHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyHoaDonActionPerformed
-        // TODO add your handling code here:
-            
-    }//GEN-LAST:event_btnQuanLyHoaDonActionPerformed
-
-    private void btnQuanLySanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLySanPhamActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnQuanLySanPhamActionPerformed
-
-    private void btnQuanLyThuocTinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyThuocTinhActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnQuanLyThuocTinhActionPerformed
-
-    private void btnQuanLyVoucherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyVoucherActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnQuanLyVoucherActionPerformed
 
     private void btnTaiKhoanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaiKhoanActionPerformed
         // TODO add your handling code here:
@@ -312,6 +273,90 @@ public class TrangChuJFrame extends javax.swing.JFrame {
         this.setVisible(false);
         dangNhapJFrame.setVisible(true);
     }//GEN-LAST:event_btnDangXuatActionPerformed
+
+    private void btnBanHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBanHangActionPerformed
+        // TODO add your handling code here:
+        BanHangJFrame banHangJFrame = null;
+        banHangJFrame = new BanHangJFrame();
+        this.setVisible(false);
+        banHangJFrame.setVisible(true);
+    }//GEN-LAST:event_btnBanHangActionPerformed
+
+    private void btnQuanLySanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLySanPhamActionPerformed
+        // TODO add your handling code here:
+        QuanLySanPham quanLySanPham = null;
+        try {
+            quanLySanPham = new QuanLySanPham();
+        } catch (SQLException ex) {
+            Logger.getLogger(TrangChuJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+        quanLySanPham.setVisible(true);
+    }//GEN-LAST:event_btnQuanLySanPhamActionPerformed
+
+    private void btnQuanLyKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyKhachHangActionPerformed
+        // TODO add your handling code here:
+        QuanLyKhachHang quanLyKhachHang = null;
+        quanLyKhachHang = new QuanLyKhachHang();
+        this.setVisible(false);
+        quanLyKhachHang.setVisible(true);
+    }//GEN-LAST:event_btnQuanLyKhachHangActionPerformed
+
+    private void btnQuanLyHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyHoaDonActionPerformed
+        // TODO add your handling code here:
+        QuanLiHoaDon quanLiHoaDon = null;
+        try {
+            quanLiHoaDon = new QuanLiHoaDon();
+        } catch (SQLException ex) {
+            Logger.getLogger(TrangChuJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+        quanLiHoaDon.setVisible(true);
+    }//GEN-LAST:event_btnQuanLyHoaDonActionPerformed
+
+    private void btnQuanLyNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyNhanVienActionPerformed
+        // TODO add your handling code here:
+        QuanLiNhanVien quanLiNhanVien = null;
+        try {
+            quanLiNhanVien = new QuanLiNhanVien();
+        } catch (SQLException ex) {
+            Logger.getLogger(TrangChuJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+        quanLiNhanVien.setVisible(true);
+    }//GEN-LAST:event_btnQuanLyNhanVienActionPerformed
+
+    private void btnQuanLyVoucherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyVoucherActionPerformed
+        // TODO add your handling code here:
+        QuanLiVoucher quanLiVoucher = null;
+        quanLiVoucher = new QuanLiVoucher();
+        this.setVisible(false);
+        quanLiVoucher.setVisible(true);
+    }//GEN-LAST:event_btnQuanLyVoucherActionPerformed
+
+    private void btnTrangChuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTrangChuActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        TrangChuJFrame trangChuJFrame = null;
+        try {
+            trangChuJFrame = new TrangChuJFrame();
+        } catch (SQLException ex) {
+            Logger.getLogger(DoiMatKhauJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        trangChuJFrame.setVisible(true);
+    }//GEN-LAST:event_btnTrangChuActionPerformed
+
+    private void btnQuanLyThuocTinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyThuocTinhActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        QuanLiThuocTinh quanLiThuocTinh = null;
+        try {
+            quanLiThuocTinh = new QuanLiThuocTinh();
+        } catch (SQLException ex) {
+            Logger.getLogger(DoiMatKhauJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        quanLiThuocTinh.setVisible(true);
+    }//GEN-LAST:event_btnQuanLyThuocTinhActionPerformed
 
     /**
      * @param args the command line arguments
@@ -367,6 +412,8 @@ public class TrangChuJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Background;
+    private javax.swing.JButton btnBanHang;
     private javax.swing.JButton btnDangXuat;
     private javax.swing.JButton btnDoiMatKhau;
     private javax.swing.JButton btnQuanLyHoaDon;
@@ -376,7 +423,7 @@ public class TrangChuJFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnQuanLyThuocTinh;
     private javax.swing.JButton btnQuanLyVoucher;
     private javax.swing.JButton btnTaiKhoan;
-    private javax.swing.JButton btnTaoHoaDonMoi;
+    private javax.swing.JButton btnTrangChu;
     private javax.swing.JLabel txtChucVu;
     private javax.swing.JLabel txtDongHo;
     private javax.swing.JLabel txtLogo;
