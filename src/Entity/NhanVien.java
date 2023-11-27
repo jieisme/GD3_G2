@@ -81,5 +81,4 @@ public class NhanVien {
     public String toString() {
         return "NhanVien{" + "ID=" + ID + ", UserName=" + UserName + ", MatKhau=" + MatKhau + ", HoTen=" + HoTen + ", ChucVu=" + ChucVu + ", SoDienThoai=" + SoDienThoai + '}';
     }
-
 }

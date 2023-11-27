@@ -123,7 +123,61 @@ public class NhanVienDAO {
         preSt.close();
         conn.close();
         return list;
+    }
+     public String forgotPassword(String username, String newPassword) throws SQLException{
+         Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "update NhanVien set Username = ? , MatKhau = ?";
+        PreparedStatement preSt = conn.prepareCall(sql);
         
+        preSt.setString(1,username);
+        preSt.setString(2, newPassword);
+
+        // Execute the update query
+        int rowsUpdated = preSt.executeUpdate();
+
+        preSt.close();
+        conn.close();
+
+        if (rowsUpdated > 0) {
+            return "Đổi mật khẩu thành công!";
+        } else {
+            return null;
+        }
     }
      
+    public String searchChucVu(String username) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "SELECT ChucVu FROM NHANVIEN WHERE USERNAME = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("ChucVu");
+            }
+        }
+        return null;
+    }
+    
+    public String changePassword(String username, String currentPassword, String newPassword) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "update NhanVien set MatKhau = ? WHERE MatKhau = ? AND Username = ?";
+        PreparedStatement preSt = conn.prepareCall(sql);
+        preSt.setString(1,newPassword);
+        preSt.setString(2, currentPassword);
+        preSt.setString(3,username);
+
+        // Execute the update query
+        int rowsUpdated = preSt.executeUpdate();
+
+        preSt.close();
+        conn.close();
+
+        if (rowsUpdated > 0) {
+            return "Đổi mật khẩu thành công!";
+        } else {
+            return "Sai mật khẩu hiện tại, vui lòng nhập lại!";
+        }
+    }
 }

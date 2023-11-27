@@ -34,7 +34,7 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    QuanLiHoaDon(TrangChu aThis, boolean b) {
+    QuanLiHoaDon(TrangChuJFrame aThis, boolean b) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

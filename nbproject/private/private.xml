@@ -3,23 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/E:/Workspace/DuAn1/PRO1041-SD18320-G2-Ao2Clothes/src/Entity/ChatLieu.java</file>
-            <file>file:/E:/Workspace/DuAn1/PRO1041-SD18320-G2-Ao2Clothes/src/View/QuanLiNhanVien.java</file>
-            <file>file:/E:/Workspace/DuAn1/PRO1041-SD18320-G2-Ao2Clothes/src/View/QuanLiThuocTinh.java</file>
-            <file>file:/E:/Workspace/DuAn1/PRO1041-SD18320-G2-Ao2Clothes/src/DAO/HoaDonDAO.java</file>
-            <file>file:/E:/Workspace/DuAn1/PRO1041-SD18320-G2-Ao2Clothes/src/DAO/ConnnectToSQLServer.java</file>
-            <file>file:/E:/Workspace/DuAn1/PRO1041-SD18320-G2-Ao2Clothes/src/Entity/MauSac.java</file>
-            <file>file:/E:/Workspace/DuAn1/PRO1041-SD18320-G2-Ao2Clothes/src/View/QuanLySanPham.java</file>
-            <file>file:/E:/Workspace/DuAn1/PRO1041-SD18320-G2-Ao2Clothes/src/DAO/SanPhamDAO.java</file>
+            <file>file:/E:/Workspace/DuAn1/PRO1041-SD18320-G2-Ao2Clothes/src/View/DangNhapJFrame.java</file>
+            <file>file:/E:/Workspace/DuAn1/PRO1041-SD18320-G2-Ao2Clothes/src/View/DoiMatKhauJFrame.java</file>
+            <file>file:/E:/Workspace/DuAn1/PRO1041-SD18320-G2-Ao2Clothes/src/Utils/MainApp.java</file>
             <file>file:/E:/Workspace/DuAn1/PRO1041-SD18320-G2-Ao2Clothes/src/View/QuanLiHoaDon.java</file>
-            <file>file:/E:/Workspace/DuAn1/PRO1041-SD18320-G2-Ao2Clothes/src/View/TrangChu.java</file>
-            <file>file:/E:/Workspace/DuAn1/PRO1041-SD18320-G2-Ao2Clothes/src/DAO/MauSacDAO.java</file>
-            <file>file:/E:/Workspace/DuAn1/PRO1041-SD18320-G2-Ao2Clothes/src/Entity/SanPham.java</file>
-=======
-            <file>file:/E:/PRO1041-SD18320-G2-Áo%202Clothes/PRO1041-SD18320-G2-Ao2Clothes/src/DAO/NhanVienDAO.java</file>
-            <file>file:/E:/PRO1041-SD18320-G2-Áo%202Clothes/PRO1041-SD18320-G2-Ao2Clothes/src/View/DangNhap.java</file>
->>>>>>> c1cbf204585740fa38f98805972e20bb3deb37ae
         </group>
     </open-files>
 </project-private>
