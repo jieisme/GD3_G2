@@ -180,4 +180,19 @@ public class NhanVienDAO {
             return "Sai mật khẩu hiện tại, vui lòng nhập lại!";
         }
     }
+    
+    public String searchHoVaTen(String username) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "SELECT HoVaTen FROM NHANVIEN WHERE USERNAME = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("HoVaTen");
+            }
+        }
+        return null;
+    }
 }

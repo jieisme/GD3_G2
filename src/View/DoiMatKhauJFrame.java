@@ -33,6 +33,7 @@ public class DoiMatKhauJFrame extends javax.swing.JFrame {
         list = new ArrayList<>();
         list = nhanVienDAO.getAll();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
     }
 
     /**

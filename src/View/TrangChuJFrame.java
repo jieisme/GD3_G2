@@ -29,7 +29,7 @@ public class TrangChuJFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         btnDoiMatKhau.setVisible(false);
         btnDangXuat.setVisible(false);
-        txtXinChao.setText("Xin chào: " + loggedInUser);
+        txtXinChao.setText("Xin chào: " + nhanVienDAO.searchHoVaTen(loggedInUser));
         int chucVu = Integer.parseInt(nhanVienDAO.searchChucVu(loggedInUser));
         txtChucVu.setText("Chức vụ: " + getChucVu(chucVu));
         dongHo();
@@ -214,7 +214,7 @@ public class TrangChuJFrame extends javax.swing.JFrame {
                 .addComponent(txtTile)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(640, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -243,7 +243,7 @@ public class TrangChuJFrame extends javax.swing.JFrame {
                         .addComponent(txtXinChao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtChucVu)))
-                .addGap(0, 9, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
