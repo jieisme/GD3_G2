@@ -96,6 +96,4 @@ public class SanPhamChiTiet {
     public void setTrangThaiXoa(int trangThaiXoa) {
         this.trangThaiXoa = trangThaiXoa;
     }
-    
-    
 }
