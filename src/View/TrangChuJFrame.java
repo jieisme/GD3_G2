@@ -5,6 +5,7 @@
 package View;
 
 import DAO.NhanVienDAO;
+import Entity.SanPham;
 import Utils.DongHo;
 import Utils.Session;
 import java.sql.SQLException;
@@ -284,14 +285,7 @@ public class TrangChuJFrame extends javax.swing.JFrame {
 
     private void btnQuanLySanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLySanPhamActionPerformed
         // TODO add your handling code here:
-        QuanLySanPham quanLySanPham = null;
-        try {
-            quanLySanPham = new QuanLySanPham();
-        } catch (SQLException ex) {
-            Logger.getLogger(TrangChuJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.setVisible(false);
-        quanLySanPham.setVisible(true);
+        
     }//GEN-LAST:event_btnQuanLySanPhamActionPerformed
 
     private void btnQuanLyKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyKhachHangActionPerformed
@@ -410,6 +404,7 @@ public class TrangChuJFrame extends javax.swing.JFrame {
         DongHo dongHo = new DongHo(txtDongHo);
         dongHo.start();
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Background;

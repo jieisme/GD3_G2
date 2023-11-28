@@ -4,13 +4,16 @@
  */
 package View;
 
+import DAO.ChatLieuDAO;
 import DAO.MauSacDAO;
+import Entity.ChatLieu;
 import Entity.MauSac;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -22,19 +25,28 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
     /**
      * Creates new form QuanLiThuocTinh
      */
-    
     DefaultTableModel dtm = new DefaultTableModel();
     List<MauSac> list;
     MauSacDAO mauSacDAO = new MauSacDAO();
+    List<ChatLieu> listCL;
+    ChatLieuDAO chatLieuDAO = new ChatLieuDAO();
     
+
     public QuanLiThuocTinh() throws SQLException {
         initComponents();
         dtm = (DefaultTableModel) tblMauSac.getModel();
         dtm.setRowCount(0);
         list = new ArrayList<>();
         showData(mauSacDAO.getAll());
+        chatLieu();
         setDefaultCloseOperation(QuanLiThuocTinh.EXIT_ON_CLOSE);
-        
+
+    }
+    void chatLieu() throws SQLException{
+        dtm = (DefaultTableModel) tblChatLieu.getModel();
+        dtm.setRowCount(0);
+        listCL = new ArrayList<>();
+        showDataCL(chatLieuDAO.getAll());
     }
 
     /**
@@ -69,16 +81,13 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         txtTenMau = new javax.swing.JTextField();
         txtErrorTenMau = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblMauSac = new javax.swing.JTable();
-        cboMauSac = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
         tblChatLieu = new javax.swing.JTable();
-        cboChatLieu = new javax.swing.JComboBox<>();
         btnTimIDChatLieu = new javax.swing.JButton();
         btnThemChatLieu = new javax.swing.JButton();
         btnSuaChatLieu = new javax.swing.JButton();
@@ -88,10 +97,9 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         txtTenChatLieu = new javax.swing.JTextField();
         txtErrorTenChatLieu = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jButton5.setBackground(new java.awt.Color(153, 255, 255));
         jButton5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -205,6 +213,8 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
 
         jLabel5.setText("ID:");
 
+        txtIDMau.setEnabled(false);
+
         txtErrorIDMau.setForeground(new java.awt.Color(255, 0, 0));
         txtErrorIDMau.setText(" ");
 
@@ -212,8 +222,6 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
 
         txtErrorTenMau.setForeground(new java.awt.Color(255, 0, 0));
         txtErrorTenMau.setText(" ");
-
-        jLabel7.setText("Màu Sắc");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setText("Màu Sắc");
@@ -229,9 +237,12 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
                 "STT", "ID", "Tên"
             }
         ));
+        tblMauSac.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMauSacMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(tblMauSac);
-
-        cboMauSac.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đen", "Trắng", "Đỏ", "Hồng", "Xanh lá", "Xanh dương" }));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel9.setText("Màu Sắc");
@@ -250,9 +261,12 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
                 "STT", "ID", "Tên"
             }
         ));
+        tblChatLieu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblChatLieuMouseClicked(evt);
+            }
+        });
         jScrollPane7.setViewportView(tblChatLieu);
-
-        cboChatLieu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Vải Cotton", "Vải Kaki", "Vải Jeans", "Vải Ren", "Vải Lanh", "Vải Waffle", "Vải Nỉ bông" }));
 
         btnTimIDChatLieu.setText("Tìm ID");
         btnTimIDChatLieu.addActionListener(new java.awt.event.ActionListener() {
@@ -277,6 +291,8 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
 
         jLabel11.setText("ID:");
 
+        txtIDChatLieu.setEnabled(false);
+
         txtErrorIDChatLieu.setForeground(new java.awt.Color(255, 0, 0));
         txtErrorIDChatLieu.setText(" ");
 
@@ -284,8 +300,6 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
 
         txtErrorTenChatLieu.setForeground(new java.awt.Color(255, 0, 0));
         txtErrorTenChatLieu.setText(" ");
-
-        jLabel13.setText("Chất liệu:");
 
         jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel14.setText("Chất liệu");
@@ -325,9 +339,8 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel7))
-                        .addGap(73, 73, 73)
+                            .addComponent(jLabel5))
+                        .addGap(99, 99, 99)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnThemMau)
@@ -344,17 +357,15 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
                                         .addGap(6, 6, 6)
                                         .addComponent(txtErrorIDMau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                 .addGap(29, 29, 29)
-                                .addComponent(btnTimIDMau))
-                            .addComponent(cboMauSac, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnTimIDMau))))
                     .addComponent(jLabel8)
                     .addComponent(jLabel2)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel12)
-                                .addComponent(jLabel11)
-                                .addComponent(jLabel13))
-                            .addGap(73, 73, 73)
+                                .addComponent(jLabel11))
+                            .addGap(104, 104, 104)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(btnThemChatLieu)
@@ -371,8 +382,7 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
                                             .addGap(6, 6, 6)
                                             .addComponent(txtErrorIDChatLieu, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGap(29, 29, 29)
-                                    .addComponent(btnTimIDChatLieu))
-                                .addComponent(cboChatLieu, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(btnTimIDChatLieu))))
                         .addComponent(jLabel14)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -431,11 +441,7 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
                             .addComponent(txtTenMau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtErrorTenMau)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(cboMauSac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(26, 26, 26)
+                        .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnThemMau, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnSuaMau, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -454,11 +460,7 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
                             .addComponent(txtTenChatLieu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtErrorTenChatLieu)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel13)
-                            .addComponent(cboChatLieu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(26, 26, 26)
+                        .addGap(60, 60, 60)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnThemChatLieu, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnSuaChatLieu, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -503,17 +505,55 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void btnTimIDMauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimIDMauActionPerformed
-      
+
     }//GEN-LAST:event_btnTimIDMauActionPerformed
 
     private void btnThemMauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemMauActionPerformed
-     
+        try {
+            String ten = txtTenMau.getText();
+            JOptionPane.showMessageDialog(this, mauSacDAO.addData(ten));
+            showData(mauSacDAO.getAll());
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
     }//GEN-LAST:event_btnThemMauActionPerformed
 
     private void btnSuaMauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaMauActionPerformed
         // TODO add your handling code here:
-     
-        
+         int selectedRow = tblMauSac.getSelectedRow();
+        if(selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Chưa chọn dòng để sửa!");
+        } else {
+            try {
+                int id = Integer.parseInt(txtIDMau.getText());
+                list = mauSacDAO.getAll();
+
+                boolean isIdDuplicated = false;
+
+                for (MauSac mauSac : list) {
+                    if (id == mauSac.getId()) {
+                        isIdDuplicated = true;
+                        break; 
+                    }
+                }
+
+                if (isIdDuplicated == false) {
+                    JOptionPane.showMessageDialog(this, "Không có mã hóa đơn cần sửa!");
+                } else {
+                    String ten  = txtTenMau.getText();
+                    
+                    JOptionPane.showMessageDialog(this, mauSacDAO.updateData(id, ten));
+                    showData(mauSacDAO.getAll());
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+      
+
+            
+
     }//GEN-LAST:event_btnSuaMauActionPerformed
 
     private void btnTimIDChatLieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimIDChatLieuActionPerformed
@@ -522,11 +562,69 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
 
     private void btnThemChatLieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemChatLieuActionPerformed
         // TODO add your handling code here:
+        try {
+            String ten = txtTenChatLieu.getText();
+            JOptionPane.showMessageDialog(this, chatLieuDAO.addData(ten));
+            showDataCL(chatLieuDAO.getAll());
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
     }//GEN-LAST:event_btnThemChatLieuActionPerformed
 
     private void btnSuaChatLieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaChatLieuActionPerformed
         // TODO add your handling code here:
+        int selectedRow = tblChatLieu.getSelectedRow();
+        if(selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Chưa chọn dòng để sửa!");
+        } else {
+            try {
+                int id = Integer.parseInt(txtIDChatLieu.getText());
+                listCL = chatLieuDAO.getAll();
+
+                boolean isIdDuplicated = false;
+
+                for (ChatLieu chatLieu : listCL) {
+                    if (id == chatLieu.getId()) {
+                        isIdDuplicated = true;
+                        break; 
+                    }
+                }
+
+                if (isIdDuplicated == false) {
+                    JOptionPane.showMessageDialog(this, "Không có mã hóa đơn cần sửa!");
+                } else {
+                    String ten  = txtTenChatLieu.getText();
+                    
+                    JOptionPane.showMessageDialog(this, chatLieuDAO.updateData(id, ten));
+                    showDataCL(chatLieuDAO.getAll());
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+      
     }//GEN-LAST:event_btnSuaChatLieuActionPerformed
+
+    private void tblMauSacMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMauSacMouseClicked
+        // TODO add your handling code here:
+        int selectedRow = tblMauSac.getSelectedRow();
+        try {
+            detailData(mauSacDAO.getAll().get(selectedRow));
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_tblMauSacMouseClicked
+
+    private void tblChatLieuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblChatLieuMouseClicked
+        // TODO add your handling code here:
+        int selectedRow = tblChatLieu.getSelectedRow();
+        try {
+            detailDataCL(chatLieuDAO.getAll().get(selectedRow));
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_tblChatLieuMouseClicked
 
     /**
      * @param args the command line arguments
@@ -566,25 +664,42 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
             }
         });
     }
-    
-        public void showData(List<MauSac> list) {
+
+    private void showData(List<MauSac> list) {
+        int stt = 1;
         dtm.setRowCount(0);
 
-        if (list != null) {
-            int stt = 0;
-
-            for (MauSac mauSac : list) {
-                Object data[] = {
-                    mauSac.getId(),
-                    mauSac.getTen()
-                };
-                dtm.addRow(data);
-            }
+        for (MauSac mauSac : list) {
+            Object data[] = {
+                stt++,
+                mauSac.getId(),
+                mauSac.getTen(),};
+            dtm.addRow(data);
         }
     }
+    private void showDataCL(List<ChatLieu> list) {
+        int stt = 1;
+        dtm.setRowCount(0);
 
-    
-    
+        for (ChatLieu chatLieu : list) {
+            Object data[] = {
+                stt++,
+                chatLieu.getId(),
+                chatLieu.getLoai(),};
+            dtm.addRow(data);
+        }
+    }
+     private void detailData(MauSac mauSac) {
+        txtIDMau.setText(String.valueOf(mauSac.getId()));
+        txtTenMau.setText(mauSac.getTen());
+        
+    }
+     private void detailDataCL(ChatLieu chatLieu) {
+        txtIDChatLieu.setText(String.valueOf(chatLieu.getId()));
+        txtTenChatLieu.setText(chatLieu.getLoai());
+        
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSuaChatLieu;
@@ -593,8 +708,6 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
     private javax.swing.JButton btnThemMau;
     private javax.swing.JButton btnTimIDChatLieu;
     private javax.swing.JButton btnTimIDMau;
-    private javax.swing.JComboBox<String> cboChatLieu;
-    private javax.swing.JComboBox<String> cboMauSac;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -606,14 +719,12 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;

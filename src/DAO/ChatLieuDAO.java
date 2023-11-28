@@ -3,8 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package DAO;
-
-import Entity.MauSac;
+import Entity.ChatLieu;
 import java.util.List;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -13,21 +12,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
 /**
  *
- * @author zudd4
+ * @author Thuylq
  */
-public class MauSacDAO {
+public class ChatLieuDAO {
+    private List<ChatLieu> list;
 
-    private List<MauSac> list;
-
-    public List<MauSac> getAll() throws SQLException {
+    public List<ChatLieu> getAll() throws SQLException {
         list = new ArrayList<>();
         Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "SELECT [ID]\n"
-                + "      ,[Ten]\n"
-                + "  FROM [dbo].[MauSac]";
+        String sql = "select * from ChatLieu";
         Statement st = conn.createStatement();
         ResultSet rs = st.executeQuery(sql);
 
@@ -35,8 +30,8 @@ public class MauSacDAO {
             int id = rs.getInt("ID");
             String ten = rs.getString("Ten");
 
-            MauSac mauSac = new MauSac(id, ten);
-            list.add(mauSac);
+            ChatLieu chatLieu = new ChatLieu(id, ten);
+            list.add(chatLieu);
         }
         rs.close();
         st.close();
@@ -46,7 +41,7 @@ public class MauSacDAO {
 
     public String addData(String ten) throws SQLException {
         Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "INSERT INTO MauSac(Ten)\n"
+        String sql = "INSERT INTO ChatLieu(Ten)\n"
                 + "OUTPUT inserted.ID\n"
                 + "VALUES(?);";
         PreparedStatement preSt = conn.prepareCall(sql);
@@ -59,7 +54,7 @@ public class MauSacDAO {
     }
      public String updateData(int id, String ten) throws SQLException{
          Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "update MauSac set Ten = ? where ID = ?";
+        String sql = "update ChatLieu set Ten = ? where ID = ?";
         PreparedStatement preSt = conn.prepareCall(sql);
         preSt.setString(1, ten);
         preSt.setInt(2, id);

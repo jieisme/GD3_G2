@@ -2,7 +2,7 @@
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="defaultCloseOperation" type="int" value="0"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -59,9 +59,8 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="99" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="btnThemMau" min="-2" max="-2" attributes="0"/>
@@ -84,7 +83,6 @@
                               <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                               <Component id="btnTimIDMau" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="cboMauSac" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -94,9 +92,8 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabel12" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel11" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel13" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="104" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="btnThemChatLieu" min="-2" max="-2" attributes="0"/>
@@ -119,7 +116,6 @@
                                   <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                                   <Component id="btnTimIDChatLieu" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="cboChatLieu" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="jLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -194,12 +190,7 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtErrorTenMau" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cboMauSac" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnThemMau" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="btnSuaMau" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
@@ -221,12 +212,7 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtErrorTenChatLieu" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cboChatLieu" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnThemChatLieu" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="btnSuaChatLieu" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
@@ -432,6 +418,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtIDMau">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="txtErrorIDMau">
       <Properties>
@@ -454,11 +443,6 @@
           <Color blue="0" green="0" red="ff" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value=" "/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel7">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="M&#xe0;u S&#x1eaf;c"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel8">
@@ -508,26 +492,12 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblMauSacMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JComboBox" name="cboMauSac">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="6">
-            <StringItem index="0" value="&#x110;en"/>
-            <StringItem index="1" value="Tr&#x1eaf;ng"/>
-            <StringItem index="2" value="&#x110;&#x1ecf;"/>
-            <StringItem index="3" value="H&#x1ed3;ng"/>
-            <StringItem index="4" value="Xanh l&#xe1;"/>
-            <StringItem index="5" value="Xanh d&#x1b0;&#x1a1;ng"/>
-          </StringArray>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-      </AuxValues>
-    </Component>
     <Component class="javax.swing.JLabel" name="jLabel9">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -583,27 +553,12 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblChatLieuMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JComboBox" name="cboChatLieu">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="7">
-            <StringItem index="0" value="V&#x1ea3;i Cotton"/>
-            <StringItem index="1" value="V&#x1ea3;i Kaki"/>
-            <StringItem index="2" value="V&#x1ea3;i Jeans"/>
-            <StringItem index="3" value="V&#x1ea3;i Ren"/>
-            <StringItem index="4" value="V&#x1ea3;i Lanh"/>
-            <StringItem index="5" value="V&#x1ea3;i Waffle"/>
-            <StringItem index="6" value="V&#x1ea3;i N&#x1ec9; b&#xf4;ng"/>
-          </StringArray>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-      </AuxValues>
-    </Component>
     <Component class="javax.swing.JButton" name="btnTimIDChatLieu">
       <Properties>
         <Property name="text" type="java.lang.String" value="T&#xec;m ID"/>
@@ -634,6 +589,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtIDChatLieu">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="txtErrorIDChatLieu">
       <Properties>
@@ -656,11 +614,6 @@
           <Color blue="0" green="0" red="ff" type="rgb"/>
         </Property>
         <Property name="text" type="java.lang.String" value=" "/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel13">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Ch&#x1ea5;t li&#x1ec7;u:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel14">
