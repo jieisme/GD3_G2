@@ -16,8 +16,8 @@ go
 create table KhuyenMai(
 ID int identity(0,1) primary key ,
 LoaiKhuyenMai int not null , 
-GiamTheoPhamTram float not null,
-GiamTheoGiaTien float not null,
+GiamTheoPhamTram int not null,
+GiamTheoGiaTien int not null,
 SoLuong int not null,
 ThoiGianBatDau date null,
 ThoiGianKetThuc date null,
@@ -54,12 +54,13 @@ create table HoaDonChiTiet(
 ID int identity(0,1) primary key,
 HoaDonId int not null,
 SanPhamChiTietId int not null,
-KhuyenMaiID int not null,
-GiaBan float not null,
-SoLuong int not null,
-TongTien Float not null,
+KhuyenMaiID int null,
+GiaBan int not null,
+SoLuong int not null,        
+TongTienHang int not null,
+TongTienDuocGiam int null,
+TongTienPhaiTra int not null,
 TrangThaiXoa int null
-
 );
 
 go
@@ -70,7 +71,7 @@ SanPhamID int not null,
 MauSacID int not null,
 ChatLieuID int not null,
 KichThuoc int not null,
-DonGia float not null,
+DonGia int not null,
 SoLuong int not null,
 TrangThaiXoa int null
 );
@@ -239,7 +240,7 @@ go
 -- Không hoạt động: 1
 insert into KhuyenMai
 values (0, 50, 0, 10, '', '', 0, N'Giảm 50% trên tổng hóa đơn', 0),
-	   (1, 0, 30000, 5, '', '', 0, N'Giảm 50k trên tổng hóa đơn', 0)
+	   (1, 0, 50000, 5, '', '', 0, N'Giảm 50k trên tổng hóa đơn', 0)
 go
 --Trangthai
 -- Đã thanh toán: 0
@@ -250,7 +251,7 @@ values (0, 0, 0, 0),
 go
 
 insert into HoaDonChiTiet
-values (0, 0, 0, 185000, 2, 185000, 0)
+values (0, 0, '', 185000, 2, 185000, 0, 185000, 0)
 
 go
 --------VIEW TABLE---------
@@ -264,3 +265,8 @@ select * from KhachHang
 select * from KhuyenMai
 select * from HoaDon
 select * from HoaDonChiTiet
+
+SELECT SanPhamChiTiet.ID, SanPham.Ten, MauSac.Ten, SanPhamChiTiet.KichThuoc, SanPhamChiTiet.DonGia, SanPhamChiTiet.SoLuong
+FROM SanPhamChiTiet
+JOIN MauSac ON MauSac.ID = SanPhamChiTiet.MauSacID
+JOIN SanPham ON SanPham.ID = SanPhamChiTiet.SanPhamID

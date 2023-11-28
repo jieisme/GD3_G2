@@ -4,7 +4,10 @@
  */
 package Utils;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -25,12 +28,11 @@ public class DongHo extends Thread {
     @Override
     public void run() {
         while (true) {
-            Calendar calendar = Calendar.getInstance();
-            int hour = calendar.get(Calendar.HOUR_OF_DAY);
-            int minute = calendar.get(Calendar.MINUTE);
-            int second = calendar.get(Calendar.SECOND);
-            String realTime = getTime(hour) + ":" + getTime(minute) + ":" + getTime(second);
-            lblTime.setText(realTime);
+            Date currentDate = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, dd/MM/yyyy - hh:mm:ss a");
+            String formattedDateTime = dateFormat.format(currentDate);
+            
+            lblTime.setText(formattedDateTime);
             try {
                 sleep(1000);
             } catch (InterruptedException ex) {
