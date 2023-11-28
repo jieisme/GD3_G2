@@ -25,7 +25,8 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
     /**
      * Creates new form QuanLiThuocTinh
      */
-    DefaultTableModel dtm = new DefaultTableModel();
+    DefaultTableModel dtmMauSac = new DefaultTableModel();
+    DefaultTableModel dtmChatLieu = new DefaultTableModel();
     List<MauSac> list;
     MauSacDAO mauSacDAO = new MauSacDAO();
     List<ChatLieu> listCL;
@@ -34,19 +35,15 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
 
     public QuanLiThuocTinh() throws SQLException {
         initComponents();
-        dtm = (DefaultTableModel) tblMauSac.getModel();
-        dtm.setRowCount(0);
+        dtmMauSac = (DefaultTableModel) tblMauSac.getModel();
+        dtmMauSac.setRowCount(0);
+        dtmChatLieu = (DefaultTableModel) tblChatLieu.getModel();
+        dtmChatLieu.setRowCount(0);
         list = new ArrayList<>();
-        showData(mauSacDAO.getAll());
-        chatLieu();
+        showDataMauSac(mauSacDAO.getAll());
+        showDataChatLieu(chatLieuDAO.getAll());
         setDefaultCloseOperation(QuanLiThuocTinh.EXIT_ON_CLOSE);
 
-    }
-    void chatLieu() throws SQLException{
-        dtm = (DefaultTableModel) tblChatLieu.getModel();
-        dtm.setRowCount(0);
-        listCL = new ArrayList<>();
-        showDataCL(chatLieuDAO.getAll());
     }
 
     /**
@@ -512,8 +509,7 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
         try {
             String ten = txtTenMau.getText();
             JOptionPane.showMessageDialog(this, mauSacDAO.addData(ten));
-            showData(mauSacDAO.getAll());
-            
+            showDataMauSac(mauSacDAO.getAll());
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -544,7 +540,7 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
                     String ten  = txtTenMau.getText();
                     
                     JOptionPane.showMessageDialog(this, mauSacDAO.updateData(id, ten));
-                    showData(mauSacDAO.getAll());
+                    showDataMauSac(mauSacDAO.getAll());
                 }
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
@@ -565,7 +561,7 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
         try {
             String ten = txtTenChatLieu.getText();
             JOptionPane.showMessageDialog(this, chatLieuDAO.addData(ten));
-            showDataCL(chatLieuDAO.getAll());
+            showDataChatLieu(chatLieuDAO.getAll());
             
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -597,7 +593,7 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
                     String ten  = txtTenChatLieu.getText();
                     
                     JOptionPane.showMessageDialog(this, chatLieuDAO.updateData(id, ten));
-                    showDataCL(chatLieuDAO.getAll());
+                    showDataChatLieu(chatLieuDAO.getAll());
                 }
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
@@ -665,28 +661,28 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
         });
     }
 
-    private void showData(List<MauSac> list) {
+    private void showDataMauSac(List<MauSac> list) {
         int stt = 1;
-        dtm.setRowCount(0);
+        dtmMauSac.setRowCount(0);
 
         for (MauSac mauSac : list) {
             Object data[] = {
                 stt++,
                 mauSac.getId(),
                 mauSac.getTen(),};
-            dtm.addRow(data);
+            dtmMauSac.addRow(data);
         }
     }
-    private void showDataCL(List<ChatLieu> list) {
+    private void showDataChatLieu(List<ChatLieu> list) {
         int stt = 1;
-        dtm.setRowCount(0);
+        dtmChatLieu.setRowCount(0);
 
         for (ChatLieu chatLieu : list) {
             Object data[] = {
                 stt++,
                 chatLieu.getId(),
                 chatLieu.getLoai(),};
-            dtm.addRow(data);
+            dtmChatLieu.addRow(data);
         }
     }
      private void detailData(MauSac mauSac) {

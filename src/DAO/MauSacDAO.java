@@ -46,9 +46,10 @@ public class MauSacDAO {
 
     public String addData(String ten) throws SQLException {
         Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "INSERT INTO MauSac(Ten)\n"
-                + "OUTPUT inserted.ID\n"
-                + "VALUES(?);";
+        String sql = "INSERT INTO [dbo].[MauSac]\n" +
+"           ([Ten])\n" +
+"     VALUES\n" +
+"           (?)";
         PreparedStatement preSt = conn.prepareCall(sql);
         preSt.setString(1, ten);
 

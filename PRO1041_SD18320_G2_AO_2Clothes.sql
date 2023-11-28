@@ -8,6 +8,7 @@ ID int identity(0,1) primary key ,
 HoVaten nvarchar(50) NULL, 
 SoDienThoai varchar(10) null,
 DiaChi nvarchar(200) null,
+TrangThaiXoa int null,
 ); 
 
 go
@@ -21,7 +22,8 @@ SoLuong int not null,
 ThoiGianBatDau date null,
 ThoiGianKetThuc date null,
 TrangThai int not null,
-MoTa nvarchar(200) null
+MoTa nvarchar(200) null,
+TrangThaiXoa int null
 );
   
  go
@@ -32,7 +34,8 @@ Ten nvarchar(50) not null,
 DonViTinh nvarchar(20) not null,
 MoTa nvarchar(200) null,
 LoaiSanPhamID int not null,
-TrangThaiBan int not null
+TrangThaiBan int not null,
+TrangThaiXoa int null
 );
   
 go
@@ -41,7 +44,8 @@ create table HoaDon(
 ID int identity(0,1) primary key ,
 NhanVienId int not null,
 KhachHangId int null,
-Trangthai int not null
+Trangthai int not null,
+TrangThaiXoa int null
 );
 
 go
@@ -53,7 +57,9 @@ SanPhamChiTietId int not null,
 KhuyenMaiID int not null,
 GiaBan float not null,
 SoLuong int not null,
-TongTien Float not null ,
+TongTien Float not null,
+TrangThaiXoa int null
+
 );
 
 go
@@ -66,6 +72,7 @@ ChatLieuID int not null,
 KichThuoc int not null,
 DonGia float not null,
 SoLuong int not null,
+TrangThaiXoa int null
 );
 
 go
@@ -77,6 +84,7 @@ MatKhau varchar(10) not null,
 HoVaTen nvarchar(50) not null,
 ChucVu int not null,
 SoDienThoai varchar(10) not null,
+TrangThaiXoa int null
 );
 
 go
@@ -84,6 +92,7 @@ go
 create table LoaiSanPham(
 ID int identity(0,1) primary key ,
 Loai nvarchar(50) not null,
+TrangThaiXoa int null
 );
 
 go
@@ -91,6 +100,7 @@ go
 create table MauSac(
 ID int identity(0,1) primary key ,
 Ten nvarchar(50) not null,
+TrangThaiXoa int null
 );
 
 go
@@ -98,6 +108,7 @@ go
 create table ChatLieu(
 ID int identity(0,1)primary key,
 Ten nvarchar(50) not null,
+TrangThaiXoa int null
 );
 
 go
@@ -151,27 +162,27 @@ references KhuyenMai(ID)
 go
 -- thêm dữ liệu --
 insert into LoaiSanPham 
-values (N'Áo Thun'),
-		(N'Áo Polo'),
-		(N'Áo Sơ Mi'),
-		(N'Áo Hoodie')
+values (N'Áo Thun', 0),
+		(N'Áo Polo', 0),
+		(N'Áo Sơ Mi', 0),
+		(N'Áo Hoodie', 0)
 go
 insert into ChatLieu
-values (N'Vải Cotton'),
-		(N'Vải Kaki'),
-		(N'Vải Jeans'),
-		(N'Vải Ren'),
-		(N'Vải Lanh'),
-		(N'Vải Waffle'),
-		(N'Vải Nỉ bông')
+values (N'Vải Cotton', 0),
+		(N'Vải Kaki', 0),
+		(N'Vải Jeans', 0),
+		(N'Vải Ren', 0),
+		(N'Vải Lanh', 0),
+		(N'Vải Waffle', 0),
+		(N'Vải Nỉ bông', 0)
 go
 insert into MauSac
-values (N'Đen'),
-		(N'Trắng'),
-		(N'Đỏ'),
-		(N'Hồng'),
-		(N'Xanh lá'),
-		(N'Xanh dương')
+values (N'Đen', 0),
+		(N'Trắng', 0),
+		(N'Đỏ', 0),
+		(N'Hồng', 0),
+		(N'Xanh lá', 0),
+		(N'Xanh dương', 0)
 go
 
 --TrangThai
@@ -179,44 +190,44 @@ go
 -- Ngừng kinh doanh: 1
 
 insert into SanPham
-values (0,N'Áo thun sporty line shoulder',N'Chiếc','',0, 0),
-		(1,N'Áo Polo united waffle shirt',N'Chiếc','',1, 0),
-		(2,N'Ao sơ mi unisex waffle shirt',N'Chiếc','',2, 1),
-		(3,N'Áo Hoodie morning star bunny',N'Chiếc','',3, 0)
+values (0,N'Áo thun sporty line shoulder',N'Chiếc','',0, 0, 0),
+		(1,N'Áo Polo united waffle shirt',N'Chiếc','',1, 0, 0),
+		(2,N'Ao sơ mi unisex waffle shirt',N'Chiếc','',2, 1, 0),
+		(3,N'Áo Hoodie morning star bunny',N'Chiếc','',3, 0, 0)
 go
 insert into SanPhamChiTiet
-values (0, 0, 0, 0, 0, 185000, 10),
-		(1, 0, 0, 1, 1, 185000, 8),
-		(2, 0, 0, 1, 2, 185000, 0),
-		(3, 0, 1, 1, 3, 185000, 1),
-		(4, 0, 1, 1, 2, 185000, 0),
-		(5, 0, 1, 1, 1, 185000, 6),
-		(6, 1, 0, 5, 1, 189000, 6),
-		(7, 1, 0, 5, 2, 189000, 10),
-		(8, 2, 0, 5, 2, 185000, 13),
-		(9, 2, 1, 5, 1, 185000, 0),
-		(10, 3, 0, 6, 1, 299000, 53),
-		(11, 3, 1, 6, 2, 299000, 53),
-		(12, 3, 5, 6, 3, 299000, 53)
+values (0, 0, 0, 0, 0, 185000, 10, 0),
+		(1, 0, 0, 1, 1, 185000, 8, 0),
+		(2, 0, 0, 1, 2, 185000, 0, 0),
+		(3, 0, 1, 1, 3, 185000, 1, 0),
+		(4, 0, 1, 1, 2, 185000, 0, 0),
+		(5, 0, 1, 1, 1, 185000, 6, 0),
+		(6, 1, 0, 5, 1, 189000, 6, 0),
+		(7, 1, 0, 5, 2, 189000, 10, 0),
+		(8, 2, 0, 5, 2, 185000, 13, 0),
+		(9, 2, 1, 5, 1, 185000, 0, 0),
+		(10, 3, 0, 6, 1, 299000, 53, 0),
+		(11, 3, 1, 6, 2, 299000, 53, 0),
+		(12, 3, 5, 6, 3, 299000, 53, 0)
 go
 insert into NhanVien
-values ('kietvt', 123, N'Vũ Tuấn Kiệt', 0, '0862132564'),
-	   ('thuylq', 123, N'Lê Quang Thủy', 0, '0366554643'),
-	   ('tamnv', 123, N'Nguyễn Văn Tâm', 0, '0385242365'),
-	   ('kienht', 123, N'Hoàng Trung Kiên', 0, '0981545252'),
-	   ('hoangnv', 123, N'Ngô Việt Hoàng', 0, '0387436760'),
-	   ('user', 123, N'User Test', 0, '0000000000')
+values ('kietvt', 123, N'Vũ Tuấn Kiệt', 0, '0862132564', 0),
+	   ('thuylq', 123, N'Lê Quang Thủy', 0, '0366554643', 0),
+	   ('tamnv', 123, N'Nguyễn Văn Tâm', 0, '0385242365', 0),
+	   ('kienht', 123, N'Hoàng Trung Kiên', 0, '0981545252', 0),
+	   ('hoangnv', 123, N'Ngô Việt Hoàng', 0, '0387436760', 0),
+	   ('user', 123, N'User Test', 0, '0000000000', 0)
 go
 -- Quản lý: 0
 -- Nhân viên: 1
 
 go
 insert into KhachHang
-values (N'Vũ Tuấn A', '', ''),
-	   (N'Vũ Tuấn B', '', N'Hà Nội'),
-	   (N'Vũ Tuấn C', '0989999999', ''),
-	   (N'Vũ Tuấn D', '', ''),
-	   (N'Vũ Tuấn E', '0862862862', '')
+values (N'Vũ Tuấn A', '', '', 0),
+	   (N'Vũ Tuấn B', '', N'Hà Nội', 0),
+	   (N'Vũ Tuấn C', '0989999999', '', 0),
+	   (N'Vũ Tuấn D', '', '', 0),
+	   (N'Vũ Tuấn E', '0862862862', '', 0)
 go
 
 -- LoaiKhuyenMai
@@ -227,19 +238,19 @@ go
 -- Đang hoạt động: 0
 -- Không hoạt động: 1
 insert into KhuyenMai
-values (0, 50, 0, 10, '', '', 0, N'Giảm 50% trên tổng hóa đơn'),
-	   (1, 0, 30000, 5, '', '', 0, N'Giảm 50k trên tổng hóa đơn')
+values (0, 50, 0, 10, '', '', 0, N'Giảm 50% trên tổng hóa đơn', 0),
+	   (1, 0, 30000, 5, '', '', 0, N'Giảm 50k trên tổng hóa đơn', 0)
 go
 --Trangthai
 -- Đã thanh toán: 0
 -- Chờ thanh toán: 1
 insert into HoaDon
-values (0, 0, 0),
-	   (0, 0, 1)
+values (0, 0, 0, 0),
+	   (0, 0, 1, 0)
 go
 
 insert into HoaDonChiTiet
-values (0, 0, 0, 185000, 2, 185000)
+values (0, 0, 0, 185000, 2, 185000, 0)
 
 go
 --------VIEW TABLE---------
