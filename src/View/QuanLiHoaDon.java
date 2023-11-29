@@ -19,9 +19,11 @@ import javax.swing.table.DefaultTableModel;
  * @author ngoho
  */
 public class QuanLiHoaDon extends javax.swing.JFrame {
-        DefaultTableModel dtm = new DefaultTableModel();
-        List<HoaDon> list = new ArrayList<>();
-        HoaDonDAO hoaDonDAO = new HoaDonDAO();
+
+    DefaultTableModel dtm = new DefaultTableModel();
+    List<HoaDon> list = new ArrayList<>();
+    HoaDonDAO hoaDonDAO = new HoaDonDAO();
+
     /**
      * Creates new form QuanLiHoaDon
      */
@@ -80,6 +82,7 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
         txtTenSanPham1 = new javax.swing.JTextField();
         txtErrorTenSanPham1 = new javax.swing.JLabel();
         btnTimByName1 = new javax.swing.JButton();
+        btnXoa = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -226,6 +229,8 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
 
         jLabel5.setText("ID:");
 
+        txtID.setEnabled(false);
+
         txtErrorID.setForeground(new java.awt.Color(255, 0, 0));
         txtErrorID.setText(" ");
 
@@ -243,6 +248,13 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
         btnTimByName1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTimByName1ActionPerformed(evt);
+            }
+        });
+
+        btnXoa.setText("Xóa");
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
             }
         });
 
@@ -275,13 +287,13 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addGap(929, 929, 929)
                         .addComponent(jLabel4)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 14, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(527, 527, 527))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(87, 87, 87)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -293,9 +305,11 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(139, 139, 139)
                         .addComponent(btnThem)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSua)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnSua)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnXoa)))
+                .addContainerGap(830, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(88, 88, 88)
@@ -357,7 +371,8 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
                 .addGap(97, 97, 97)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(265, 265, 265)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -435,15 +450,15 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(QuanLiHoaDon.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
+
     }//GEN-LAST:event_tblQuanLyHoaDonMouseClicked
 
     private void btnTimByIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimByIDActionPerformed
-      DefaultTableModel model = (DefaultTableModel) tblQuanLyHoaDon.getModel();
+        DefaultTableModel model = (DefaultTableModel) tblQuanLyHoaDon.getModel();
         model.setRowCount(0);
-        
+
         try {
-            list = hoaDonDAO.searchDataByID(Integer.parseInt(txtID.getText()));  
+            list = hoaDonDAO.searchDataByID(Integer.parseInt(txtID.getText()));
             customShowData(model, list);
         } catch (SQLException ex) {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
@@ -452,38 +467,24 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-         try {
-            int id = Integer.parseInt(txtID.getText());
-            list = hoaDonDAO.getAll();
+        try {
 
-            boolean isIdDuplicated = false;
+            int nhanVienID = Integer.parseInt(txtTenSanPham.getText());
+            int khachHangID = Integer.parseInt(txtTenSanPham1.getText());
+            int trangThai = cboTrangThai.getSelectedIndex();
+            JOptionPane.showMessageDialog(this, hoaDonDAO.addData(nhanVienID, khachHangID, trangThai));
+            showData(hoaDonDAO.getAll());
 
-            for (HoaDon hoaDon : list) {
-                if (id == hoaDon.getID()) {
-                    isIdDuplicated = true;
-                    break;
-                }
-            }
-
-            if (isIdDuplicated) {
-                JOptionPane.showMessageDialog(this, "Trùng mã ID hóa đơn!");
-            } else {
-                int nhanVienID = Integer.parseInt(txtTenSanPham.getText());
-                int khachHangID = Integer.parseInt(txtTenSanPham1.getText());
-                int trangThai =  cboTrangThai.getSelectedIndex();
-                JOptionPane.showMessageDialog(this,hoaDonDAO.addData(id, nhanVienID, khachHangID, trangThai));
-                showData(hoaDonDAO.getAll());
-            }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        
+
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
-         int selectedRow = tblQuanLyHoaDon.getSelectedRow();
-        if(selectedRow == -1) {
+        int selectedRow = tblQuanLyHoaDon.getSelectedRow();
+        if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Chưa chọn dòng để sửa!");
         } else {
             try {
@@ -495,7 +496,7 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
                 for (HoaDon hoaDon : list) {
                     if (id == hoaDon.getID()) {
                         isIdDuplicated = true;
-                        break; 
+                        break;
                     }
                 }
 
@@ -512,7 +513,7 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
                 System.out.println(ex.getMessage());
             }
         }
-      
+
 
     }//GEN-LAST:event_btnSuaActionPerformed
 
@@ -520,7 +521,7 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel) tblQuanLyHoaDon.getModel();
         model.setRowCount(0);
-        
+
         try {
             list = hoaDonDAO.searchDataByNhanVienID(Integer.parseInt(txtTenSanPham.getText()));
             customShowData(model, list);
@@ -537,7 +538,7 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel) tblQuanLyHoaDon.getModel();
         model.setRowCount(0);
-        
+
         try {
             list = hoaDonDAO.searchDataByKhachHangID(Integer.parseInt(txtTenSanPham1.getText()));
             customShowData(model, list);
@@ -545,6 +546,41 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnTimByName1ActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        // TODO add your handling code here:
+        int selectedRow = tblQuanLyHoaDon.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Chưa chọn dòng để xóa!");
+        } else {
+            try {
+                int id = Integer.parseInt(txtID.getText());
+                list = hoaDonDAO.getAll();
+
+                boolean isIdDuplicated = false;
+
+                for (HoaDon hoaDon : list) {
+                    if (id == hoaDon.getID()) {
+                        isIdDuplicated = true;
+                        break;
+                    }
+                }
+
+                if (isIdDuplicated == false) {
+                    JOptionPane.showMessageDialog(this, "Không có mã sản phẩm cần xóa!");
+                } else {
+                    int nhanVienID = Integer.parseInt(txtTenSanPham.getText());
+                    int khachHangID = Integer.parseInt(txtTenSanPham1.getText());
+                    int trangThai = cboTrangThai.getSelectedIndex();
+
+                    JOptionPane.showMessageDialog(this, hoaDonDAO.DeleteData(id));
+                    showData(hoaDonDAO.getAll());
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_btnXoaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -584,10 +620,11 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
             }
         });
     }
+
     private void showData(List<HoaDon> list) {
         int stt = 1;
         dtm.setRowCount(0);
-        
+
         for (HoaDon hoaDon : list) {
             Object data[] = {
                 stt++,
@@ -599,14 +636,15 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
             dtm.addRow(data);
         }
     }
+
     private void detailData(HoaDon hoaDon) {
         txtID.setText(String.valueOf(hoaDon.getID()));
         txtTenSanPham.setText(String.valueOf(hoaDon.getNhanVienID()));
         txtTenSanPham1.setText(String.valueOf(hoaDon.getKhachHangID()));
         cboTrangThai.setSelectedIndex(hoaDon.getTrangThaiHoaDon());
-        
-       
+
     }
+
     private String getTrangThaiName(int trangThai) {
         switch (trangThai) {
             case 0:
@@ -619,10 +657,11 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
                 return "";
         }
     }
-        private void customShowData(DefaultTableModel model, List<HoaDon> list) {
+
+    private void customShowData(DefaultTableModel model, List<HoaDon> list) {
         int stt = 1;
         model.setRowCount(0);
-        
+
         for (HoaDon hoaDon : list) {
             Object obj[] = {
                 stt++,
@@ -641,6 +680,7 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
     private javax.swing.JButton btnTimByID;
     private javax.swing.JButton btnTimByName;
     private javax.swing.JButton btnTimByName1;
+    private javax.swing.JButton btnXoa;
     private javax.swing.JComboBox<String> cboTrangThai;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;

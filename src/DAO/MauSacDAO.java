@@ -46,10 +46,10 @@ public class MauSacDAO {
 
     public String addData(String ten) throws SQLException {
         Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "INSERT INTO [dbo].[MauSac]\n" +
-"           ([Ten], [TrangThaiXoa])\n" +
-"     VALUES\n" +
-"           (?, 0)";
+        String sql = "INSERT INTO [dbo].[MauSac]\n"
+                + "           ([Ten], [TrangThaiXoa])\n"
+                + "     VALUES\n"
+                + "           (?, 0)";
         PreparedStatement preSt = conn.prepareCall(sql);
         preSt.setString(1, ten);
 
@@ -58,15 +58,13 @@ public class MauSacDAO {
         conn.close();
         return "Thêm thành công!";
     }
-     public String updateData(int id, String ten) throws SQLException{
-         Connection conn = ConnnectToSQLServer.getConnection();
+
+    public String updateData(int id, String ten) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
         String sql = "update MauSac set Ten = ? where ID = ?";
         PreparedStatement preSt = conn.prepareCall(sql);
         preSt.setString(1, ten);
         preSt.setInt(2, id);
-        
-        
-
 
         // Execute the update query
         int rowsUpdated = preSt.executeUpdate();
@@ -80,17 +78,17 @@ public class MauSacDAO {
             return "Không có sản phẩm nào được sửa!";
         }
     }
-     
-     public String removeData(String id) throws SQLException {
-         Connection conn = ConnnectToSQLServer.getConnection();
-         String sql = "UPDATE [dbo].[MauSac]\n" +
-                    "   SET [TrangThaiXoa] = 1\n" +
-                    " WHERE ID = ?";
-         PreparedStatement preSt = conn.prepareCall(sql);
-         preSt.setString(1, id);
-         int rs = preSt.executeUpdate();
-         preSt.close();
-         conn.close();
-         return "Xóa thành công!";
-     }
+
+    public String removeData(String id) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "UPDATE [dbo].[MauSac]\n"
+                + "   SET [TrangThaiXoa] = 1\n"
+                + " WHERE ID = ?";
+        PreparedStatement preSt = conn.prepareCall(sql);
+        preSt.setString(1, id);
+        int rs = preSt.executeUpdate();
+        preSt.close();
+        conn.close();
+        return "Xóa thành công!";
+    }
 }

@@ -103,9 +103,9 @@ public class QuanLiNhanVien extends javax.swing.JFrame {
         txtTenDangNhap = new javax.swing.JTextField();
         txtHoTen = new javax.swing.JTextField();
         txtSDt = new javax.swing.JTextField();
-        jButton8 = new javax.swing.JButton();
+        btnthem = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
+        btnsua = new javax.swing.JButton();
         rdoNhanVien = new javax.swing.JRadioButton();
         rdoQuanLy = new javax.swing.JRadioButton();
         txtMatKhau = new javax.swing.JPasswordField();
@@ -241,10 +241,10 @@ public class QuanLiNhanVien extends javax.swing.JFrame {
             }
         });
 
-        jButton8.setText("Thêm");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
+        btnthem.setText("Thêm");
+        btnthem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+                btnthemActionPerformed(evt);
             }
         });
 
@@ -255,10 +255,10 @@ public class QuanLiNhanVien extends javax.swing.JFrame {
             }
         });
 
-        jButton10.setText("Sửa");
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
+        btnsua.setText("Sửa");
+        btnsua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
+                btnsuaActionPerformed(evt);
             }
         });
 
@@ -301,9 +301,9 @@ public class QuanLiNhanVien extends javax.swing.JFrame {
                                         .addComponent(rdoQuanLy))
                                     .addComponent(txtMatKhau)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jButton8)
+                                .addComponent(btnthem)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton10)
+                                .addComponent(btnsua)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton9)))
                         .addGap(54, 54, 54))
@@ -380,8 +380,8 @@ public class QuanLiNhanVien extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(btnsua, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnthem, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(37, 37, 37)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -433,7 +433,7 @@ public class QuanLiNhanVien extends javax.swing.JFrame {
 
     }//GEN-LAST:event_tblQuanLyNhanVienMouseClicked
 
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+    private void btnsuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsuaActionPerformed
         // TODO add your handling code here:
         int selectedRow = tblQuanLyNhanVien.getSelectedRow();
         if (selectedRow == -1) {
@@ -466,20 +466,18 @@ public class QuanLiNhanVien extends javax.swing.JFrame {
                     }
                     String soDienThoai = txtSDt.getText();
 
-                    JOptionPane.showMessageDialog(this, nhanVienDAO.updateData(tenDangNhap, matKhau, hoVaTen, chucVu, soDienThoai));
+                    JOptionPane.showMessageDialog(this, nhanVienDAO.updateData(id, tenDangNhap, matKhau, hoVaTen, chucVu, soDienThoai));
                     showData(nhanVienDAO.getAll());
                 }
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
         }
-    }//GEN-LAST:event_jButton10ActionPerformed
+    }//GEN-LAST:event_btnsuaActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+    private void btnthemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnthemActionPerformed
         // TODO add your handling code here:
         try {
-            int id = Integer.parseInt(txtID.getText());
-            list = nhanVienDAO.getAll();
             String tenDangNhap = txtTenDangNhap.getText();
             char[] charMatKhau = txtMatKhau.getPassword();
             String matKhau = String.valueOf(charMatKhau);
@@ -492,13 +490,12 @@ public class QuanLiNhanVien extends javax.swing.JFrame {
             }
             String soDienThoai = txtSDt.getText();
 
-            JOptionPane.showMessageDialog(this, nhanVienDAO.addData(id, tenDangNhap, matKhau, hoVaTen, chucVu, soDienThoai));
+            JOptionPane.showMessageDialog(this, nhanVienDAO.addData(tenDangNhap, matKhau, hoVaTen, chucVu, soDienThoai));
             showData(nhanVienDAO.getAll());
-            
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-    }//GEN-LAST:event_jButton8ActionPerformed
+    }//GEN-LAST:event_btnthemActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
@@ -523,8 +520,9 @@ public class QuanLiNhanVien extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Không có mã sản phẩm cần xóas!");
                 } else {
                     String tenDangNhap = txtTenDangNhap.getText();
-                    String matKhau = txtMatKhau.getText();
-                    String hoVaTen = txtMatKhau.getText();
+                    char[] charMatKhau = txtMatKhau.getPassword();
+                    String matKhau = String.valueOf(charMatKhau);
+                    String hoVaTen = txtHoTen.getText();
                     int chucVu;
                     if (rdoNhanVien.isSelected()) {
                         chucVu = 1;
@@ -598,16 +596,16 @@ public class QuanLiNhanVien extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnsua;
+    private javax.swing.JButton btnthem;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

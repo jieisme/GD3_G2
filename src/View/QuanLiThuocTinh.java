@@ -97,6 +97,7 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
         txtErrorTenChatLieu = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         btnXoa = new javax.swing.JButton();
+        btnXoachatLieu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -310,6 +311,13 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
             }
         });
 
+        btnXoachatLieu.setText("Xóa");
+        btnXoachatLieu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoachatLieuActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -372,10 +380,6 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
                                     .addGap(104, 104, 104)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(layout.createSequentialGroup()
-                                            .addComponent(btnThemChatLieu)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(btnSuaChatLieu))
-                                        .addGroup(layout.createSequentialGroup()
                                             .addGap(6, 6, 6)
                                             .addComponent(txtErrorTenChatLieu, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(layout.createSequentialGroup()
@@ -390,11 +394,19 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
                                 .addComponent(jLabel14))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(76, 76, 76)
-                        .addComponent(btnThemMau)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnThemChatLieu)
+                            .addComponent(btnThemMau))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnSuaMau)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnXoa)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnSuaMau)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnXoa))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnSuaChatLieu)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnXoachatLieu)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9)
@@ -408,7 +420,7 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(22, Short.MAX_VALUE)
+                .addContainerGap(12, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -428,9 +440,8 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
-                            .addComponent(jScrollPane7))
-                        .addGap(18, 18, 18))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jScrollPane7)))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -472,11 +483,17 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
                             .addComponent(txtTenChatLieu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtErrorTenChatLieu)
-                        .addGap(60, 60, 60)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnThemChatLieu, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSuaChatLieu, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(60, 60, 60)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btnThemChatLieu, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnSuaChatLieu, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnXoachatLieu, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -532,8 +549,8 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
 
     private void btnSuaMauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaMauActionPerformed
         // TODO add your handling code here:
-         int selectedRow = tblMauSac.getSelectedRow();
-        if(selectedRow == -1) {
+        int selectedRow = tblMauSac.getSelectedRow();
+        if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Chưa chọn dòng để sửa!");
         } else {
             try {
@@ -545,15 +562,15 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
                 for (MauSac mauSac : list) {
                     if (id == mauSac.getId()) {
                         isIdDuplicated = true;
-                        break; 
+                        break;
                     }
                 }
 
                 if (isIdDuplicated == false) {
                     JOptionPane.showMessageDialog(this, "Không có mã hóa đơn cần sửa!");
                 } else {
-                    String ten  = txtTenMau.getText();
-                    
+                    String ten = txtTenMau.getText();
+
                     JOptionPane.showMessageDialog(this, mauSacDAO.updateData(id, ten));
                     showDataMauSac(mauSacDAO.getAll());
                 }
@@ -561,9 +578,7 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
                 System.out.println(ex.getMessage());
             }
         }
-      
 
-            
 
     }//GEN-LAST:event_btnSuaMauActionPerformed
 
@@ -577,7 +592,7 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
             String ten = txtTenChatLieu.getText();
             JOptionPane.showMessageDialog(this, chatLieuDAO.addData(ten));
             showDataChatLieu(chatLieuDAO.getAll());
-            
+
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -586,7 +601,7 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
     private void btnSuaChatLieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaChatLieuActionPerformed
         // TODO add your handling code here:
         int selectedRow = tblChatLieu.getSelectedRow();
-        if(selectedRow == -1) {
+        if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Chưa chọn dòng để sửa!");
         } else {
             try {
@@ -598,15 +613,15 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
                 for (ChatLieu chatLieu : listCL) {
                     if (id == chatLieu.getId()) {
                         isIdDuplicated = true;
-                        break; 
+                        break;
                     }
                 }
 
                 if (isIdDuplicated == false) {
                     JOptionPane.showMessageDialog(this, "Không có mã hóa đơn cần sửa!");
                 } else {
-                    String ten  = txtTenChatLieu.getText();
-                    
+                    String ten = txtTenChatLieu.getText();
+
                     JOptionPane.showMessageDialog(this, chatLieuDAO.updateData(id, ten));
                     showDataChatLieu(chatLieuDAO.getAll());
                 }
@@ -614,7 +629,7 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
                 System.out.println(ex.getMessage());
             }
         }
-      
+
     }//GEN-LAST:event_btnSuaChatLieuActionPerformed
 
     private void tblMauSacMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMauSacMouseClicked
@@ -645,6 +660,16 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
         } catch (SQLException ex) {
         }
     }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void btnXoachatLieuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoachatLieuActionPerformed
+        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            JOptionPane.showMessageDialog(this, chatLieuDAO.removeData(txtIDChatLieu.getText()));
+            showDataChatLieu(chatLieuDAO.getAll());
+        } catch (SQLException ex) {
+        }
+    }//GEN-LAST:event_btnXoachatLieuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -697,6 +722,7 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
             dtmMauSac.addRow(data);
         }
     }
+
     private void showDataChatLieu(List<ChatLieu> list) {
         int stt = 1;
         dtmChatLieu.setRowCount(0);
@@ -709,15 +735,17 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
             dtmChatLieu.addRow(data);
         }
     }
-     private void detailData(MauSac mauSac) {
+
+    private void detailData(MauSac mauSac) {
         txtIDMau.setText(String.valueOf(mauSac.getId()));
         txtTenMau.setText(mauSac.getTen());
-        
+
     }
-     private void detailDataCL(ChatLieu chatLieu) {
+
+    private void detailDataCL(ChatLieu chatLieu) {
         txtIDChatLieu.setText(String.valueOf(chatLieu.getId()));
         txtTenChatLieu.setText(chatLieu.getLoai());
-        
+
     }
 
 
@@ -729,6 +757,7 @@ public class QuanLiThuocTinh extends javax.swing.JFrame {
     private javax.swing.JButton btnTimIDChatLieu;
     private javax.swing.JButton btnTimIDMau;
     private javax.swing.JButton btnXoa;
+    private javax.swing.JButton btnXoachatLieu;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

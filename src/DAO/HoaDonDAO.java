@@ -23,7 +23,7 @@ public class HoaDonDAO {
     public List<HoaDon> getAll() throws SQLException {
         list = new ArrayList<>();
         Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "select * from HoaDon";
+        String sql = "select * from HoaDon where TrangThaiXoa = 0";
         Statement st = conn.createStatement();
         ResultSet rs = st.executeQuery(sql);
         
@@ -41,14 +41,14 @@ public class HoaDonDAO {
         conn.close();
         return list;
     }
-    public String addData(int id , int nhanVienId ,int khachHangID , int trangThai ) throws SQLException{
+    public String addData(int nhanVienId ,int khachHangID , int trangThai ) throws SQLException{
         Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "insert into HoaDon values (?,?,?,?);";
+        String sql = "insert into HoaDon(NhanVienID,KhachHangId,Trangthai,TrangThaiXoa) values (?,?,?,0);";
         PreparedStatement preSt = conn.prepareCall(sql);
-        preSt.setInt(1, id);
-        preSt.setInt(2, nhanVienId);
-        preSt.setInt(3, khachHangID);
-        preSt.setInt(4, trangThai);
+        
+        preSt.setInt(1, nhanVienId);
+        preSt.setInt(2, khachHangID);
+        preSt.setInt(3, trangThai);
         int rs = preSt.executeUpdate();
         preSt.close();
         conn.close();
@@ -138,5 +138,24 @@ public class HoaDonDAO {
         conn.close();
         return list;
         
+    }
+        public String DeleteData(int id) throws SQLException{
+         Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "update  HoaDon set TrangThaiXoa = 1 where ID = ?";
+        PreparedStatement preSt = conn.prepareCall(sql);
+
+        preSt.setInt(1, id);
+
+        // Execute the update query
+        int rowsUpdated = preSt.executeUpdate();
+
+        preSt.close();
+        conn.close();
+
+        if (rowsUpdated > 0) {
+            return "Xóa thành công!";
+        } else {
+            return "Không có nhân viên để xóa";
+        }
     }
 }

@@ -22,7 +22,9 @@ public class ChatLieuDAO {
     public List<ChatLieu> getAll() throws SQLException {
         list = new ArrayList<>();
         Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "select * from ChatLieu";
+        String sql = "SELECT [ID]\n"
+                + "      ,[Ten]\n"
+                + "  FROM [dbo].[ChatLieu] WHERE TrangThaiXoa = 0";
         Statement st = conn.createStatement();
         ResultSet rs = st.executeQuery(sql);
 
@@ -41,9 +43,10 @@ public class ChatLieuDAO {
 
     public String addData(String ten) throws SQLException {
         Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "INSERT INTO ChatLieu(Ten)\n"
-                + "OUTPUT inserted.ID\n"
-                + "VALUES(?);";
+        String sql = "INSERT INTO [dbo].[ChatLieu]\n"
+                + "           ([Ten], [TrangThaiXoa])\n"
+                + "     VALUES\n"
+                + "           (?, 0)";
         PreparedStatement preSt = conn.prepareCall(sql);
         preSt.setString(1, ten);
 
@@ -73,5 +76,17 @@ public class ChatLieuDAO {
         } else {
             return "Không có sản phẩm nào được sửa!";
         }
+    }
+     public String removeData(String id) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "UPDATE [dbo].[ChatLieu]\n"
+                + "   SET [TrangThaiXoa] = 1\n"
+                + " WHERE ID = ?";
+        PreparedStatement preSt = conn.prepareCall(sql);
+        preSt.setString(1, id);
+        int rs = preSt.executeUpdate();
+        preSt.close();
+        conn.close();
+        return "Xóa thành công!";
     }
 }

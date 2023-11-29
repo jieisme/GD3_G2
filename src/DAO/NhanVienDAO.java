@@ -24,7 +24,7 @@ public class NhanVienDAO {
     public List<NhanVien> getAll() throws SQLException {
         list = new ArrayList<>();
         Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "select * from NhanVien";
+        String sql = "select * from NhanVien where TrangThaiXoa = 0";
         Statement st = conn.createStatement();
         ResultSet rs = st.executeQuery(sql);
 
@@ -45,24 +45,24 @@ public class NhanVienDAO {
     }
     
     
-     public String addData(int id, String tenDangNhap, String matKhau, String hoVaTen, int chucVu, String soDienThoai) throws SQLException{
+     public String addData( String tenDangNhap, String matKhau, String hoVaTen, int chucVu, String soDienThoai) throws SQLException{
         Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "SET IDENTITY_INSERT NHANVIEN ON insert into NhanVien values (?,?,?,?,?,?);";
+        String sql = "insert into  NHANVIEN(Username,MatKhau,HoVaTen,ChucVu,SoDienThoai,TrangThaiXoa) values (?,?,?,?,?,0);";
         PreparedStatement preSt = conn.prepareCall(sql);
-        preSt.setInt(1, id);
-        preSt.setString(2,tenDangNhap);
-        preSt.setString(3, matKhau);
-        preSt.setString(4, hoVaTen);
-        preSt.setInt(5, chucVu);
-        preSt.setString(6, soDienThoai);
+     
+        preSt.setString(1,tenDangNhap);
+        preSt.setString(2, matKhau);
+        preSt.setString(3, hoVaTen);
+        preSt.setInt(4, chucVu);
+        preSt.setString(5, soDienThoai);
         int rs = preSt.executeUpdate();
         preSt.close();
         conn.close();
         return "Thêm thành công!";
     }
-     public String updateData(String tenDangNhap, String matKhau, String hoVaTen, int chucVu, String soDienThoai) throws SQLException{
+     public String updateData(int id ,String tenDangNhap, String matKhau, String hoVaTen, int chucVu, String soDienThoai) throws SQLException{
          Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "update NhanVien set Username = ? , MatKhau = ?, HoVaTen  = ?, ChucVu = ?, SoDienThoai = ?";
+        String sql = "update NhanVien set Username = ? , MatKhau = ?, HoVaTen  = ?, ChucVu = ?, SoDienThoai = ? where id = ?";
         PreparedStatement preSt = conn.prepareCall(sql);
         
         preSt.setString(1,tenDangNhap);
@@ -70,6 +70,8 @@ public class NhanVienDAO {
         preSt.setString(3, hoVaTen);
         preSt.setInt(4, chucVu);
         preSt.setString(5, soDienThoai);
+        preSt.setInt(6, id);
+        
 
         // Execute the update query
         int rowsUpdated = preSt.executeUpdate();
@@ -85,7 +87,7 @@ public class NhanVienDAO {
     }
      public String DeleteData(int id) throws SQLException{
          Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "Delete NhanVien where ID = ?";
+        String sql = "update  NhanVien set TrangThaiXoa = 1 where ID = ?";
         PreparedStatement preSt = conn.prepareCall(sql);
 
         preSt.setInt(1, id);
