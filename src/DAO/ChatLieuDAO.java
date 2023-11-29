@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package DAO;
+
 import Entity.ChatLieu;
 import java.util.List;
 import java.sql.Connection;
@@ -12,11 +13,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
 /**
  *
  * @author Thuylq
  */
 public class ChatLieuDAO {
+
     private List<ChatLieu> list;
 
     public List<ChatLieu> getAll() throws SQLException {
@@ -55,15 +58,13 @@ public class ChatLieuDAO {
         conn.close();
         return "Thêm thành công!";
     }
-     public String updateData(int id, String ten) throws SQLException{
-         Connection conn = ConnnectToSQLServer.getConnection();
+
+    public String updateData(int id, String ten) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
         String sql = "update ChatLieu set Ten = ? where ID = ?";
         PreparedStatement preSt = conn.prepareCall(sql);
         preSt.setString(1, ten);
         preSt.setInt(2, id);
-        
-        
-
 
         // Execute the update query
         int rowsUpdated = preSt.executeUpdate();
@@ -77,7 +78,8 @@ public class ChatLieuDAO {
             return "Không có sản phẩm nào được sửa!";
         }
     }
-     public String removeData(String id) throws SQLException {
+
+    public String removeData(String id) throws SQLException {
         Connection conn = ConnnectToSQLServer.getConnection();
         String sql = "UPDATE [dbo].[ChatLieu]\n"
                 + "   SET [TrangThaiXoa] = 1\n"
@@ -88,5 +90,18 @@ public class ChatLieuDAO {
         preSt.close();
         conn.close();
         return "Xóa thành công!";
+    }
+
+    public String getTenChatLieu(int chatLieuID) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "SELECT TEN FROM CHATLIEU WHERE ID = " + chatLieuID;
+        Statement st = conn.createStatement();
+        ResultSet rs = st.executeQuery(sql);
+
+        while (rs.next()) {
+            String tenChatLieu = rs.getString("TEN");
+            return tenChatLieu;
+        }
+        return null;
     }
 }

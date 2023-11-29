@@ -20,6 +20,7 @@ import java.sql.PreparedStatement;
 public class SanPhamChiTietDAO {
 
     private List<SanPhamChiTiet> list;
+    private List<SanPhamChiTiet> listSPCT;
 
     public List<SanPhamChiTiet> getAll() throws SQLException {
         list = new ArrayList<>();
@@ -34,10 +35,10 @@ public class SanPhamChiTietDAO {
             int mauSacId = rs.getInt("MauSacID");
             int chatLieuId = rs.getInt("ChatLieuID");
             int kichThuoc = rs.getInt("KichThuoc");
-            float donGia = rs.getFloat("DonGia");
+            int donGia = rs.getInt("DonGia");
             int soLuong = rs.getInt("soLuong");
 
-            SanPhamChiTiet sanPhamChiTiet = new SanPhamChiTiet(id, sanPhamId, mauSacId, chatLieuId, kichThuoc, id, soLuong, sanPhamId);
+            SanPhamChiTiet sanPhamChiTiet = new SanPhamChiTiet(id, sanPhamId, mauSacId, chatLieuId, kichThuoc, donGia, soLuong, sanPhamId);
             list.add(sanPhamChiTiet);
         }
         rs.close();
@@ -102,4 +103,28 @@ public class SanPhamChiTietDAO {
          conn.close();
          return "Xóa thành công!";
      }
+    
+    public SanPhamChiTiet getSPCTbyID(int idSPCT) throws SQLException {
+        listSPCT = new ArrayList<>();
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "SELECT * FROM SANPHAMCHITIET where ID = " + idSPCT;
+        Statement st = conn.createStatement();
+        ResultSet rs = st.executeQuery(sql);
+
+        while (rs.next()) {
+            int id = rs.getInt("ID");
+            int sanPhamId = rs.getInt("SanPhamID");
+            int mauSacId = rs.getInt("MauSacID");
+            int chatLieuId = rs.getInt("ChatLieuID");
+            int kichThuoc = rs.getInt("KichThuoc");
+            int donGia = rs.getInt("DonGia");
+            int soLuong = rs.getInt("SoLuong");
+
+            return new SanPhamChiTiet(id, sanPhamId, mauSacId, chatLieuId, kichThuoc, donGia, soLuong, donGia);
+        }
+        rs.close();
+        st.close();
+        conn.close();
+        return null;
+    }
 }

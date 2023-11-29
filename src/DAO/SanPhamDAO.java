@@ -133,4 +133,17 @@ public class SanPhamDAO {
         return list;
         
     }
+    
+    public String getTenSanPham(int sanPhamID) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "SELECT TEN FROM SANPHAM WHERE ID = " + sanPhamID;
+        Statement st = conn.createStatement();
+        ResultSet rs = st.executeQuery(sql);
+
+        while (rs.next()) {
+            String tenSanPham = rs.getString("TEN");
+            return tenSanPham;
+        }
+        return null;
+    }
 }

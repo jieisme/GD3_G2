@@ -91,4 +91,17 @@ public class MauSacDAO {
         conn.close();
         return "Xóa thành công!";
     }
+    
+    public String getTenMauSac(int idMauSac) throws SQLException {
+         Connection conn = ConnnectToSQLServer.getConnection();
+         String sql = "SELECT TEN FROM MAUSAC WHERE ID = " + idMauSac;
+         Statement st = conn.createStatement();
+         ResultSet rs = st.executeQuery(sql);
+         
+         while (rs.next()) {             
+             String tenMau = rs.getString("TEN");
+             return tenMau;
+         }
+         return null;
+     }
 }

@@ -4,11 +4,17 @@
  */
 package View;
 
+import DAO.MauSacDAO;
 import DAO.NhanVienDAO;
+import DAO.SanPhamChiTietDAO;
+import DAO.SanPhamDAO;
 import Entity.SanPham;
+import Entity.SanPhamChiTiet;
 import Utils.DongHo;
 import Utils.Session;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -24,15 +30,24 @@ public class BanHangJFrame extends javax.swing.JFrame {
      */
     
 //    private String loggedInUser = Session.getInstance().getLoggedInUsername();
-    NhanVienDAO nhanVienDAO = new NhanVienDAO();
-    DefaultTableModel dtmSanPhamChiTiet = new DefaultTableModel();
-    DefaultTableModel dtmHoaDon = new DefaultTableModel();
+    private NhanVienDAO nhanVienDAO = new NhanVienDAO();
+    private DefaultTableModel dtmSanPhamChiTiet = new DefaultTableModel();
+    private DefaultTableModel dtmGioHang = new DefaultTableModel();
+    private SanPhamDAO sanPhamDAO = new SanPhamDAO();
+    private MauSacDAO mauSacDAO = new MauSacDAO();
+    private SanPhamChiTietDAO sanPhamChiTietDAO = new SanPhamChiTietDAO();
+    private List<SanPhamChiTiet> listSPCT = new ArrayList<>();
+    private List<SanPhamChiTiet> listGH = new ArrayList<>();
     
     public BanHangJFrame() throws SQLException {
         initComponents();
+        dtmSanPhamChiTiet = (DefaultTableModel) tblSanPhamChiTiet.getModel();
+        dtmGioHang = (DefaultTableModel) tblGioHang.getModel();
         setLocationRelativeTo(null);
         btnDoiMatKhau.setVisible(false);
         btnDangXuat.setVisible(false);
+        listSPCT = sanPhamChiTietDAO.getAll();
+        showDataSPCT(listSPCT);
 //        txtXinChao.setText("Xin chào: " + nhanVienDAO.searchHoVaTen(loggedInUser));
 //        int chucVu = Integer.parseInt(nhanVienDAO.searchChucVu(loggedInUser));
 //        txtChucVu.setText("Chức vụ: " + getChucVu(chucVu));
@@ -67,9 +82,9 @@ public class BanHangJFrame extends javax.swing.JFrame {
         btnTrangChu = new javax.swing.JButton();
         btnQuanLyThuocTinh = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblGioHang = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblSanPhamChiTiet = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -107,6 +122,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
 
         Background.setBackground(new java.awt.Color(166, 227, 233));
         Background.setForeground(new java.awt.Color(253, 247, 228));
+        Background.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnTaiKhoan.setBackground(new java.awt.Color(203, 241, 245));
         btnTaiKhoan.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -118,6 +134,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnTaiKhoanActionPerformed(evt);
             }
         });
+        Background.add(btnTaiKhoan, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 594, 284, 78));
 
         btnDoiMatKhau.setBackground(new java.awt.Color(203, 241, 245));
         btnDoiMatKhau.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -129,6 +146,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnDoiMatKhauActionPerformed(evt);
             }
         });
+        Background.add(btnDoiMatKhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 678, 284, -1));
 
         btnDangXuat.setBackground(new java.awt.Color(203, 241, 245));
         btnDangXuat.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -140,22 +158,28 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnDangXuatActionPerformed(evt);
             }
         });
+        Background.add(btnDangXuat, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 718, 284, -1));
 
         txtXinChao.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtXinChao.setText("Xin chào,");
+        Background.add(txtXinChao, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 792, -1, -1));
 
         txtChucVu.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtChucVu.setText("Chức vụ: ");
+        Background.add(txtChucVu, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 814, -1, -1));
 
         txtDongHo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txtDongHo.setForeground(new java.awt.Color(22, 72, 99));
         txtDongHo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Alarm.png"))); // NOI18N
         txtDongHo.setText("09:11:2001");
+        Background.add(txtDongHo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 800, -1, -1));
 
         txtTile.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         txtTile.setText("HỆ THỐNG QUẢN LÝ BẢN ÁO");
+        Background.add(txtTile, new org.netbeans.lib.awtextra.AbsoluteConstraints(562, 10, -1, -1));
 
         txtLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/logo2Clothes.png"))); // NOI18N
+        Background.add(txtLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(652, 80, 491, 91));
 
         btnBanHang.setBackground(new java.awt.Color(203, 241, 245));
         btnBanHang.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -166,6 +190,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnBanHangActionPerformed(evt);
             }
         });
+        Background.add(btnBanHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 6, 284, 78));
 
         btnQuanLySanPham.setBackground(new java.awt.Color(203, 241, 245));
         btnQuanLySanPham.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -176,6 +201,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnQuanLySanPhamActionPerformed(evt);
             }
         });
+        Background.add(btnQuanLySanPham, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 90, 284, 78));
 
         btnQuanLyKhachHang.setBackground(new java.awt.Color(203, 241, 245));
         btnQuanLyKhachHang.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -186,6 +212,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnQuanLyKhachHangActionPerformed(evt);
             }
         });
+        Background.add(btnQuanLyKhachHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 174, 284, 78));
 
         btnQuanLyHoaDon.setBackground(new java.awt.Color(203, 241, 245));
         btnQuanLyHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -196,6 +223,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnQuanLyHoaDonActionPerformed(evt);
             }
         });
+        Background.add(btnQuanLyHoaDon, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 258, 284, 78));
 
         btnQuanLyNhanVien.setBackground(new java.awt.Color(203, 241, 245));
         btnQuanLyNhanVien.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -206,6 +234,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnQuanLyNhanVienActionPerformed(evt);
             }
         });
+        Background.add(btnQuanLyNhanVien, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 342, 284, 78));
 
         btnQuanLyVoucher.setBackground(new java.awt.Color(203, 241, 245));
         btnQuanLyVoucher.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -216,6 +245,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnQuanLyVoucherActionPerformed(evt);
             }
         });
+        Background.add(btnQuanLyVoucher, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 426, 284, 78));
 
         btnTrangChu.setBackground(new java.awt.Color(22, 72, 99));
         btnTrangChu.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -228,6 +258,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnTrangChuActionPerformed(evt);
             }
         });
+        Background.add(btnTrangChu, new org.netbeans.lib.awtextra.AbsoluteConstraints(1492, 10, 91, 28));
 
         btnQuanLyThuocTinh.setBackground(new java.awt.Color(203, 241, 245));
         btnQuanLyThuocTinh.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -238,9 +269,9 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnQuanLyThuocTinhActionPerformed(evt);
             }
         });
+        Background.add(btnQuanLyThuocTinh, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 510, 284, 78));
 
-        jTable1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblGioHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -256,10 +287,16 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        tblGioHang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblGioHangMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblGioHang);
 
-        jTable2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        Background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 497, 767, 231));
+
+        tblSanPhamChiTiet.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -275,31 +312,51 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
+        tblSanPhamChiTiet.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSanPhamChiTietMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblSanPhamChiTiet);
+
+        Background.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 209, 767, 211));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("DÁNH SÁCH SẢN PHẨM:");
+        Background.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 183, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("DÁNH SÁCH SẢN PHẨM CÓ TRONG HÓA ĐƠN:");
+        jLabel2.setText("GIỎ HÀNG:");
+        Background.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 471, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setText("ID:");
+        Background.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1159, 212, -1, -1));
+        Background.add(txtID, new org.netbeans.lib.awtextra.AbsoluteConstraints(1274, 209, 202, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setText("TÊN SẢN PHẨM:");
+        Background.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1159, 241, -1, -1));
+        Background.add(txtTenSanPham, new org.netbeans.lib.awtextra.AbsoluteConstraints(1274, 238, 202, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setText("MÀU SẮC:");
+        Background.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1159, 269, -1, -1));
+        Background.add(txtMauSac, new org.netbeans.lib.awtextra.AbsoluteConstraints(1274, 266, 202, -1));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel6.setText("KÍCH THƯỚC:");
+        Background.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1159, 297, -1, -1));
+        Background.add(txtKichThuoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(1274, 294, 202, -1));
 
         titleDonGia.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         titleDonGia.setText("ĐƠN GIÁ:");
+        Background.add(titleDonGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(1159, 325, -1, -1));
+        Background.add(txtDonGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(1274, 322, 202, -1));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel8.setText("MÃ GIẢM GIÁ:");
+        Background.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 530, -1, -1));
 
         txtMaGiamGia.setEnabled(false);
         txtMaGiamGia.addActionListener(new java.awt.event.ActionListener() {
@@ -307,6 +364,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 txtMaGiamGiaActionPerformed(evt);
             }
         });
+        Background.add(txtMaGiamGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(1282, 527, 194, -1));
 
         btnThemSPToHoaDon.setBackground(new java.awt.Color(22, 72, 99));
         btnThemSPToHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -317,6 +375,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnThemSPToHoaDonActionPerformed(evt);
             }
         });
+        Background.add(btnThemSPToHoaDon, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 426, -1, -1));
 
         btnSuaHoaDon.setBackground(new java.awt.Color(22, 72, 99));
         btnSuaHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -327,6 +386,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnSuaHoaDonActionPerformed(evt);
             }
         });
+        Background.add(btnSuaHoaDon, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 734, 150, -1));
 
         btnXoaSanPham.setBackground(new java.awt.Color(22, 72, 99));
         btnXoaSanPham.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -337,6 +397,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnXoaSanPhamActionPerformed(evt);
             }
         });
+        Background.add(btnXoaSanPham, new org.netbeans.lib.awtextra.AbsoluteConstraints(519, 734, 150, -1));
 
         btnTimID.setBackground(new java.awt.Color(22, 72, 99));
         btnTimID.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -347,15 +408,19 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnTimIDActionPerformed(evt);
             }
         });
+        Background.add(btnTimID, new org.netbeans.lib.awtextra.AbsoluteConstraints(1494, 209, -1, -1));
 
         txtTongTienHang.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         txtTongTienHang.setText("TỔNG TIỀN HÀNG:");
+        Background.add(txtTongTienHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 630, -1, -1));
 
         txtTienDuocGiam.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         txtTienDuocGiam.setText("TIỀN ĐƯỢC GIẢM:");
+        Background.add(txtTienDuocGiam, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 670, -1, -1));
 
         txtTongTienPhaiTra.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         txtTongTienPhaiTra.setText("TỔNG TIỀN PHẢI TRẢ:");
+        Background.add(txtTongTienPhaiTra, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 710, -1, -1));
 
         btnThanhToan.setBackground(new java.awt.Color(22, 72, 99));
         btnThanhToan.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -366,6 +431,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnThanhToanActionPerformed(evt);
             }
         });
+        Background.add(btnThanhToan, new org.netbeans.lib.awtextra.AbsoluteConstraints(1263, 754, 240, -1));
 
         cboMaGiamGia.setBackground(new java.awt.Color(166, 227, 233));
         cboMaGiamGia.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -375,9 +441,13 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 cboMaGiamGiaActionPerformed(evt);
             }
         });
+        Background.add(cboMaGiamGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 500, -1, -1));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel9.setText("SỐ LƯỢNG CÒN:");
+        Background.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(1159, 353, -1, -1));
+        Background.add(txtSoLuongCon, new org.netbeans.lib.awtextra.AbsoluteConstraints(1274, 350, 202, -1));
+        Background.add(txtSoLuong2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1274, 350, 202, -1));
 
         btnKiemTra.setBackground(new java.awt.Color(22, 72, 99));
         btnKiemTra.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -389,6 +459,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnKiemTraActionPerformed(evt);
             }
         });
+        Background.add(btnKiemTra, new org.netbeans.lib.awtextra.AbsoluteConstraints(1494, 527, -1, -1));
 
         cboThemThongTinKhachHang.setBackground(new java.awt.Color(166, 227, 233));
         cboThemThongTinKhachHang.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -398,9 +469,11 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 cboThemThongTinKhachHangActionPerformed(evt);
             }
         });
+        Background.add(cboThemThongTinKhachHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 562, -1, -1));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel10.setText("SỐ ĐIỆN THOẠI KH:");
+        Background.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 592, -1, -1));
 
         txtSoDienThoaiKH.setEnabled(false);
         txtSoDienThoaiKH.addActionListener(new java.awt.event.ActionListener() {
@@ -408,6 +481,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 txtSoDienThoaiKHActionPerformed(evt);
             }
         });
+        Background.add(txtSoDienThoaiKH, new org.netbeans.lib.awtextra.AbsoluteConstraints(1282, 589, 194, -1));
 
         btnThemSoDienThoaiKH.setBackground(new java.awt.Color(22, 72, 99));
         btnThemSoDienThoaiKH.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -419,226 +493,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnThemSoDienThoaiKHActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout BackgroundLayout = new javax.swing.GroupLayout(Background);
-        Background.setLayout(BackgroundLayout);
-        BackgroundLayout.setHorizontalGroup(
-            BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(BackgroundLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(BackgroundLayout.createSequentialGroup()
-                        .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(BackgroundLayout.createSequentialGroup()
-                                .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnBanHang, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnQuanLySanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(256, 256, 256)
-                                .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtTile)
-                                    .addGroup(BackgroundLayout.createSequentialGroup()
-                                        .addGap(90, 90, 90)
-                                        .addComponent(txtLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(259, 259, 259)
-                                .addComponent(btnTrangChu, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(BackgroundLayout.createSequentialGroup()
-                                .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnQuanLyVoucher, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnQuanLyThuocTinh, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnTaiKhoan, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnDoiMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnDangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(44, 44, 44)
-                                .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnThemSPToHoaDon)
-                                    .addGroup(BackgroundLayout.createSequentialGroup()
-                                        .addGap(1, 1, 1)
-                                        .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 767, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(BackgroundLayout.createSequentialGroup()
-                                                .addComponent(btnSuaHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(btnXoaSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                                .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(BackgroundLayout.createSequentialGroup()
-                                        .addGap(42, 42, 42)
-                                        .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(cboMaGiamGia)
-                                            .addGroup(BackgroundLayout.createSequentialGroup()
-                                                .addComponent(jLabel8)
-                                                .addGap(41, 41, 41)
-                                                .addComponent(txtMaGiamGia, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(btnKiemTra))
-                                            .addComponent(txtTongTienHang)
-                                            .addComponent(txtTienDuocGiam)
-                                            .addComponent(txtTongTienPhaiTra)
-                                            .addComponent(cboThemThongTinKhachHang)
-                                            .addGroup(BackgroundLayout.createSequentialGroup()
-                                                .addComponent(jLabel10)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(txtSoDienThoaiKH, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(btnThemSoDienThoaiKH, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BackgroundLayout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(76, 76, 76))))
-                            .addGroup(BackgroundLayout.createSequentialGroup()
-                                .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnQuanLyKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnQuanLyHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnQuanLyNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(44, 44, 44)
-                                .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 767, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(42, 42, 42)
-                                .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel6)
-                                    .addComponent(titleDonGia)
-                                    .addComponent(jLabel9))
-                                .addGap(23, 23, 23)
-                                .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtTenSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtMauSac, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtKichThuoc, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtDonGia, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtSoLuongCon, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtSoLuong2, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addComponent(btnTimID)))
-                        .addGap(31, 31, 31))
-                    .addGroup(BackgroundLayout.createSequentialGroup()
-                        .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtXinChao)
-                            .addComponent(txtChucVu))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtDongHo)
-                        .addContainerGap())))
-        );
-        BackgroundLayout.setVerticalGroup(
-            BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(BackgroundLayout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(BackgroundLayout.createSequentialGroup()
-                        .addComponent(btnBanHang, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
-                        .addComponent(btnQuanLySanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(BackgroundLayout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(BackgroundLayout.createSequentialGroup()
-                                .addComponent(txtTile)
-                                .addGap(6, 6, 6)
-                                .addComponent(txtLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnTrangChu, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(3, 3, 3)
-                .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(BackgroundLayout.createSequentialGroup()
-                        .addComponent(btnQuanLyKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
-                        .addComponent(btnQuanLyHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
-                        .addComponent(btnQuanLyNhanVien, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(BackgroundLayout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(jLabel1)
-                        .addGap(6, 6, 6)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(BackgroundLayout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(jLabel3)
-                        .addGap(13, 13, 13)
-                        .addComponent(jLabel4)
-                        .addGap(12, 12, 12)
-                        .addComponent(jLabel5)
-                        .addGap(12, 12, 12)
-                        .addComponent(jLabel6)
-                        .addGap(12, 12, 12)
-                        .addComponent(titleDonGia)
-                        .addGap(12, 12, 12)
-                        .addComponent(jLabel9))
-                    .addGroup(BackgroundLayout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(7, 7, 7)
-                        .addComponent(txtTenSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
-                        .addComponent(txtMauSac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
-                        .addComponent(txtKichThuoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
-                        .addComponent(txtDonGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
-                        .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtSoLuongCon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSoLuong2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(BackgroundLayout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(btnTimID)))
-                .addGap(6, 6, 6)
-                .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(BackgroundLayout.createSequentialGroup()
-                        .addComponent(btnThemSPToHoaDon)
-                        .addGap(22, 22, 22)
-                        .addComponent(jLabel2)
-                        .addGap(6, 6, 6)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
-                        .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnSuaHoaDon)
-                            .addComponent(btnXoaSanPham))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(BackgroundLayout.createSequentialGroup()
-                        .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(BackgroundLayout.createSequentialGroup()
-                                .addComponent(btnQuanLyVoucher, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(6, 6, 6)
-                                .addComponent(btnQuanLyThuocTinh, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(6, 6, 6)
-                                .addComponent(btnTaiKhoan, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(6, 6, 6)
-                                .addComponent(btnDoiMatKhau)
-                                .addGap(14, 14, 14)
-                                .addComponent(btnDangXuat)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
-                                .addComponent(txtXinChao)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtChucVu))
-                            .addGroup(BackgroundLayout.createSequentialGroup()
-                                .addGap(74, 74, 74)
-                                .addComponent(cboMaGiamGia)
-                                .addGap(7, 7, 7)
-                                .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel8)
-                                    .addComponent(txtMaGiamGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnKiemTra))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cboThemThongTinKhachHang)
-                                .addGap(7, 7, 7)
-                                .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel10)
-                                    .addComponent(txtSoDienThoaiKH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnThemSoDienThoaiKH))
-                                .addGap(18, 18, 18)
-                                .addComponent(txtTongTienHang)
-                                .addGap(8, 8, 8)
-                                .addComponent(txtTienDuocGiam)
-                                .addGap(8, 8, 8)
-                                .addComponent(txtTongTienPhaiTra)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnThanhToan)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtDongHo)))
-                        .addGap(12, 12, 12))))
-        );
+        Background.add(btnThemSoDienThoaiKH, new org.netbeans.lib.awtextra.AbsoluteConstraints(1494, 589, 85, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -772,6 +627,14 @@ public class BanHangJFrame extends javax.swing.JFrame {
 
     private void btnThemSPToHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemSPToHoaDonActionPerformed
         // TODO add your handling code here:
+        try {
+            int id = Integer.parseInt(txtID.getText());
+            int soLuong = Integer.parseInt(txtSoLuongCon.getText());
+            addDataGioHang(id, soLuong);
+            showDataGH(listGH);
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnThemSPToHoaDonActionPerformed
 
     private void btnSuaHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaHoaDonActionPerformed
@@ -828,6 +691,20 @@ public class BanHangJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnThemSoDienThoaiKHActionPerformed
 
+    private void tblSanPhamChiTietMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamChiTietMouseClicked
+        // TODO add your handling code here:
+        int selectedRow = tblSanPhamChiTiet.getSelectedRow();
+        try {
+            detailDataSPCT(sanPhamChiTietDAO.getAll().get(selectedRow));
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_tblSanPhamChiTietMouseClicked
+
+    private void tblGioHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblGioHangMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblGioHangMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -869,6 +746,72 @@ public class BanHangJFrame extends javax.swing.JFrame {
             }
         });
     }
+    
+    private void addDataGioHang(int id, int soLuong) throws SQLException{
+        SanPhamChiTiet sanPhamChiTiet = sanPhamChiTietDAO.getSPCTbyID(id);
+        sanPhamChiTiet.setSoLuong(soLuong);
+        listGH.add(sanPhamChiTiet);
+    }
+    
+    private void detailDataSPCT(SanPhamChiTiet sanPhamChiTiet) throws SQLException{
+        txtID.setText(String.valueOf(sanPhamChiTiet.getId()));
+        txtTenSanPham.setText(sanPhamDAO.getTenSanPham(sanPhamChiTiet.getSanPhamID()));
+        txtMauSac.setText(mauSacDAO.getTenMauSac(sanPhamChiTiet.getMauSacID()));
+        txtKichThuoc.setText(getKichThuoc(sanPhamChiTiet.getKichThuocID()));
+        txtDonGia.setText(String.valueOf(sanPhamChiTiet.getDonGia()));
+        txtSoLuongCon.setText(String.valueOf(sanPhamChiTiet.getSoLuong()));
+    }
+    
+    private void showDataGH(List<SanPhamChiTiet> list) throws SQLException {
+        int stt = 1;
+        dtmGioHang.setRowCount(0);
+        
+        for (SanPhamChiTiet sanPhamChiTiet : list) {
+            Object dataGH[] = {
+                stt++,
+                sanPhamChiTiet.getId(),
+                sanPhamDAO.getTenSanPham(sanPhamChiTiet.getSanPhamID()),
+                mauSacDAO.getTenMauSac(sanPhamChiTiet.getMauSacID()),
+                getKichThuoc(sanPhamChiTiet.getKichThuocID()),
+                sanPhamChiTiet.getDonGia() + " VNĐ",
+                sanPhamChiTiet.getSoLuong()
+            };
+            dtmGioHang.addRow(dataGH);
+        }
+    }
+    
+    private void showDataSPCT(List<SanPhamChiTiet> list) throws SQLException {
+        int stt = 1;
+        dtmSanPhamChiTiet.setRowCount(0);
+        
+        for (SanPhamChiTiet sanPhamChiTiet : list) {
+            Object dataSPCT[] = {
+                stt++,
+                sanPhamChiTiet.getId(),
+                sanPhamDAO.getTenSanPham(sanPhamChiTiet.getSanPhamID()),
+                mauSacDAO.getTenMauSac(sanPhamChiTiet.getMauSacID()),
+                getKichThuoc(sanPhamChiTiet.getKichThuocID()),
+                sanPhamChiTiet.getDonGia() + " VNĐ",
+                sanPhamChiTiet.getSoLuong()
+            };
+            dtmSanPhamChiTiet.addRow(dataSPCT);
+        }
+    }
+    
+    private String getKichThuoc(int kichThuocID) {
+        switch (kichThuocID) {
+            case 0:
+                return "X";
+            case 1:
+                return "S";
+            case 2:
+                return "M";
+            case 3:
+                return "L";
+            default:
+                return "";
+            }
+        }
     
     private String getChucVu(int chucVu) {
         if(chucVu == 0) {
@@ -917,8 +860,8 @@ public class BanHangJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable tblGioHang;
+    private javax.swing.JTable tblSanPhamChiTiet;
     private javax.swing.JLabel titleDonGia;
     private javax.swing.JLabel txtChucVu;
     private javax.swing.JTextField txtDonGia;
