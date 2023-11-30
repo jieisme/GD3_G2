@@ -454,15 +454,15 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
     }//GEN-LAST:event_tblQuanLyHoaDonMouseClicked
 
     private void btnTimByIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimByIDActionPerformed
-        DefaultTableModel model = (DefaultTableModel) tblQuanLyHoaDon.getModel();
-        model.setRowCount(0);
-
-        try {
-            list = hoaDonDAO.searchDataByID(Integer.parseInt(txtID.getText()));
-            customShowData(model, list);
-        } catch (SQLException ex) {
-            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        DefaultTableModel model = (DefaultTableModel) tblQuanLyHoaDon.getModel();
+//        model.setRowCount(0);
+//
+//        try {
+//            list = hoaDonDAO.searchDataByID(Integer.parseInt(txtID.getText()));
+//            customShowData(model, list);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_btnTimByIDActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
@@ -519,15 +519,15 @@ public class QuanLiHoaDon extends javax.swing.JFrame {
 
     private void btnTimByNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimByNameActionPerformed
         // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel) tblQuanLyHoaDon.getModel();
-        model.setRowCount(0);
-
-        try {
-            list = hoaDonDAO.searchDataByNhanVienID(Integer.parseInt(txtTenSanPham.getText()));
-            customShowData(model, list);
-        } catch (SQLException ex) {
-            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        DefaultTableModel model = (DefaultTableModel) tblQuanLyHoaDon.getModel();
+//        model.setRowCount(0);
+//
+//        try {
+//            list = hoaDonDAO.searchDataByNhanVienID(Integer.parseInt(txtTenSanPham.getText()));
+//            customShowData(model, list);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_btnTimByNameActionPerformed
 
     private void cboTrangThaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTrangThaiActionPerformed

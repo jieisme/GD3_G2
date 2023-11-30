@@ -50,24 +50,22 @@ public class SanPhamDAO {
         return list;
     }
     
-    public String addData(int id, String ten, String donViTinh, String moTa, int loaiSanPham, int trangThaiBan) throws SQLException{
+    public String addData(String ten, String donViTinh, String moTa, int loaiSanPham, int trangThaiBan) throws SQLException{
         Connection conn = ConnnectToSQLServer.getConnection();
         String sql = "INSERT INTO [dbo].[SanPham]\n" +
-                    "           ([ID]\n" +
                     "           ,[Ten]\n" +
                     "           ,[DonViTinh]\n" +
                     "           ,[MoTa]\n" +
                     "           ,[LoaiSanPhamID]\n" +
                     "           ,[TrangThaiBan])\n" +
                     "     VALUES\n" +
-                    "           (?, ?, ?, ?, ?, ?)";
+                    "           (?, ?, ?, ?, ?)";
         PreparedStatement preSt = conn.prepareCall(sql);
-        preSt.setInt(1, id);
-        preSt.setString(2, ten);
-        preSt.setString(3, donViTinh);
-        preSt.setString(4, moTa);
-        preSt.setInt(5, loaiSanPham);
-        preSt.setInt(6, trangThaiBan);
+        preSt.setString(1, ten);
+        preSt.setString(2, donViTinh);
+        preSt.setString(3, moTa);
+        preSt.setInt(4, loaiSanPham);
+        preSt.setInt(5, trangThaiBan);
         int rs = preSt.executeUpdate();
         preSt.close();
         conn.close();
@@ -75,7 +73,7 @@ public class SanPhamDAO {
     }
     
     public String updateData(int id, String ten, String donViTinh, String moTa, int loaiSanPham, int trangThaiBan) throws SQLException{
-         Connection conn = ConnnectToSQLServer.getConnection();
+        Connection conn = ConnnectToSQLServer.getConnection();
         String sql = "UPDATE [dbo].[SanPham]\n" +
                     "   SET [Ten] = ?\n" +
                     "      ,[DonViTinh] = ?\n" +
@@ -102,6 +100,15 @@ public class SanPhamDAO {
         } else {
             return "Không có sản phẩm nào được sửa!";
         }
+    }
+    
+    public String removeData(int id) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "DELETE FROM SANPHAM WHERE ID = ?";
+        PreparedStatement preSt = conn.prepareCall(sql);
+        preSt.setInt(1, id);
+        int rs = preSt.executeUpdate();
+        return "Xóa thành công!";
     }
     
     public List<SanPham> searchDataByID(int id) throws SQLException{

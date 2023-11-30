@@ -491,7 +491,7 @@ public class QuanLySanPham extends javax.swing.JFrame {
                 } else {
                     trangThaiBan = 1;
                 }
-            
+
                 JOptionPane.showMessageDialog(this, sanPhamDAO.addData(ten, donViTinh, moTa, loaiSanPham, trangThaiBan));
                 showData(sanPhamDAO.getAll());
             
@@ -600,7 +600,7 @@ public class QuanLySanPham extends javax.swing.JFrame {
             if (chon == JOptionPane.YES_OPTION) {
                 try {
                     // TODO add your handling code here:
-                    JOptionPane.showMessageDialog(this, sanPhamDAO.removeData(txtID.getText()));
+                    JOptionPane.showMessageDialog(this, sanPhamDAO.removeData(Integer.parseInt(txtID.getText())));
                     showData(sanPhamDAO.getAll());
                 } catch (SQLException ex) {
                 }
