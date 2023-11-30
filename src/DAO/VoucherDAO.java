@@ -165,4 +165,18 @@ public class VoucherDAO {
         }
         return 0;
     }
+    
+    public String getMoTaVoucher(int voucherID) throws SQLException {
+        try (Connection conn = ConnnectToSQLServer.getConnection(); 
+            PreparedStatement ps = conn.prepareStatement("SELECT MoTa FROM KhuyenMai WHERE ID = ?");) {
+            ps.setInt(1, voucherID);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("MoTa");
+                }
+            }
+        }
+        return null;
+    }
 }

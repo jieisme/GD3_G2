@@ -106,7 +106,8 @@ public class SanPhamChiTietDAO {
     
     public SanPhamChiTiet getSPCTbyID(int idSPCT) throws SQLException {
         listSPCT = new ArrayList<>();
-        Connection conn = ConnnectToSQLServer.getConnection();
+          
+  Connection conn = ConnnectToSQLServer.getConnection();
         String sql = "SELECT * FROM SANPHAMCHITIET where ID = " + idSPCT;
         Statement st = conn.createStatement();
         ResultSet rs = st.executeQuery(sql);
@@ -127,4 +128,74 @@ public class SanPhamChiTietDAO {
         conn.close();
         return null;
     }
+    
+    public int getIDSPbyIDSPCT(int id) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "SELECT SanPhamID FROM SanPhamChiTiet WHERE ID = ?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setInt(1, id);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    return rs.getInt("SanPhamID");
+                }
+            }
+        }
+        return 0;
+    }
+    
+    public int getIDMauSacbyIDSPCT(int id) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "SELECT MauSacID FROM SanPhamChiTiet WHERE ID = ?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setInt(1, id);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    return rs.getInt("MauSacID");
+                }
+            }
+        }
+        return 0;
+    }
+    
+    public int getKichThuocbyIDSPCT(int id) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "SELECT KichThuoc FROM SanPhamChiTiet WHERE ID = ?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setInt(1, id);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    return rs.getInt("KichThuoc");
+                }
+            }
+        }
+        return 0;
+    }
+    
+    public int getDonGiabyIDSPCT(int id) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "SELECT DonGia FROM SanPhamChiTiet WHERE ID = ?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setInt(1, id);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    return rs.getInt("DonGia");
+                }
+            }
+        }
+        return 0;
+    }
+        
+    public int getSoLuongByIDSPCT(int id) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "SELECT SoLuong FROM SanPhamChiTiet WHERE ID = ?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setInt(1, id);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    return rs.getInt("SoLuong");
+                }
+            }
+        }
+        return 0;
+    }  
 }

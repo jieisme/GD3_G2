@@ -78,7 +78,6 @@
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="rdCai" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="JScrollPane1" min="-2" max="-2" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                                       <Component id="txtErrorTenSanPham" min="-2" pref="208" max="-2" attributes="0"/>
@@ -100,6 +99,10 @@
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Component id="btnTimByID" min="-2" max="-2" attributes="0"/>
                                       </Group>
+                                  </Group>
+                                  <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                                      <Component id="btnXoa" min="-2" max="-2" attributes="0"/>
+                                      <Component id="JScrollPane1" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -197,6 +200,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnThem" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                           <Component id="btnSua" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="btnXoa" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="jScrollPane2" min="-2" max="-2" attributes="0"/>
@@ -220,6 +224,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtID">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="txtErrorID">
       <Properties>
@@ -537,6 +544,14 @@
           </Border>
         </Property>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnXoa">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="X&#xf3;a"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXoaActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

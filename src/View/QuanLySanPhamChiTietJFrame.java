@@ -1,0 +1,879 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package View;
+
+import DAO.SanPhamChiTietDAO;
+import DAO.SanPhamDAO;
+import DAO.MauSacDAO;
+import DAO.ChatLieuDAO;
+import Entity.SanPhamChiTiet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+/**
+ *
+ * @author Thuylq
+ */
+public class QuanLySanPhamChiTietJFrame extends javax.swing.JFrame {
+
+    DefaultTableModel dtm = new DefaultTableModel();
+    List<SanPhamChiTiet> list = new ArrayList<>();
+    SanPhamChiTietDAO sanPhamChiTietDAO = new SanPhamChiTietDAO();
+    private int index = -1;
+    private SanPhamDAO sanPhamDAO = new SanPhamDAO();
+    private MauSacDAO mauSacDAO = new MauSacDAO();
+    private ChatLieuDAO chatLieuDAO = new ChatLieuDAO();
+
+    /**
+     * Creates new form QuanLySanPhamChiTietJFrame
+     */
+    public QuanLySanPhamChiTietJFrame() throws SQLException {
+        initComponents();
+        dtm = (DefaultTableModel) tblSanPhamChiTiet.getModel();
+        dtm.setRowCount(0);
+        list = sanPhamChiTietDAO.getAll();
+        showData(list);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    private void showData(List<SanPhamChiTiet> list) throws SQLException {
+        int stt = 1;
+        dtm.setRowCount(0);
+
+        for (SanPhamChiTiet sanPhamChiTiet : list) {
+            Object data[] = {
+                stt++,
+                sanPhamChiTiet.getId(),
+                sanPhamDAO.getTenSanPham(sanPhamChiTiet.getSanPhamID()),
+                mauSacDAO.getTenMauSac(sanPhamChiTiet.getMauSacID()),
+                chatLieuDAO.getTenChatLieu(sanPhamChiTiet.getChatLieuID()),
+                getKichThuocName(sanPhamChiTiet.getKichThuocID()),
+                sanPhamChiTiet.getDonGia(),
+                sanPhamChiTiet.getSoLuong(),};
+            dtm.addRow(data);
+        }
+    }
+
+    private String getKichThuocName(int kichThuoc) {
+        switch (kichThuoc) {
+            case 0:
+                return "X";
+            case 1:
+                return "S";
+            case 2:
+                return "M";
+            case 3:
+                return "L";
+            default:
+                return "";
+        }
+    }
+
+    private void detailData(SanPhamChiTiet sanPhamChiTiet) {
+        txtID.setText(String.valueOf(sanPhamChiTiet.getId()));
+        txtSanPhamID.setText(String.valueOf(sanPhamChiTiet.getSanPhamID()));
+        txtMauSacID.setText(String.valueOf(sanPhamChiTiet.getMauSacID()));
+        txtChatLieuid.setText(String.valueOf(sanPhamChiTiet.getChatLieuID()));
+        cboKichThuoc.setSelectedIndex(sanPhamChiTiet.getKichThuocID());
+        txtDonGia.setText(String.valueOf(sanPhamChiTiet.getDonGia()));
+        txtSoLuong.setText(String.valueOf(sanPhamChiTiet.getSoLuong()));
+    }
+
+    public String layThongTinBanGhi() {
+        return "Record :" + (index + 1) + " of " + list.size();
+    }
+
+    public void firstNV() {
+
+        index = 0;
+
+        tblSanPhamChiTiet.setRowSelectionInterval(index, index);
+        detailDataD(index);
+        lblbanghi.setText(layThongTinBanGhi());
+    }
+
+    public void lastNV() {
+        index = list.size() - 1;
+
+        tblSanPhamChiTiet.setRowSelectionInterval(index, index);
+        detailDataD(index);
+        lblbanghi.setText(layThongTinBanGhi());
+
+    }
+
+    public void PreNV() {
+        if (index == 0) {
+            lastNV();
+        } else {
+            index--;
+            tblSanPhamChiTiet.setRowSelectionInterval(index, index);
+            detailDataD(index);
+            lblbanghi.setText(layThongTinBanGhi());
+        }
+
+    }
+
+    public void NextNV() {
+        if (index == list.size()) {
+            firstNV();
+        } else {
+            index++;
+            tblSanPhamChiTiet.setRowSelectionInterval(index, index);
+            detailDataD(index);
+            lblbanghi.setText(layThongTinBanGhi());
+
+        }
+
+    }
+
+    public void detailDataD(int index) {
+        txtID.setText(String.valueOf(list.get(index).getId()));
+        txtSanPhamID.setText(String.valueOf(list.get(index).getSanPhamID()));
+        txtMauSacID.setText(String.valueOf(list.get(index).getMauSacID()));
+        txtChatLieuid.setText(String.valueOf(list.get(index).getChatLieuID()));
+        cboKichThuoc.setSelectedIndex(list.get(index).getKichThuocID());
+        txtDonGia.setText(String.valueOf(list.get(index).getDonGia()));
+        txtSoLuong.setText(String.valueOf(list.get(index).getSoLuong()));
+
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        Background = new javax.swing.JPanel();
+        btnTaiKhoan = new javax.swing.JButton();
+        btnDoiMatKhau = new javax.swing.JButton();
+        btnDangXuat = new javax.swing.JButton();
+        txtXinChao = new javax.swing.JLabel();
+        txtChucVu = new javax.swing.JLabel();
+        txtDongHo = new javax.swing.JLabel();
+        txtTile = new javax.swing.JLabel();
+        txtLogo = new javax.swing.JLabel();
+        btnBanHang = new javax.swing.JButton();
+        btnQuanLySanPham = new javax.swing.JButton();
+        btnQuanLyKhachHang = new javax.swing.JButton();
+        btnQuanLyHoaDon = new javax.swing.JButton();
+        btnQuanLyNhanVien = new javax.swing.JButton();
+        btnQuanLyVoucher = new javax.swing.JButton();
+        btnTrangChu = new javax.swing.JButton();
+        btnQuanLyThuocTinh = new javax.swing.JButton();
+        txtSoLuong = new javax.swing.JTextField();
+        txtDonGia = new javax.swing.JTextField();
+        txtMauSacID = new javax.swing.JTextField();
+        txtErrorTenSanPham = new javax.swing.JLabel();
+        txtSanPhamID = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        txtErrorID = new javax.swing.JLabel();
+        txtID = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        lblbanghi = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblSanPhamChiTiet = new javax.swing.JTable();
+        cboKichThuoc = new javax.swing.JComboBox<>();
+        jSeparator2 = new javax.swing.JSeparator();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        txtChatLieuid = new javax.swing.JTextField();
+        btnTimID = new javax.swing.JButton();
+        btnTimID1 = new javax.swing.JButton();
+        btnTimID2 = new javax.swing.JButton();
+        btnTimID3 = new javax.swing.JButton();
+        btnTimID4 = new javax.swing.JButton();
+        btnTimID5 = new javax.swing.JButton();
+        btnTimID7 = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        Background.setBackground(new java.awt.Color(166, 227, 233));
+        Background.setForeground(new java.awt.Color(253, 247, 228));
+        Background.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnTaiKhoan.setBackground(new java.awt.Color(203, 241, 245));
+        btnTaiKhoan.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTaiKhoan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Gear.png"))); // NOI18N
+        btnTaiKhoan.setText("TÀI KHOẢN");
+        btnTaiKhoan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(22, 72, 99), 1, true));
+        btnTaiKhoan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTaiKhoanActionPerformed(evt);
+            }
+        });
+        Background.add(btnTaiKhoan, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 594, 284, 78));
+
+        btnDoiMatKhau.setBackground(new java.awt.Color(203, 241, 245));
+        btnDoiMatKhau.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnDoiMatKhau.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Key.png"))); // NOI18N
+        btnDoiMatKhau.setText("ĐỔI MẬT KHẨU");
+        btnDoiMatKhau.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(22, 72, 99), 1, true));
+        btnDoiMatKhau.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDoiMatKhauActionPerformed(evt);
+            }
+        });
+        Background.add(btnDoiMatKhau, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 678, 284, -1));
+
+        btnDangXuat.setBackground(new java.awt.Color(203, 241, 245));
+        btnDangXuat.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnDangXuat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Exit.png"))); // NOI18N
+        btnDangXuat.setText("ĐĂNG XUẤT");
+        btnDangXuat.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(22, 72, 99), 1, true));
+        btnDangXuat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDangXuatActionPerformed(evt);
+            }
+        });
+        Background.add(btnDangXuat, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 718, 284, -1));
+
+        txtXinChao.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtXinChao.setText("Xin chào,");
+        Background.add(txtXinChao, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 792, -1, -1));
+
+        txtChucVu.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtChucVu.setText("Chức vụ: ");
+        Background.add(txtChucVu, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 814, -1, -1));
+
+        txtDongHo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txtDongHo.setForeground(new java.awt.Color(22, 72, 99));
+        txtDongHo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Alarm.png"))); // NOI18N
+        txtDongHo.setText("09:11:2001");
+        Background.add(txtDongHo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 800, -1, -1));
+
+        txtTile.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        txtTile.setText("HỆ THỐNG QUẢN LÝ BẢN ÁO");
+        Background.add(txtTile, new org.netbeans.lib.awtextra.AbsoluteConstraints(562, 10, -1, -1));
+
+        txtLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/logo2Clothes.png"))); // NOI18N
+        Background.add(txtLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(652, 80, 491, 91));
+
+        btnBanHang.setBackground(new java.awt.Color(203, 241, 245));
+        btnBanHang.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnBanHang.setText("BÁN HÀNG");
+        btnBanHang.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(22, 72, 99), 1, true));
+        btnBanHang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBanHangActionPerformed(evt);
+            }
+        });
+        Background.add(btnBanHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 6, 284, 78));
+
+        btnQuanLySanPham.setBackground(new java.awt.Color(203, 241, 245));
+        btnQuanLySanPham.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnQuanLySanPham.setText("QUẢN LÝ SẢN PHẨM");
+        btnQuanLySanPham.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(22, 72, 99), 1, true));
+        btnQuanLySanPham.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuanLySanPhamActionPerformed(evt);
+            }
+        });
+        Background.add(btnQuanLySanPham, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 90, 284, 78));
+
+        btnQuanLyKhachHang.setBackground(new java.awt.Color(203, 241, 245));
+        btnQuanLyKhachHang.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnQuanLyKhachHang.setText("QUẢN LÝ KHÁCH HÀNG");
+        btnQuanLyKhachHang.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(22, 72, 99), 1, true));
+        btnQuanLyKhachHang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuanLyKhachHangActionPerformed(evt);
+            }
+        });
+        Background.add(btnQuanLyKhachHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 174, 284, 78));
+
+        btnQuanLyHoaDon.setBackground(new java.awt.Color(203, 241, 245));
+        btnQuanLyHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnQuanLyHoaDon.setText("QUẢN LÝ HÓA ĐƠN");
+        btnQuanLyHoaDon.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(22, 72, 99), 1, true));
+        btnQuanLyHoaDon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuanLyHoaDonActionPerformed(evt);
+            }
+        });
+        Background.add(btnQuanLyHoaDon, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 258, 284, 78));
+
+        btnQuanLyNhanVien.setBackground(new java.awt.Color(203, 241, 245));
+        btnQuanLyNhanVien.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnQuanLyNhanVien.setText("QUẢN LÝ NHÂN VIÊN");
+        btnQuanLyNhanVien.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(22, 72, 99), 1, true));
+        btnQuanLyNhanVien.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuanLyNhanVienActionPerformed(evt);
+            }
+        });
+        Background.add(btnQuanLyNhanVien, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 342, 284, 78));
+
+        btnQuanLyVoucher.setBackground(new java.awt.Color(203, 241, 245));
+        btnQuanLyVoucher.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnQuanLyVoucher.setText("QUẢN LÝ VOUCHER");
+        btnQuanLyVoucher.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(22, 72, 99), 1, true));
+        btnQuanLyVoucher.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuanLyVoucherActionPerformed(evt);
+            }
+        });
+        Background.add(btnQuanLyVoucher, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 426, 284, 78));
+
+        btnTrangChu.setBackground(new java.awt.Color(22, 72, 99));
+        btnTrangChu.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnTrangChu.setForeground(new java.awt.Color(255, 255, 255));
+        btnTrangChu.setText("TRANG CHỦ");
+        btnTrangChu.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, -1, -1, new java.awt.Color(0, 0, 0)));
+        btnTrangChu.setBorderPainted(false);
+        btnTrangChu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTrangChuActionPerformed(evt);
+            }
+        });
+        Background.add(btnTrangChu, new org.netbeans.lib.awtextra.AbsoluteConstraints(1492, 10, 91, 28));
+
+        btnQuanLyThuocTinh.setBackground(new java.awt.Color(203, 241, 245));
+        btnQuanLyThuocTinh.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnQuanLyThuocTinh.setText("QUẢN LÝ THUỘC TÍNH");
+        btnQuanLyThuocTinh.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(22, 72, 99), 1, true));
+        btnQuanLyThuocTinh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuanLyThuocTinhActionPerformed(evt);
+            }
+        });
+        Background.add(btnQuanLyThuocTinh, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 510, 284, 78));
+        Background.add(txtSoLuong, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 460, 280, -1));
+        Background.add(txtDonGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 420, 280, -1));
+        Background.add(txtMauSacID, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 310, 280, -1));
+
+        txtErrorTenSanPham.setForeground(new java.awt.Color(255, 0, 0));
+        txtErrorTenSanPham.setText(" ");
+        Background.add(txtErrorTenSanPham, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 220, -1, -1));
+        Background.add(txtSanPhamID, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 280, 280, -1));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel4.setText("ID sản phẩm");
+        Background.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 280, -1, -1));
+
+        txtErrorID.setForeground(new java.awt.Color(255, 0, 0));
+        txtErrorID.setText(" ");
+        Background.add(txtErrorID, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 220, -1, -1));
+        Background.add(txtID, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 250, 280, -1));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel2.setText("ID:");
+        Background.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 250, -1, -1));
+
+        lblbanghi.setText("Record : 3 of 4");
+        Background.add(lblbanghi, new org.netbeans.lib.awtextra.AbsoluteConstraints(1260, 670, -1, -1));
+
+        tblSanPhamChiTiet.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "STT", "ID", "ID sản phẩm", "ID màu sắc", "ID chất liệu", "Kích thước", "Đơn giá ", "Số lượng"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblSanPhamChiTiet.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSanPhamChiTietMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblSanPhamChiTiet);
+
+        Background.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 220, 540, -1));
+
+        cboKichThuoc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "X", "S", "M", "L", " " }));
+        Background.add(cboKichThuoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 390, 280, -1));
+        Background.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 220, -1, -1));
+
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel15.setText("Số lượng");
+        Background.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 460, -1, -1));
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel14.setText("Đơn giá");
+        Background.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 420, -1, -1));
+
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel13.setText("Kích thước");
+        Background.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 390, -1, -1));
+
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel12.setText("ID chất liệu");
+        Background.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 350, -1, -1));
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel11.setText("ID màu sắc");
+        Background.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 310, -1, -1));
+        Background.add(txtChatLieuid, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 350, 280, -1));
+
+        btnTimID.setBackground(new java.awt.Color(22, 72, 99));
+        btnTimID.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTimID.setForeground(new java.awt.Color(255, 255, 255));
+        btnTimID.setText("Sửa");
+        btnTimID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimIDActionPerformed(evt);
+            }
+        });
+        Background.add(btnTimID, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 560, -1, -1));
+
+        btnTimID1.setBackground(new java.awt.Color(22, 72, 99));
+        btnTimID1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTimID1.setForeground(new java.awt.Color(255, 255, 255));
+        btnTimID1.setText(">>");
+        btnTimID1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimID1ActionPerformed(evt);
+            }
+        });
+        Background.add(btnTimID1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1170, 670, -1, -1));
+
+        btnTimID2.setBackground(new java.awt.Color(22, 72, 99));
+        btnTimID2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTimID2.setForeground(new java.awt.Color(255, 255, 255));
+        btnTimID2.setText("Thêm");
+        btnTimID2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimID2ActionPerformed(evt);
+            }
+        });
+        Background.add(btnTimID2, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 560, -1, -1));
+
+        btnTimID3.setBackground(new java.awt.Color(22, 72, 99));
+        btnTimID3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTimID3.setForeground(new java.awt.Color(255, 255, 255));
+        btnTimID3.setText("Xóa");
+        btnTimID3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimID3ActionPerformed(evt);
+            }
+        });
+        Background.add(btnTimID3, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 560, -1, -1));
+
+        btnTimID4.setBackground(new java.awt.Color(22, 72, 99));
+        btnTimID4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTimID4.setForeground(new java.awt.Color(255, 255, 255));
+        btnTimID4.setText("|<");
+        btnTimID4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimID4ActionPerformed(evt);
+            }
+        });
+        Background.add(btnTimID4, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 670, -1, -1));
+
+        btnTimID5.setBackground(new java.awt.Color(22, 72, 99));
+        btnTimID5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTimID5.setForeground(new java.awt.Color(255, 255, 255));
+        btnTimID5.setText("<<");
+        btnTimID5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimID5ActionPerformed(evt);
+            }
+        });
+        Background.add(btnTimID5, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 670, -1, -1));
+
+        btnTimID7.setBackground(new java.awt.Color(22, 72, 99));
+        btnTimID7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTimID7.setForeground(new java.awt.Color(255, 255, 255));
+        btnTimID7.setText(">>");
+        btnTimID7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimID7ActionPerformed(evt);
+            }
+        });
+        Background.add(btnTimID7, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 670, -1, -1));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(Background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(Background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnTaiKhoanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaiKhoanActionPerformed
+        // TODO add your handling code here:
+        if (!btnDoiMatKhau.isVisible() && !btnDangXuat.isVisible()) {
+            btnDoiMatKhau.setVisible(true);
+            btnDangXuat.setVisible(true);
+        } else {
+            btnDoiMatKhau.setVisible(false);
+            btnDangXuat.setVisible(false);
+        }
+    }//GEN-LAST:event_btnTaiKhoanActionPerformed
+
+    private void btnDoiMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoiMatKhauActionPerformed
+        // TODO add your handling code here:
+        DoiMatKhauJFrame doiMatKhauJFrame = null;
+        try {
+            doiMatKhauJFrame = new DoiMatKhauJFrame();
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+        doiMatKhauJFrame.setVisible(true);
+    }//GEN-LAST:event_btnDoiMatKhauActionPerformed
+
+    private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangXuatActionPerformed
+        // TODO add your handling code here:
+        DangNhapJFrame dangNhapJFrame = null;
+        try {
+            dangNhapJFrame = new DangNhapJFrame();
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+        dangNhapJFrame.setVisible(true);
+    }//GEN-LAST:event_btnDangXuatActionPerformed
+
+    private void btnBanHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBanHangActionPerformed
+        // TODO add your handling code here:
+        BanHangJFrame banHangJFrame = null;
+        try {
+            banHangJFrame = new BanHangJFrame();
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+        banHangJFrame.setVisible(true);
+    }//GEN-LAST:event_btnBanHangActionPerformed
+
+    private void btnQuanLySanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLySanPhamActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_btnQuanLySanPhamActionPerformed
+
+    private void btnQuanLyKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyKhachHangActionPerformed
+        // TODO add your handling code here:
+        QuanLyKhachHang quanLyKhachHang = null;
+        quanLyKhachHang = new QuanLyKhachHang();
+        this.setVisible(false);
+        quanLyKhachHang.setVisible(true);
+    }//GEN-LAST:event_btnQuanLyKhachHangActionPerformed
+
+    private void btnQuanLyHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyHoaDonActionPerformed
+        // TODO add your handling code here:
+        QuanLiHoaDon quanLiHoaDon = null;
+        try {
+            quanLiHoaDon = new QuanLiHoaDon();
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+        quanLiHoaDon.setVisible(true);
+    }//GEN-LAST:event_btnQuanLyHoaDonActionPerformed
+
+    private void btnQuanLyNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyNhanVienActionPerformed
+        // TODO add your handling code here:
+        QuanLiNhanVien quanLiNhanVien = null;
+        try {
+            quanLiNhanVien = new QuanLiNhanVien();
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+        quanLiNhanVien.setVisible(true);
+    }//GEN-LAST:event_btnQuanLyNhanVienActionPerformed
+
+    private void btnQuanLyVoucherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyVoucherActionPerformed
+        // TODO add your handling code here:
+//        QuanLiVoucher quanLiVoucher = null;
+//        quanLiVoucher = new QuanLiVoucher();
+//        this.setVisible(false);
+//        quanLiVoucher.setVisible(true);
+    }//GEN-LAST:event_btnQuanLyVoucherActionPerformed
+
+    private void btnTrangChuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTrangChuActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        TrangChuJFrame trangChuJFrame = null;
+        try {
+            trangChuJFrame = new TrangChuJFrame();
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        trangChuJFrame.setVisible(true);
+    }//GEN-LAST:event_btnTrangChuActionPerformed
+
+    private void btnQuanLyThuocTinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyThuocTinhActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        QuanLiThuocTinh quanLiThuocTinh = null;
+        try {
+            quanLiThuocTinh = new QuanLiThuocTinh();
+        } catch (SQLException ex) {
+            Logger.getLogger(DoiMatKhauJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        quanLiThuocTinh.setVisible(true);
+    }//GEN-LAST:event_btnQuanLyThuocTinhActionPerformed
+
+    private void tblSanPhamChiTietMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamChiTietMouseClicked
+        int selectedRow = tblSanPhamChiTiet.getSelectedRow();
+        try {
+            detailData(sanPhamChiTietDAO.getAll().get(selectedRow));
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        index = tblSanPhamChiTiet.getSelectedRow();
+        lblbanghi.setText(layThongTinBanGhi());
+    }//GEN-LAST:event_tblSanPhamChiTietMouseClicked
+
+    private void btnTimIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimIDActionPerformed
+        // TODO add your handling code here:
+        if (checkForm()) {
+            int selectedRow = tblSanPhamChiTiet.getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(this, "Chưa chọn dòng để sửa!");
+            } else {
+                try {
+                    int id = Integer.parseInt(txtID.getText());
+                    list = sanPhamChiTietDAO.getAll();
+
+                    boolean isIdDuplicated = false;
+
+                    for (SanPhamChiTiet sanPhamChiTiet : list) {
+                        if (id == sanPhamChiTiet.getId()) {
+                            isIdDuplicated = true;
+                            break;
+                        }
+                    }
+
+                    if (isIdDuplicated == false) {
+                        JOptionPane.showMessageDialog(this, "Không có mã sản phẩm cần sửa!");
+                    } else {
+                        int sanPhamId = Integer.parseInt(txtSanPhamID.getText());
+                        int mauSacId = Integer.parseInt(txtMauSacID.getText());
+                        int chatLieuId = Integer.parseInt(txtChatLieuid.getText());
+                        int kichThuoc = cboKichThuoc.getSelectedIndex();
+                        float donGia = Float.parseFloat(txtDonGia.getText());
+                        int soLuong = Integer.parseInt(txtSoLuong.getText());
+                        JOptionPane.showMessageDialog(this, sanPhamChiTietDAO.updateData(id, sanPhamId, mauSacId, chatLieuId, kichThuoc, donGia, soLuong));
+                        showData(sanPhamChiTietDAO.getAll());
+                    }
+                } catch (SQLException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            }
+        }
+    }//GEN-LAST:event_btnTimIDActionPerformed
+
+    private void btnTimID1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimID1ActionPerformed
+        // TODO add your handling code here:
+        lastNV();
+    }//GEN-LAST:event_btnTimID1ActionPerformed
+
+    private void btnTimID2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimID2ActionPerformed
+        // TODO add your handling code here:
+        if (checkForm()) {
+            try {
+                int id = Integer.parseInt(txtID.getText());
+                list = sanPhamChiTietDAO.getAll();
+
+                boolean isIdDuplicated = false;
+
+                for (SanPhamChiTiet sanPhamChiTiet : list) {
+                    if (id == sanPhamChiTiet.getId()) {
+                        isIdDuplicated = true;
+                        break;
+                    }
+                }
+
+                if (isIdDuplicated) {
+                    JOptionPane.showMessageDialog(this, "Trùng mã ID sản phẩm!");
+                } else {
+                    int sanPhamId = Integer.parseInt(txtSanPhamID.getText());
+                    int mauSacId = Integer.parseInt(txtMauSacID.getText());
+                    int chatLieuId = Integer.parseInt(txtChatLieuid.getText());
+                    int kichThuoc = cboKichThuoc.getSelectedIndex();
+                    int donGia = Integer.parseInt(txtDonGia.getText());
+                    int soLuong = Integer.parseInt(txtSoLuong.getText());
+                    JOptionPane.showMessageDialog(this, sanPhamChiTietDAO.addData(id, sanPhamId, mauSacId, chatLieuId, kichThuoc, donGia, soLuong));
+                    showData(sanPhamChiTietDAO.getAll());
+                }
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+
+    }//GEN-LAST:event_btnTimID2ActionPerformed
+
+    private void btnTimID3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimID3ActionPerformed
+        // TODO add your handling code here:
+        if (checkForm()) {
+            int chon = (JOptionPane.showConfirmDialog(this, "Delete ?", "Confrim", JOptionPane.YES_NO_OPTION));
+            if (chon == JOptionPane.YES_OPTION) {
+                try {
+                    // TODO add your handling code here:
+                    JOptionPane.showMessageDialog(this, sanPhamChiTietDAO.removeData(txtID.getText()));
+                    showData(sanPhamChiTietDAO.getAll());
+                } catch (SQLException ex) {
+                }
+            }
+            return;
+        }
+
+    }//GEN-LAST:event_btnTimID3ActionPerformed
+
+    private void btnTimID4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimID4ActionPerformed
+        // TODO add your handling code here:
+        firstNV();
+    }//GEN-LAST:event_btnTimID4ActionPerformed
+
+    private void btnTimID5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimID5ActionPerformed
+        // TODO add your handling code here:
+        PreNV();
+    }//GEN-LAST:event_btnTimID5ActionPerformed
+
+    private void btnTimID7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimID7ActionPerformed
+        // TODO add your handling code here:
+        NextNV();
+    }//GEN-LAST:event_btnTimID7ActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(QuanLySanPhamChiTietJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(QuanLySanPhamChiTietJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(QuanLySanPhamChiTietJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(QuanLySanPhamChiTietJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    new QuanLySanPhamChiTietJFrame().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(QuanLySanPhamChiTietJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    }
+
+    boolean checkForm() {
+        if (txtSanPhamID.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "ID sản phẩm không được để trống");
+            txtSanPhamID.requestFocus();
+            return false;
+//        } else {
+//            if (!txt_Name.getText().trim().matches("[a-zA-z ]+")) {
+//                JOptionPane.showMessageDialog(this, "Name Sai dinh dang");
+//                txt_Name.requestFocus();
+//                return false;
+//            }
+        }
+        if (txtMauSacID.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "ID Màu sắc không được để trống");
+            txtMauSacID.requestFocus();
+            return false;
+        }
+        if (txtChatLieuid.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "ID Chất liệu không được để trống");
+            txtChatLieuid.requestFocus();
+            return false;
+        }
+        if (txtDonGia.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Đon giá không được để trống");
+            txtDonGia.requestFocus();
+            return false;
+
+        }
+        if (txtSoLuong.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Số lượng không được để trống");
+            txtSoLuong.requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel Background;
+    private javax.swing.JButton btnBanHang;
+    private javax.swing.JButton btnDangXuat;
+    private javax.swing.JButton btnDoiMatKhau;
+    private javax.swing.JButton btnQuanLyHoaDon;
+    private javax.swing.JButton btnQuanLyKhachHang;
+    private javax.swing.JButton btnQuanLyNhanVien;
+    private javax.swing.JButton btnQuanLySanPham;
+    private javax.swing.JButton btnQuanLyThuocTinh;
+    private javax.swing.JButton btnQuanLyVoucher;
+    private javax.swing.JButton btnTaiKhoan;
+    private javax.swing.JButton btnTimID;
+    private javax.swing.JButton btnTimID1;
+    private javax.swing.JButton btnTimID2;
+    private javax.swing.JButton btnTimID3;
+    private javax.swing.JButton btnTimID4;
+    private javax.swing.JButton btnTimID5;
+    private javax.swing.JButton btnTimID7;
+    private javax.swing.JButton btnTrangChu;
+    private javax.swing.JComboBox<String> cboKichThuoc;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel lblbanghi;
+    private javax.swing.JTable tblSanPhamChiTiet;
+    private javax.swing.JTextField txtChatLieuid;
+    private javax.swing.JLabel txtChucVu;
+    private javax.swing.JTextField txtDonGia;
+    private javax.swing.JLabel txtDongHo;
+    private javax.swing.JLabel txtErrorID;
+    private javax.swing.JLabel txtErrorTenSanPham;
+    private javax.swing.JTextField txtID;
+    private javax.swing.JLabel txtLogo;
+    private javax.swing.JTextField txtMauSacID;
+    private javax.swing.JTextField txtSanPhamID;
+    private javax.swing.JTextField txtSoLuong;
+    private javax.swing.JLabel txtTile;
+    private javax.swing.JLabel txtXinChao;
+    // End of variables declaration//GEN-END:variables
+}

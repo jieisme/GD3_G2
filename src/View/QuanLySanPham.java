@@ -84,11 +84,14 @@ public class QuanLySanPham extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        btnXoa = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Quản lý sản phẩm");
 
         jLabel2.setText("ID:");
+
+        txtID.setEnabled(false);
 
         txtErrorID.setForeground(new java.awt.Color(255, 0, 0));
         txtErrorID.setText(" ");
@@ -277,6 +280,13 @@ public class QuanLySanPham extends javax.swing.JFrame {
         jLabel1.setText("THÔNG TIN SẢN PHẨM");
         jLabel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        btnXoa.setText("Xóa");
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -323,7 +333,6 @@ public class QuanLySanPham extends javax.swing.JFrame {
                                         .addComponent(rdChiec)
                                         .addGap(18, 18, 18)
                                         .addComponent(rdCai))
-                                    .addComponent(JScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(6, 6, 6)
                                         .addComponent(txtErrorTenSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -339,7 +348,10 @@ public class QuanLySanPham extends javax.swing.JFrame {
                                                     .addComponent(txtErrorID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                                 .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(btnTimByID)))))
+                                            .addComponent(btnTimByID)))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(btnXoa)
+                                        .addComponent(JScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel8)
@@ -415,7 +427,8 @@ public class QuanLySanPham extends javax.swing.JFrame {
                         .addGap(64, 64, 64)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(50, 50, 50)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -460,21 +473,7 @@ public class QuanLySanPham extends javax.swing.JFrame {
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
         try {
-            int id = Integer.parseInt(txtID.getText());
-            list = sanPhamDAO.getAll();
-
-            boolean isIdDuplicated = false;
-
-            for (SanPham sanPham : list) {
-                if (id == sanPham.getId()) {
-                    isIdDuplicated = true;
-                    break;
-                }
-            }
-
-            if (isIdDuplicated) {
-                JOptionPane.showMessageDialog(this, "Trùng mã ID sản phẩm!");
-            } else {
+            
                 String ten = txtTenSanPham.getText();
                 String donViTinh = "";
                 String moTa = txtMoTa.getText();
@@ -493,9 +492,9 @@ public class QuanLySanPham extends javax.swing.JFrame {
                     trangThaiBan = 1;
                 }
             
-                JOptionPane.showMessageDialog(this, sanPhamDAO.addData(id, ten, donViTinh, moTa, loaiSanPham, trangThaiBan));
+                JOptionPane.showMessageDialog(this, sanPhamDAO.addData(ten, donViTinh, moTa, loaiSanPham, trangThaiBan));
                 showData(sanPhamDAO.getAll());
-            }
+            
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
@@ -594,6 +593,20 @@ public class QuanLySanPham extends javax.swing.JFrame {
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        // TODO add your handling code here:
+        int chon = (JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn xóa thuộc tính này?", "Thông báo", JOptionPane.YES_NO_OPTION));
+            if (chon == JOptionPane.YES_OPTION) {
+                try {
+                    // TODO add your handling code here:
+                    JOptionPane.showMessageDialog(this, sanPhamDAO.removeData(txtID.getText()));
+                    showData(sanPhamDAO.getAll());
+                } catch (SQLException ex) {
+                }
+            }
+            return;
+    }//GEN-LAST:event_btnXoaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -722,6 +735,7 @@ public class QuanLySanPham extends javax.swing.JFrame {
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnTimByID;
     private javax.swing.JButton btnTimByName;
+    private javax.swing.JButton btnXoa;
     private javax.swing.JComboBox<String> cboLoaiSanPham;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;

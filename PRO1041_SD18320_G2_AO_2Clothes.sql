@@ -14,9 +14,9 @@ TrangThaiXoa int null,
 go
 
 create table KhuyenMai(
-ID int identity(0,1) primary key ,
+ID int identity(0,1) primary key,
 LoaiKhuyenMai int not null , 
-GiamTheoPhamTram int not null,
+GiamTheoPhanTram int not null,
 GiamTheoGiaTien int not null,
 SoLuong int not null,
 ThoiGianBatDau date null,
@@ -44,7 +44,11 @@ create table HoaDon(
 ID int identity(0,1) primary key ,
 NhanVienId int not null,
 KhachHangId int null,
-Trangthai int not null,
+KhuyenMaiID int null,
+TongTienHang int not null,
+TongTienDuocGiam int null,
+TongTienPhaiTra int not null,
+Trangthai	int not null,
 TrangThaiXoa int null
 );
 
@@ -54,12 +58,8 @@ create table HoaDonChiTiet(
 ID int identity(0,1) primary key,
 HoaDonId int not null,
 SanPhamChiTietId int not null,
-KhuyenMaiID int null,
 GiaBan int not null,
 SoLuong int not null,        
-TongTienHang int not null,
-TongTienDuocGiam int null,
-TongTienPhaiTra int not null,
 TrangThaiXoa int null
 );
 
@@ -156,7 +156,7 @@ add constraint fk_SanPhamChiTietID
 foreign key (SanPhamChiTietID)
 references SanPhamChiTiet(ID)
 go
-alter table HoaDonChiTiet
+alter table HoaDon
 add constraint fk_KhuyenMaiID1
 foreign key (KhuyenMaiID)
 references KhuyenMai(ID)
@@ -207,9 +207,9 @@ values (0, 0, 0, 0, 0, 185000, 10, 0),
 		(7, 1, 0, 5, 2, 189000, 10, 0),
 		(8, 2, 0, 5, 2, 185000, 13, 0),
 		(9, 2, 1, 5, 1, 185000, 0, 0),
-		(10, 3, 0, 6, 1, 299000, 53, 0),
-		(11, 3, 1, 6, 2, 299000, 53, 0),
-		(12, 3, 5, 6, 3, 299000, 53, 0)
+		(10, 3, 0, 6, 1, 299000, 43, 0),
+		(11, 3, 1, 6, 2, 299000, 65, 0),
+		(12, 3, 5, 6, 3, 299000, 97, 0)
 go
 insert into NhanVien
 values ('kietvt', 123, N'Vũ Tuấn Kiệt', 0, '0862132564', 0),
@@ -244,14 +244,16 @@ values (0, 50, 0, 10, '', '', 0, N'Giảm 50% trên tổng hóa đơn', 0),
 go
 --Trangthai
 -- Đã thanh toán: 0
--- Chờ thanh toán: 1
+-- Chưa thanh toán: 1
+
 insert into HoaDon
-values (0, 0, 0, 0),
-	   (0, 0, 1, 0)
+values (0, 0, 0, 200000, 0, 100000, 0, 0),
+	   (0, 1, 1, 200000, 1, 150000, 1, 0)
 go
 
 insert into HoaDonChiTiet
-values (0, 0, '', 185000, 2, 185000, 0, 185000, 0)
+values (0, 0, 200000, 1, 0),
+	   (1, 0, 200000, 1, 0)
 
 go
 --------VIEW TABLE---------
@@ -259,14 +261,9 @@ select * from SanPham
 select * from LoaiSanPham
 select * from ChatLieu
 select * from SanPhamChiTiet
-select * from  MauSac
+select * from MauSac
 select * from NhanVien
 select * from KhachHang
 select * from KhuyenMai
 select * from HoaDon
 select * from HoaDonChiTiet
-
-SELECT SanPhamChiTiet.ID, SanPham.Ten, MauSac.Ten, SanPhamChiTiet.KichThuoc, SanPhamChiTiet.DonGia, SanPhamChiTiet.SoLuong
-FROM SanPhamChiTiet
-JOIN MauSac ON MauSac.ID = SanPhamChiTiet.MauSacID
-JOIN SanPham ON SanPham.ID = SanPhamChiTiet.SanPhamID

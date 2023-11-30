@@ -210,4 +210,19 @@ public class NhanVienDAO {
         }
         return null;
     }
+    
+    public int getIDByUsername(String username) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "SELECT ID FROM NhanVien WHERE Username = ?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setString(1, username);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    return rs.getInt("ID");
+                }
+            }
+        }
+        return 0;
+    }
+
 }

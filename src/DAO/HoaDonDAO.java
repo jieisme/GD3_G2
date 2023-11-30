@@ -47,4 +47,70 @@ public class HoaDonDAO {
         conn.close();
         return list;
     }
+
+    public String addData(int nhanVienID, int khachHangID, int khuyenMaiID, int tongTienHang, int tongTienDuocGiam, int tongTienPhaiTra, int trangthai) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql ="INSERT INTO [dbo].[HoaDon]\n" +
+                    "           ([NhanVienId]\n" +
+                    "           ,[KhachHangId]\n" +
+                    "           ,[KhuyenMaiID]\n" +
+                    "           ,[TongTienHang]\n" +
+                    "           ,[TongTienDuocGiam]\n" +
+                    "           ,[TongTienPhaiTra]\n" +
+                    "           ,[Trangthai]\n" +
+                    "           ,[TrangThaiXoa])\n" +
+                    "     VALUES\n" +
+                    "           (?, ?, ?, ?, ?, ?, ?, 0)";
+        PreparedStatement preSt = conn.prepareStatement(sql);
+        preSt.setInt(1, nhanVienID);
+        preSt.setInt(2, khachHangID);
+        preSt.setInt(3, khuyenMaiID);
+        preSt.setInt(4, tongTienHang);
+        preSt.setInt(5, tongTienDuocGiam);
+        preSt.setInt(6, tongTienPhaiTra);
+        preSt.setInt(7, trangthai);
+
+        int rs = preSt.executeUpdate();
+
+        preSt.close();
+        conn.close();
+
+        if (rs > 0) {
+            return "Thêm thành công!";
+        }
+        return null;
+    }
+
+    public String updateData(int nhanVienID, int khachHangID, int khuyenMaiID, int tongTienHang, int tongTienDuocGiam, int tongTienPhaiTra, int trangthai, int id) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "UPDATE [dbo].[HoaDon]\n"
+                    + "   SET [NhanVienId] = ?\n"
+                    + "      ,[KhachHangId] = ?\n"
+                    + "      ,[KhuyenMaiID] = ?\n"
+                    + "      ,[TongTienHang] = ?\n"
+                    + "      ,[TongTienDuocGiam] = ?\n"
+                    + "      ,[TongTienPhaiTra] = ?\n"
+                    + "      ,[Trangthai] = ?\n"
+                    + "      ,[TrangThaiXoa] = 0\n"
+                    + " WHERE ID = ?";
+        PreparedStatement preSt = conn.prepareStatement(sql);
+        preSt.setInt(1, nhanVienID);
+        preSt.setInt(2, khachHangID);
+        preSt.setInt(3, khuyenMaiID);
+        preSt.setInt(4, tongTienHang);
+        preSt.setInt(5, tongTienDuocGiam);
+        preSt.setInt(6, tongTienPhaiTra);
+        preSt.setInt(7, trangthai);
+        preSt.setInt(8, id);
+        
+        int rs = preSt.executeUpdate();
+
+        preSt.close();
+        conn.close();
+
+        if (rs > 0) {
+            return "Thanh toán thành công!";
+        }
+        return null;
+    }
 }
