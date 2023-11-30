@@ -4,12 +4,16 @@
  */
 package View;
 
+import DAO.HoaDonDAO;
 import DAO.MauSacDAO;
 import DAO.NhanVienDAO;
 import DAO.SanPhamChiTietDAO;
 import DAO.SanPhamDAO;
+import DAO.VoucherDAO;
+import Entity.HoaDon;
 import Entity.SanPham;
 import Entity.SanPhamChiTiet;
+import Entity.Voucher;
 import Utils.DongHo;
 import Utils.Session;
 import java.sql.SQLException;
@@ -17,7 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.text.DecimalFormat;
 
 /**
  *
@@ -28,7 +34,6 @@ public class BanHangJFrame extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
-    
 //    private String loggedInUser = Session.getInstance().getLoggedInUsername();
     private NhanVienDAO nhanVienDAO = new NhanVienDAO();
     private DefaultTableModel dtmSanPhamChiTiet = new DefaultTableModel();
@@ -38,11 +43,18 @@ public class BanHangJFrame extends javax.swing.JFrame {
     private SanPhamChiTietDAO sanPhamChiTietDAO = new SanPhamChiTietDAO();
     private List<SanPhamChiTiet> listSPCT = new ArrayList<>();
     private List<SanPhamChiTiet> listGH = new ArrayList<>();
-    
+    private DecimalFormat decimalFormat = new DecimalFormat("#,###");
+    private VoucherDAO voucherDAO = new VoucherDAO();
+    private int tongTienHang = 0;
+    private int soTienGiam = 0;
+    private DefaultTableModel dtmHoaDon = new DefaultTableModel();
+    private HoaDonDAO hoaDonDAO = new HoaDonDAO();
+
     public BanHangJFrame() throws SQLException {
         initComponents();
         dtmSanPhamChiTiet = (DefaultTableModel) tblSanPhamChiTiet.getModel();
         dtmGioHang = (DefaultTableModel) tblGioHang.getModel();
+        dtmHoaDon = (DefaultTableModel) tblHoaDon.getModel();
         setLocationRelativeTo(null);
         btnDoiMatKhau.setVisible(false);
         btnDangXuat.setVisible(false);
@@ -52,6 +64,9 @@ public class BanHangJFrame extends javax.swing.JFrame {
 //        int chucVu = Integer.parseInt(nhanVienDAO.searchChucVu(loggedInUser));
 //        txtChucVu.setText("Chức vụ: " + getChucVu(chucVu));
         dongHo();
+        txtTongTienHang.setText("TỔNG TIỀN HÀNG: 0 VNĐ");
+        txtTienDuocGiam.setText("TIỀN ĐƯỢC GIẢM: 0 VNĐ");
+        txtTongTienPhaiTra.setText("TỔNG TIỀN PHẢI TRẢ: 0 VNĐ");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
@@ -71,8 +86,6 @@ public class BanHangJFrame extends javax.swing.JFrame {
         txtXinChao = new javax.swing.JLabel();
         txtChucVu = new javax.swing.JLabel();
         txtDongHo = new javax.swing.JLabel();
-        txtTile = new javax.swing.JLabel();
-        txtLogo = new javax.swing.JLabel();
         btnBanHang = new javax.swing.JButton();
         btnQuanLySanPham = new javax.swing.JButton();
         btnQuanLyKhachHang = new javax.swing.JButton();
@@ -99,7 +112,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
         txtDonGia = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         txtMaGiamGia = new javax.swing.JTextField();
-        btnThemSPToHoaDon = new javax.swing.JButton();
+        btnThemVaoGioHang = new javax.swing.JButton();
         btnSuaHoaDon = new javax.swing.JButton();
         btnXoaSanPham = new javax.swing.JButton();
         btnTimID = new javax.swing.JButton();
@@ -110,12 +123,17 @@ public class BanHangJFrame extends javax.swing.JFrame {
         cboMaGiamGia = new javax.swing.JCheckBox();
         jLabel9 = new javax.swing.JLabel();
         txtSoLuongCon = new javax.swing.JTextField();
-        txtSoLuong2 = new javax.swing.JTextField();
         btnKiemTra = new javax.swing.JButton();
         cboThemThongTinKhachHang = new javax.swing.JCheckBox();
         jLabel10 = new javax.swing.JLabel();
         txtSoDienThoaiKH = new javax.swing.JTextField();
         btnThemSoDienThoaiKH = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblHoaDon = new javax.swing.JTable();
+        btnTimID1 = new javax.swing.JButton();
+        btnTimID2 = new javax.swing.JButton();
+        btnTimID3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("BÁN HÀNG");
@@ -162,24 +180,17 @@ public class BanHangJFrame extends javax.swing.JFrame {
 
         txtXinChao.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtXinChao.setText("Xin chào,");
-        Background.add(txtXinChao, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 792, -1, -1));
+        Background.add(txtXinChao, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 810, -1, -1));
 
         txtChucVu.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtChucVu.setText("Chức vụ: ");
-        Background.add(txtChucVu, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 814, -1, -1));
+        Background.add(txtChucVu, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 830, -1, -1));
 
         txtDongHo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txtDongHo.setForeground(new java.awt.Color(22, 72, 99));
         txtDongHo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Alarm.png"))); // NOI18N
         txtDongHo.setText("09:11:2001");
-        Background.add(txtDongHo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 800, -1, -1));
-
-        txtTile.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        txtTile.setText("HỆ THỐNG QUẢN LÝ BẢN ÁO");
-        Background.add(txtTile, new org.netbeans.lib.awtextra.AbsoluteConstraints(562, 10, -1, -1));
-
-        txtLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/logo2Clothes.png"))); // NOI18N
-        Background.add(txtLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(652, 80, 491, 91));
+        Background.add(txtDongHo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 820, -1, -1));
 
         btnBanHang.setBackground(new java.awt.Color(203, 241, 245));
         btnBanHang.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -258,7 +269,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnTrangChuActionPerformed(evt);
             }
         });
-        Background.add(btnTrangChu, new org.netbeans.lib.awtextra.AbsoluteConstraints(1492, 10, 91, 28));
+        Background.add(btnTrangChu, new org.netbeans.lib.awtextra.AbsoluteConstraints(1460, 10, 110, 40));
 
         btnQuanLyThuocTinh.setBackground(new java.awt.Color(203, 241, 245));
         btnQuanLyThuocTinh.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -276,11 +287,11 @@ public class BanHangJFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "STT", "ID", "TÊN SẢN PHẨM", "MÀU SẮC", "KÍCH THƯỚC", "ĐƠN GIÁ", "SỐ LƯỢNG"
+                "STT", "TÊN SẢN PHẨM", "MÀU SẮC", "KÍCH THƯỚC", "ĐƠN GIÁ", "SỐ LƯỢNG"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -294,18 +305,18 @@ public class BanHangJFrame extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblGioHang);
 
-        Background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 497, 767, 231));
+        Background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 540, 767, 231));
 
         tblSanPhamChiTiet.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "STT", "ID", "TÊN SẢN PHẨM", "MÀU SẮC", "KÍCH THƯỚC", "ĐƠN GIÁ", "SỐ LƯỢNG CÒN"
+                "STT", "TÊN SẢN PHẨM", "MÀU SẮC", "KÍCH THƯỚC", "ĐƠN GIÁ", "SỐ LƯỢNG CÒN"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -319,44 +330,44 @@ public class BanHangJFrame extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblSanPhamChiTiet);
 
-        Background.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 209, 767, 211));
+        Background.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 260, 767, 210));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setText("DÁNH SÁCH SẢN PHẨM:");
-        Background.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 183, -1, -1));
+        jLabel1.setText("DANH SÁCH HÓA ĐƠN:");
+        Background.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 10, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("GIỎ HÀNG:");
-        Background.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 471, -1, -1));
+        Background.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 510, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setText("ID:");
-        Background.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1159, 212, -1, -1));
-        Background.add(txtID, new org.netbeans.lib.awtextra.AbsoluteConstraints(1274, 209, 202, -1));
+        Background.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 260, -1, -1));
+        Background.add(txtID, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 260, 202, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setText("TÊN SẢN PHẨM:");
-        Background.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1159, 241, -1, -1));
-        Background.add(txtTenSanPham, new org.netbeans.lib.awtextra.AbsoluteConstraints(1274, 238, 202, -1));
+        Background.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 290, -1, -1));
+        Background.add(txtTenSanPham, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 290, 202, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setText("MÀU SẮC:");
-        Background.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1159, 269, -1, -1));
-        Background.add(txtMauSac, new org.netbeans.lib.awtextra.AbsoluteConstraints(1274, 266, 202, -1));
+        Background.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 320, -1, -1));
+        Background.add(txtMauSac, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 320, 202, -1));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel6.setText("KÍCH THƯỚC:");
-        Background.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1159, 297, -1, -1));
-        Background.add(txtKichThuoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(1274, 294, 202, -1));
+        Background.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 350, -1, -1));
+        Background.add(txtKichThuoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 350, 202, -1));
 
         titleDonGia.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         titleDonGia.setText("ĐƠN GIÁ:");
-        Background.add(titleDonGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(1159, 325, -1, -1));
-        Background.add(txtDonGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(1274, 322, 202, -1));
+        Background.add(titleDonGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 380, -1, -1));
+        Background.add(txtDonGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 380, 202, -1));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel8.setText("MÃ GIẢM GIÁ:");
-        Background.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 530, -1, -1));
+        Background.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 70, -1, -1));
 
         txtMaGiamGia.setEnabled(false);
         txtMaGiamGia.addActionListener(new java.awt.event.ActionListener() {
@@ -364,29 +375,29 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 txtMaGiamGiaActionPerformed(evt);
             }
         });
-        Background.add(txtMaGiamGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(1282, 527, 194, -1));
+        Background.add(txtMaGiamGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(1250, 70, 194, -1));
 
-        btnThemSPToHoaDon.setBackground(new java.awt.Color(22, 72, 99));
-        btnThemSPToHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnThemSPToHoaDon.setForeground(new java.awt.Color(255, 255, 255));
-        btnThemSPToHoaDon.setText("THÊM VÀO HÓA ĐƠN");
-        btnThemSPToHoaDon.addActionListener(new java.awt.event.ActionListener() {
+        btnThemVaoGioHang.setBackground(new java.awt.Color(22, 72, 99));
+        btnThemVaoGioHang.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnThemVaoGioHang.setForeground(new java.awt.Color(255, 255, 255));
+        btnThemVaoGioHang.setText("THÊM VÀO GIỎ HÀNG");
+        btnThemVaoGioHang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThemSPToHoaDonActionPerformed(evt);
+                btnThemVaoGioHangActionPerformed(evt);
             }
         });
-        Background.add(btnThemSPToHoaDon, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 426, -1, -1));
+        Background.add(btnThemVaoGioHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 480, -1, -1));
 
         btnSuaHoaDon.setBackground(new java.awt.Color(22, 72, 99));
         btnSuaHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnSuaHoaDon.setForeground(new java.awt.Color(255, 255, 255));
-        btnSuaHoaDon.setText("SỬA HÓA ĐƠN");
+        btnSuaHoaDon.setText("SỬA GIỎ HÀNG");
         btnSuaHoaDon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSuaHoaDonActionPerformed(evt);
             }
         });
-        Background.add(btnSuaHoaDon, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 734, 150, -1));
+        Background.add(btnSuaHoaDon, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 780, 150, -1));
 
         btnXoaSanPham.setBackground(new java.awt.Color(22, 72, 99));
         btnXoaSanPham.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -397,30 +408,30 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnXoaSanPhamActionPerformed(evt);
             }
         });
-        Background.add(btnXoaSanPham, new org.netbeans.lib.awtextra.AbsoluteConstraints(519, 734, 150, -1));
+        Background.add(btnXoaSanPham, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 780, 150, -1));
 
         btnTimID.setBackground(new java.awt.Color(22, 72, 99));
         btnTimID.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnTimID.setForeground(new java.awt.Color(255, 255, 255));
-        btnTimID.setText("TÌM");
+        btnTimID.setText("XÓA HÓA ĐƠN");
         btnTimID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTimIDActionPerformed(evt);
             }
         });
-        Background.add(btnTimID, new org.netbeans.lib.awtextra.AbsoluteConstraints(1494, 209, -1, -1));
+        Background.add(btnTimID, new org.netbeans.lib.awtextra.AbsoluteConstraints(1440, 170, -1, -1));
 
         txtTongTienHang.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         txtTongTienHang.setText("TỔNG TIỀN HÀNG:");
-        Background.add(txtTongTienHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 630, -1, -1));
+        Background.add(txtTongTienHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 560, -1, -1));
 
         txtTienDuocGiam.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         txtTienDuocGiam.setText("TIỀN ĐƯỢC GIẢM:");
-        Background.add(txtTienDuocGiam, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 670, -1, -1));
+        Background.add(txtTienDuocGiam, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 600, -1, -1));
 
         txtTongTienPhaiTra.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         txtTongTienPhaiTra.setText("TỔNG TIỀN PHẢI TRẢ:");
-        Background.add(txtTongTienPhaiTra, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 710, -1, -1));
+        Background.add(txtTongTienPhaiTra, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 640, -1, -1));
 
         btnThanhToan.setBackground(new java.awt.Color(22, 72, 99));
         btnThanhToan.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -431,7 +442,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnThanhToanActionPerformed(evt);
             }
         });
-        Background.add(btnThanhToan, new org.netbeans.lib.awtextra.AbsoluteConstraints(1263, 754, 240, -1));
+        Background.add(btnThanhToan, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 700, 240, -1));
 
         cboMaGiamGia.setBackground(new java.awt.Color(166, 227, 233));
         cboMaGiamGia.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -441,13 +452,12 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 cboMaGiamGiaActionPerformed(evt);
             }
         });
-        Background.add(cboMaGiamGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 500, -1, -1));
+        Background.add(cboMaGiamGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 40, -1, -1));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel9.setText("SỐ LƯỢNG CÒN:");
-        Background.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(1159, 353, -1, -1));
-        Background.add(txtSoLuongCon, new org.netbeans.lib.awtextra.AbsoluteConstraints(1274, 350, 202, -1));
-        Background.add(txtSoLuong2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1274, 350, 202, -1));
+        Background.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 410, -1, -1));
+        Background.add(txtSoLuongCon, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 410, 202, -1));
 
         btnKiemTra.setBackground(new java.awt.Color(22, 72, 99));
         btnKiemTra.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -459,7 +469,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnKiemTraActionPerformed(evt);
             }
         });
-        Background.add(btnKiemTra, new org.netbeans.lib.awtextra.AbsoluteConstraints(1494, 527, -1, -1));
+        Background.add(btnKiemTra, new org.netbeans.lib.awtextra.AbsoluteConstraints(1470, 70, -1, -1));
 
         cboThemThongTinKhachHang.setBackground(new java.awt.Color(166, 227, 233));
         cboThemThongTinKhachHang.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -469,11 +479,11 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 cboThemThongTinKhachHangActionPerformed(evt);
             }
         });
-        Background.add(cboThemThongTinKhachHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 562, -1, -1));
+        Background.add(cboThemThongTinKhachHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 100, -1, -1));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel10.setText("SỐ ĐIỆN THOẠI KH:");
-        Background.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 592, -1, -1));
+        Background.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 130, -1, -1));
 
         txtSoDienThoaiKH.setEnabled(false);
         txtSoDienThoaiKH.addActionListener(new java.awt.event.ActionListener() {
@@ -481,7 +491,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 txtSoDienThoaiKHActionPerformed(evt);
             }
         });
-        Background.add(txtSoDienThoaiKH, new org.netbeans.lib.awtextra.AbsoluteConstraints(1282, 589, 194, -1));
+        Background.add(txtSoDienThoaiKH, new org.netbeans.lib.awtextra.AbsoluteConstraints(1250, 130, 194, -1));
 
         btnThemSoDienThoaiKH.setBackground(new java.awt.Color(22, 72, 99));
         btnThemSoDienThoaiKH.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -493,17 +503,79 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnThemSoDienThoaiKHActionPerformed(evt);
             }
         });
-        Background.add(btnThemSoDienThoaiKH, new org.netbeans.lib.awtextra.AbsoluteConstraints(1494, 589, 85, -1));
+        Background.add(btnThemSoDienThoaiKH, new org.netbeans.lib.awtextra.AbsoluteConstraints(1470, 130, 85, -1));
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel7.setText("DÁNH SÁCH SẢN PHẨM:");
+        Background.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 230, -1, -1));
+
+        tblHoaDon.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "STT", "NHÂN VIÊN", "KHÁCH HÀNG", "KHUYỄN MÃI", "TỔNG TIỀN PHẢI TRẢ", "TRẠNG THÁI"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblHoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblHoaDonMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tblHoaDon);
+
+        Background.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 40, 767, 180));
+
+        btnTimID1.setBackground(new java.awt.Color(22, 72, 99));
+        btnTimID1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTimID1.setForeground(new java.awt.Color(255, 255, 255));
+        btnTimID1.setText("TÌM");
+        btnTimID1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimID1ActionPerformed(evt);
+            }
+        });
+        Background.add(btnTimID1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1460, 260, 90, -1));
+
+        btnTimID2.setBackground(new java.awt.Color(22, 72, 99));
+        btnTimID2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTimID2.setForeground(new java.awt.Color(255, 255, 255));
+        btnTimID2.setText("TẠO HÓA ĐƠN MỚI");
+        btnTimID2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimID2ActionPerformed(evt);
+            }
+        });
+        Background.add(btnTimID2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 170, -1, -1));
+
+        btnTimID3.setBackground(new java.awt.Color(22, 72, 99));
+        btnTimID3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTimID3.setForeground(new java.awt.Color(255, 255, 255));
+        btnTimID3.setText("SỬA HÓA ĐƠN");
+        btnTimID3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimID3ActionPerformed(evt);
+            }
+        });
+        Background.add(btnTimID3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1300, 170, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Background, javax.swing.GroupLayout.DEFAULT_SIZE, 1589, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(Background, javax.swing.GroupLayout.PREFERRED_SIZE, 853, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -557,8 +629,14 @@ public class BanHangJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBanHangActionPerformed
 
     private void btnQuanLySanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLySanPhamActionPerformed
-        // TODO add your handling code here:
-        
+        try {
+            // TODO add your handling code here:
+            QuanLySanPham quanLySanPham = new QuanLySanPham();
+            this.setVisible(false);
+            quanLySanPham.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnQuanLySanPhamActionPerformed
 
     private void btnQuanLyKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyKhachHangActionPerformed
@@ -595,10 +673,14 @@ public class BanHangJFrame extends javax.swing.JFrame {
 
     private void btnQuanLyVoucherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyVoucherActionPerformed
         // TODO add your handling code here:
-        QuanLiVoucher quanLiVoucher = null;
-        quanLiVoucher = new QuanLiVoucher();
+        QuanLyVoucherJFrame quanLiVoucherJFrame = null;
+        try {
+            quanLiVoucherJFrame = new QuanLyVoucherJFrame();
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
-        quanLiVoucher.setVisible(true);
+        quanLiVoucherJFrame.setVisible(true);
     }//GEN-LAST:event_btnQuanLyVoucherActionPerformed
 
     private void btnTrangChuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTrangChuActionPerformed
@@ -625,17 +707,59 @@ public class BanHangJFrame extends javax.swing.JFrame {
         quanLiThuocTinh.setVisible(true);
     }//GEN-LAST:event_btnQuanLyThuocTinhActionPerformed
 
-    private void btnThemSPToHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemSPToHoaDonActionPerformed
-        // TODO add your handling code here:
-        try {
-            int id = Integer.parseInt(txtID.getText());
-            int soLuong = Integer.parseInt(txtSoLuongCon.getText());
-            addDataGioHang(id, soLuong);
-            showDataGH(listGH);
-        } catch (SQLException ex) {
-            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+    private void btnThemVaoGioHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVaoGioHangActionPerformed
+        int id = Integer.parseInt(txtID.getText());
+        int selectedRow = tblSanPhamChiTiet.getSelectedRow();
+        int soLuongConLaiSPCT = (int) tblSanPhamChiTiet.getValueAt(selectedRow, 5);
+
+        if (soLuongConLaiSPCT <= 0) {
+            JOptionPane.showMessageDialog(this, "Sản phẩm này đã hết hàng!");
+        } else {
+            try {
+                String stringSoLuong = JOptionPane.showInputDialog(this, "Nhập số lượng cần thêm:", "Thông báo:", HEIGHT);
+
+                if (stringSoLuong != null && !stringSoLuong.trim().isEmpty()) {
+                    int soLuong = Integer.parseInt(stringSoLuong);
+
+                    if (soLuong <= 0) {
+                        JOptionPane.showMessageDialog(this, "Số lượng nhập vào phải >= 0");
+                    } else {
+                        SanPhamChiTiet sanPhamChiTiet = sanPhamChiTietDAO.getSPCTbyID(id);
+                        sanPhamChiTiet.setSoLuong(soLuong);
+
+                        if (soLuong > soLuongConLaiSPCT) {
+                            JOptionPane.showMessageDialog(this, "Số lượng thêm vào giỏ hàng phải <= số lượng còn");
+                        } else {
+                            tblSanPhamChiTiet.setValueAt(soLuongConLaiSPCT - soLuong, selectedRow, 5);
+                            listGH.add(sanPhamChiTiet);
+                            showDataGH(listGH);
+
+                            for (int i = 0; i < listGH.size(); i++) {
+                                Object giaBanObj = tblGioHang.getValueAt(i, 4);
+                                Object soLuongObj = tblGioHang.getValueAt(i, 5);
+
+                                if (giaBanObj instanceof String && soLuongObj instanceof Integer) {
+                                    String giaBanStr = (String) giaBanObj;
+                                    giaBanStr = giaBanStr.replaceAll("[^\\d.]", "");
+                                    int giaBan = Integer.parseInt(giaBanStr);
+                                    int soLuongGH = (int) soLuongObj;
+                                    int tienHangSPCT = giaBan * soLuongGH;
+                                    tongTienHang += tienHangSPCT;
+                                }
+                            }
+
+                            txtTongTienHang.setText("TỔNG TIỀN HÀNG: " + decimalFormat.format(tongTienHang) + " VNĐ");
+                            txtTongTienPhaiTra.setText("TỔNG TIỀN PHẢI TRẢ: " + decimalFormat.format(tongTienHang - soTienGiam) + " VNĐ");
+                        }
+                    }
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Số lượng nhập vào phải là số nguyên!");
+            } catch (SQLException ex) {
+                Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-    }//GEN-LAST:event_btnThemSPToHoaDonActionPerformed
+    }//GEN-LAST:event_btnThemVaoGioHangActionPerformed
 
     private void btnSuaHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaHoaDonActionPerformed
         // TODO add your handling code here:
@@ -658,23 +782,60 @@ public class BanHangJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_txtMaGiamGiaActionPerformed
 
     private void btnKiemTraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKiemTraActionPerformed
-        // TODO add your handling code here:
+        try {
+            List<Voucher> listVoucher = voucherDAO.getAll();
+            int check = 0;
+            soTienGiam = 0;
+            for (Voucher voucher : listVoucher) {
+                if (Integer.parseInt(txtMaGiamGia.getText()) == voucher.getId() && !listGH.isEmpty()) {
+                    check++;
+                    if (voucher.getTrangThai() == 0) {
+                        try {
+                            soTienGiam = (int) ((tongTienHang * voucherDAO.giamTheoPhanTram(voucher.getId())) - voucherDAO.giamTheoGiaTien(voucher.getId()));
+                            JOptionPane.showMessageDialog(this, "Chúc mừng bạn được " + voucher.getMoTa());
+                        } catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(this, "Voucher này đã không còn hoạt động!");
+                        }
+                    }
+                } else {
+                    check++;
+                }
+            }
+            
+            if (check == 0) {
+                JOptionPane.showMessageDialog(this, "Không có voucher này!");
+            }
+            
+            if (soTienGiam <= 0) {
+                soTienGiam *= -1;
+            }
+            
+            if (!listGH.isEmpty()) {
+                txtTienDuocGiam.setText("TIỀN ĐƯỢC GIẢM: " + decimalFormat.format(soTienGiam) + " VNĐ");
+                txtTongTienPhaiTra.setText("TỔNG TIỀN PHẢI TRẢ: " + decimalFormat.format((tongTienHang - soTienGiam)) + " VNĐ");
+            } else {
+                JOptionPane.showMessageDialog(this, "Chưa có sản phẩm nào ở giỏ hàng để sử dụng voucher!");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnKiemTraActionPerformed
 
     private void cboMaGiamGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboMaGiamGiaActionPerformed
-        // TODO add your handling code here:
-        if(cboMaGiamGia.isSelected()) {
+        // TODO add your handling code here:^
+        if (cboMaGiamGia.isSelected()) {
             txtMaGiamGia.setEnabled(true);
             btnKiemTra.setEnabled(true);
         } else {
             txtMaGiamGia.setEnabled(false);
             btnKiemTra.setEnabled(false);
+            txtTienDuocGiam.setText("TIỀN ĐƯỢC GIẢM: 0 VNĐ");
         }
     }//GEN-LAST:event_cboMaGiamGiaActionPerformed
 
     private void cboThemThongTinKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboThemThongTinKhachHangActionPerformed
         // TODO add your handling code here:
-        if(cboThemThongTinKhachHang.isSelected()) {
+        if (cboThemThongTinKhachHang.isSelected()) {
             txtSoDienThoaiKH.setEnabled(true);
             btnThemSoDienThoaiKH.setEnabled(true);
         } else {
@@ -703,7 +864,29 @@ public class BanHangJFrame extends javax.swing.JFrame {
 
     private void tblGioHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblGioHangMouseClicked
         // TODO add your handling code here:
+        int selectedRow = tblGioHang.getSelectedRow();
+        try {
+            detailDataSPCT(listGH.get(selectedRow));
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_tblGioHangMouseClicked
+
+    private void tblHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblHoaDonMouseClicked
+
+    private void btnTimID1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimID1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnTimID1ActionPerformed
+
+    private void btnTimID2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimID2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnTimID2ActionPerformed
+
+    private void btnTimID3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimID3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnTimID3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -747,13 +930,18 @@ public class BanHangJFrame extends javax.swing.JFrame {
         });
     }
     
-    private void addDataGioHang(int id, int soLuong) throws SQLException{
-        SanPhamChiTiet sanPhamChiTiet = sanPhamChiTietDAO.getSPCTbyID(id);
-        sanPhamChiTiet.setSoLuong(soLuong);
-        listGH.add(sanPhamChiTiet);
+    private boolean checkVoucher() throws SQLException {
+        List<Voucher> listVoucher = voucherDAO.getAll();
+        
+        for (Voucher voucher : listVoucher) {
+            if (Integer.parseInt(txtMaGiamGia.getText()) == voucher.getId()) {
+                return true;
+            }
+        }
+        return false;
     }
-    
-    private void detailDataSPCT(SanPhamChiTiet sanPhamChiTiet) throws SQLException{
+
+    private void detailDataSPCT(SanPhamChiTiet sanPhamChiTiet) throws SQLException {
         txtID.setText(String.valueOf(sanPhamChiTiet.getId()));
         txtTenSanPham.setText(sanPhamDAO.getTenSanPham(sanPhamChiTiet.getSanPhamID()));
         txtMauSac.setText(mauSacDAO.getTenMauSac(sanPhamChiTiet.getMauSacID()));
@@ -762,42 +950,53 @@ public class BanHangJFrame extends javax.swing.JFrame {
         txtSoLuongCon.setText(String.valueOf(sanPhamChiTiet.getSoLuong()));
     }
     
+    private void showDataHD(List<HoaDon> list) throws SQLException {
+        int stt = 1;
+        dtmHoaDon.setRowCount(0);
+        
+        for (HoaDon hoaDon : list) {
+            Object dataHD[] = {
+                stt++,
+                nhanVienDAO.getTenNhanVien(hoaDon.getNhanVienID()),
+                
+            };
+        }
+    }
+
     private void showDataGH(List<SanPhamChiTiet> list) throws SQLException {
         int stt = 1;
         dtmGioHang.setRowCount(0);
-        
+
         for (SanPhamChiTiet sanPhamChiTiet : list) {
             Object dataGH[] = {
                 stt++,
-                sanPhamChiTiet.getId(),
                 sanPhamDAO.getTenSanPham(sanPhamChiTiet.getSanPhamID()),
                 mauSacDAO.getTenMauSac(sanPhamChiTiet.getMauSacID()),
                 getKichThuoc(sanPhamChiTiet.getKichThuocID()),
-                sanPhamChiTiet.getDonGia() + " VNĐ",
+                decimalFormat.format(sanPhamChiTiet.getDonGia()) + " VNĐ",
                 sanPhamChiTiet.getSoLuong()
             };
             dtmGioHang.addRow(dataGH);
         }
     }
-    
+
     private void showDataSPCT(List<SanPhamChiTiet> list) throws SQLException {
         int stt = 1;
         dtmSanPhamChiTiet.setRowCount(0);
-        
+
         for (SanPhamChiTiet sanPhamChiTiet : list) {
             Object dataSPCT[] = {
                 stt++,
-                sanPhamChiTiet.getId(),
                 sanPhamDAO.getTenSanPham(sanPhamChiTiet.getSanPhamID()),
                 mauSacDAO.getTenMauSac(sanPhamChiTiet.getMauSacID()),
                 getKichThuoc(sanPhamChiTiet.getKichThuocID()),
-                sanPhamChiTiet.getDonGia() + " VNĐ",
+                decimalFormat.format(sanPhamChiTiet.getDonGia()) + " VNĐ",
                 sanPhamChiTiet.getSoLuong()
             };
             dtmSanPhamChiTiet.addRow(dataSPCT);
         }
     }
-    
+
     private String getKichThuoc(int kichThuocID) {
         switch (kichThuocID) {
             case 0:
@@ -810,22 +1009,22 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 return "L";
             default:
                 return "";
-            }
         }
-    
+    }
+
     private String getChucVu(int chucVu) {
-        if(chucVu == 0) {
+        if (chucVu == 0) {
             return "Quản lý";
         } else {
             return "Nhân viên";
         }
     }
-    
+
     private void dongHo() {
         DongHo dongHo = new DongHo(txtDongHo);
         dongHo.start();
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Background;
@@ -842,9 +1041,12 @@ public class BanHangJFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnSuaHoaDon;
     private javax.swing.JButton btnTaiKhoan;
     private javax.swing.JButton btnThanhToan;
-    private javax.swing.JButton btnThemSPToHoaDon;
     private javax.swing.JButton btnThemSoDienThoaiKH;
+    private javax.swing.JButton btnThemVaoGioHang;
     private javax.swing.JButton btnTimID;
+    private javax.swing.JButton btnTimID1;
+    private javax.swing.JButton btnTimID2;
+    private javax.swing.JButton btnTimID3;
     private javax.swing.JButton btnTrangChu;
     private javax.swing.JButton btnXoaSanPham;
     private javax.swing.JCheckBox cboMaGiamGia;
@@ -856,11 +1058,14 @@ public class BanHangJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable tblGioHang;
+    private javax.swing.JTable tblHoaDon;
     private javax.swing.JTable tblSanPhamChiTiet;
     private javax.swing.JLabel titleDonGia;
     private javax.swing.JLabel txtChucVu;
@@ -868,15 +1073,12 @@ public class BanHangJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel txtDongHo;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtKichThuoc;
-    private javax.swing.JLabel txtLogo;
     private javax.swing.JTextField txtMaGiamGia;
     private javax.swing.JTextField txtMauSac;
     private javax.swing.JTextField txtSoDienThoaiKH;
-    private javax.swing.JTextField txtSoLuong2;
     private javax.swing.JTextField txtSoLuongCon;
     private javax.swing.JTextField txtTenSanPham;
     private javax.swing.JLabel txtTienDuocGiam;
-    private javax.swing.JLabel txtTile;
     private javax.swing.JLabel txtTongTienHang;
     private javax.swing.JLabel txtTongTienPhaiTra;
     private javax.swing.JLabel txtXinChao;

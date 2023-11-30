@@ -389,10 +389,14 @@ public class TrangChuJFrame extends javax.swing.JFrame {
 
     private void btnQuanLyVoucherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyVoucherActionPerformed
         // TODO add your handling code here:
-        QuanLiVoucher quanLiVoucher = null;
-        quanLiVoucher = new QuanLiVoucher();
+        QuanLyVoucherJFrame quanLiVoucherJFrame = null;
+        try {
+            quanLiVoucherJFrame = new QuanLyVoucherJFrame();
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
-        quanLiVoucher.setVisible(true);
+        quanLiVoucherJFrame.setVisible(true);
     }//GEN-LAST:event_btnQuanLyVoucherActionPerformed
 
     private void btnTrangChuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTrangChuActionPerformed

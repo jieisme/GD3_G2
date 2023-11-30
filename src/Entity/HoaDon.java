@@ -9,19 +9,30 @@ package Entity;
  * @author Thuylq
  */
 public class HoaDon {
-    private int ID ;
-    private int NhanVienID ;
-    private int KhachHangID ;
-    private int TrangThaiHoaDon;
 
-    public HoaDon() {
-    }
+    private int ID;
+    private int NhanVienID;
+    private int KhachHangID;
+    private int KhuyenMaiID;
+    private int TongTienHang;
+    private int TongTienDuocGiam;
+    private int TongTienPhaiTra;
+    private int Trangthai;
+    private int TrangThaiXoa;
 
-    public HoaDon(int ID, int NhanVienID, int KhachHangID, int TrangThaiHoaDon) {
+    public HoaDon(int ID, int NhanVienID, int KhachHangID, int KhuyenMaiID, int TongTienHang, int TongTienDuocGiam, int TongTienPhaiTra, int Trangthai, int TrangThaiXoa) {
         this.ID = ID;
         this.NhanVienID = NhanVienID;
         this.KhachHangID = KhachHangID;
-        this.TrangThaiHoaDon = TrangThaiHoaDon;
+        this.KhuyenMaiID = KhuyenMaiID;
+        this.TongTienHang = TongTienHang;
+        this.TongTienDuocGiam = TongTienDuocGiam;
+        this.TongTienPhaiTra = TongTienPhaiTra;
+        this.Trangthai = Trangthai;
+        this.TrangThaiXoa = TrangThaiXoa;
+    }
+
+    public HoaDon() {
     }
 
     public int getID() {
@@ -48,13 +59,51 @@ public class HoaDon {
         this.KhachHangID = KhachHangID;
     }
 
-    public int getTrangThaiHoaDon() {
-        return TrangThaiHoaDon;
+    public int getKhuyenMaiID() {
+        return KhuyenMaiID;
     }
 
-    public void setTrangThaiHoaDon(int TrangThaiHoaDon) {
-        this.TrangThaiHoaDon = TrangThaiHoaDon;
+    public void setKhuyenMaiID(int KhuyenMaiID) {
+        this.KhuyenMaiID = KhuyenMaiID;
     }
 
-   
+    public int getTongTienHang() {
+        return TongTienHang;
+    }
+
+    public void setTongTienHang(int TongTienHang) {
+        this.TongTienHang = TongTienHang;
+    }
+
+    public int getTongTienDuocGiam() {
+        return TongTienDuocGiam;
+    }
+
+    public void setTongTienDuocGiam(int TongTienDuocGiam) {
+        this.TongTienDuocGiam = TongTienDuocGiam;
+    }
+
+    public int getTongTienPhaiTra() {
+        return TongTienPhaiTra;
+    }
+
+    public void setTongTienPhaiTra(int TongTienPhaiTra) {
+        this.TongTienPhaiTra = TongTienPhaiTra;
+    }
+
+    public int getTrangthai() {
+        return Trangthai;
+    }
+
+    public void setTrangthai(int Trangthai) {
+        this.Trangthai = Trangthai;
+    }
+
+    public int getTrangThaiXoa() {
+        return TrangThaiXoa;
+    }
+
+    public void setTrangThaiXoa(int TrangThaiXoa) {
+        this.TrangThaiXoa = TrangThaiXoa;
+    }
 }

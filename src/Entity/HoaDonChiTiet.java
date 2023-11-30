@@ -13,28 +13,20 @@ public class HoaDonChiTiet {
     private int id;
     private int hoaDonID;
     private int sanPhamChiTietID;
-    private int khuyenMaiID;
     private int giaBan;
     private int soLuong;
-    private int tongTienHang;
-    private int tongTienDuocGiam;
-    private int tongTienPhaiTra;
     private int trangThaiXoa;
 
-    public HoaDonChiTiet() {
-    }
-
-    public HoaDonChiTiet(int id, int hoaDonID, int sanPhamChiTietID, int khuyenMaiID, int giaBan, int soLuong, int tongTienHang, int tongTienDuocGiam, int tongTienPhaiTra, int trangThaiXoa) {
+    public HoaDonChiTiet(int id, int hoaDonID, int sanPhamChiTietID, int giaBan, int soLuong, int trangThaiXoa) {
         this.id = id;
         this.hoaDonID = hoaDonID;
         this.sanPhamChiTietID = sanPhamChiTietID;
-        this.khuyenMaiID = khuyenMaiID;
         this.giaBan = giaBan;
         this.soLuong = soLuong;
-        this.tongTienHang = tongTienHang;
-        this.tongTienDuocGiam = tongTienDuocGiam;
-        this.tongTienPhaiTra = tongTienPhaiTra;
         this.trangThaiXoa = trangThaiXoa;
+    }
+
+    public HoaDonChiTiet() {
     }
 
     public int getId() {
@@ -61,14 +53,6 @@ public class HoaDonChiTiet {
         this.sanPhamChiTietID = sanPhamChiTietID;
     }
 
-    public int getKhuyenMaiID() {
-        return khuyenMaiID;
-    }
-
-    public void setKhuyenMaiID(int khuyenMaiID) {
-        this.khuyenMaiID = khuyenMaiID;
-    }
-
     public int getGiaBan() {
         return giaBan;
     }
@@ -83,30 +67,6 @@ public class HoaDonChiTiet {
 
     public void setSoLuong(int soLuong) {
         this.soLuong = soLuong;
-    }
-
-    public int getTongTienHang() {
-        return tongTienHang;
-    }
-
-    public void setTongTienHang(int tongTienHang) {
-        this.tongTienHang = tongTienHang;
-    }
-
-    public int getTongTienDuocGiam() {
-        return tongTienDuocGiam;
-    }
-
-    public void setTongTienDuocGiam(int tongTienDuocGiam) {
-        this.tongTienDuocGiam = tongTienDuocGiam;
-    }
-
-    public int getTongTienPhaiTra() {
-        return tongTienPhaiTra;
-    }
-
-    public void setTongTienPhaiTra(int tongTienPhaiTra) {
-        this.tongTienPhaiTra = tongTienPhaiTra;
     }
 
     public int getTrangThaiXoa() {

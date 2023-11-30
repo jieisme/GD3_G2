@@ -26,136 +26,25 @@ public class HoaDonDAO {
         String sql = "select * from HoaDon where TrangThaiXoa = 0";
         Statement st = conn.createStatement();
         ResultSet rs = st.executeQuery(sql);
-        
+
         while (rs.next()) {            
             int id = rs.getInt("ID");
             int nhanVienID = rs.getInt("NhanVienID");
             int khachHangID  = rs.getInt("KhachHangID");
-            int trangThai = rs.getInt("Trangthai");
+            int KhuyenMaiID = rs.getInt("KhuyenMaiID");
+            int TongTienHang = rs.getInt("TongTienHang");
+            int TongTienDuocGiam = rs.getInt("TongTienDuocGiam");
+            int TongTienPhaiTra = rs.getInt("TongTienPhaiTra");
+            int Trangthai = rs.getInt("Trangthai");
+            int TrangThaiXoa = rs.getInt("TrangThaiXoa");
             
-            HoaDon hoadon = new HoaDon(id, nhanVienID, khachHangID, trangThai);
+            
+            HoaDon hoadon = new HoaDon(id, nhanVienID, khachHangID, KhuyenMaiID, TongTienHang, TongTienDuocGiam, TongTienPhaiTra, Trangthai, TrangThaiXoa);
             list.add(hoadon);
         }
         rs.close();
         st.close();
         conn.close();
         return list;
-    }
-    public String addData(int nhanVienId ,int khachHangID , int trangThai ) throws SQLException{
-        Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "insert into HoaDon(NhanVienID,KhachHangId,Trangthai,TrangThaiXoa) values (?,?,?,0);";
-        PreparedStatement preSt = conn.prepareCall(sql);
-        
-        preSt.setInt(1, nhanVienId);
-        preSt.setInt(2, khachHangID);
-        preSt.setInt(3, trangThai);
-        int rs = preSt.executeUpdate();
-        preSt.close();
-        conn.close();
-        return "Thêm thành công!";
-    }
-     public String updateData(int id, int nhanVienID, int khachHangID, int trangThai) throws SQLException{
-         Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "update HoaDon set NhanVienId = ? , KhachHangID = ?, TrangThai = ? where ID = ?";
-        PreparedStatement preSt = conn.prepareCall(sql);
-        preSt.setInt(1, nhanVienID);
-        preSt.setInt(2, khachHangID);
-        preSt.setInt(3, trangThai);
-        preSt.setInt(4, id);
-
-
-        // Execute the update query
-        int rowsUpdated = preSt.executeUpdate();
-
-        preSt.close();
-        conn.close();
-
-        if (rowsUpdated > 0) {
-            return "Sửa thành công!";
-        } else {
-            return "Không có sản phẩm nào được sửa!";
-        }
-    }
-      public List<HoaDon> searchDataByID(int id) throws SQLException{
-        Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "select * from HoaDon where id = ? ";
-        PreparedStatement preSt = conn.prepareCall(sql);
-        preSt.setInt(1, id);
-        ResultSet rs = preSt.executeQuery();
-        
-        while (rs.next()) {            
-            int nhanVienID = rs.getInt("NhanVienID");
-            int khachHangID = rs.getInt("KhachHangID");
-            int trangThai = rs.getInt("TrangThai");
-            
-            HoaDon hoaDon = new HoaDon(id, nhanVienID, khachHangID, trangThai);
-            list.add(hoaDon);
-        }
-        rs.close();
-        preSt.close();
-        conn.close();
-        return list;
-        
-    }
-       public List<HoaDon> searchDataByNhanVienID(int nhanVienID) throws SQLException{
-        Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "select * from HoaDon where NhanVienID = ? ";
-        PreparedStatement preSt = conn.prepareCall(sql);
-        preSt.setInt(1, nhanVienID);
-        ResultSet rs = preSt.executeQuery();
-        
-        while (rs.next()) {            
-            int id = rs.getInt("ID");
-            int khachHangID = rs.getInt("KhachHangID");
-            int trangThai = rs.getInt("TrangThai");
-            
-            HoaDon hoaDon = new HoaDon(id, nhanVienID, khachHangID, trangThai);
-            list.add(hoaDon);
-        }
-        rs.close();
-        preSt.close();
-        conn.close();
-        return list;
-        
-    }
-       public List<HoaDon> searchDataByKhachHangID(int khachHangID) throws SQLException{
-        Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "select * from HoaDon where NhanVienID = ? ";
-        PreparedStatement preSt = conn.prepareCall(sql);
-        preSt.setInt(1, khachHangID);
-        ResultSet rs = preSt.executeQuery();
-        
-        while (rs.next()) {            
-            int id = rs.getInt("ID");
-            int nhanVienID = rs.getInt("NhanVienID");
-            int trangThai = rs.getInt("TrangThai");
-            
-            HoaDon hoaDon = new HoaDon(id, nhanVienID, khachHangID, trangThai);
-            list.add(hoaDon);
-        }
-        rs.close();
-        preSt.close();
-        conn.close();
-        return list;
-        
-    }
-        public String DeleteData(int id) throws SQLException{
-         Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "update  HoaDon set TrangThaiXoa = 1 where ID = ?";
-        PreparedStatement preSt = conn.prepareCall(sql);
-
-        preSt.setInt(1, id);
-
-        // Execute the update query
-        int rowsUpdated = preSt.executeUpdate();
-
-        preSt.close();
-        conn.close();
-
-        if (rowsUpdated > 0) {
-            return "Xóa thành công!";
-        } else {
-            return "Không có nhân viên để xóa";
-        }
     }
 }

@@ -197,4 +197,17 @@ public class NhanVienDAO {
         }
         return null;
     }
+    
+    public String getTenNhanVien(int nhanVienID) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "SELECT HoVaTen FROM NhanVien WHERE ID = " + nhanVienID;
+        Statement st = conn.createStatement();
+        ResultSet rs = st.executeQuery(sql);
+
+        while (rs.next()) {
+            String tenNhanVien = rs.getString("HoVaTen");
+            return tenNhanVien;
+        }
+        return null;
+    }
 }
