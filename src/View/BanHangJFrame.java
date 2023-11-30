@@ -32,7 +32,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
-//    private String loggedInUser = Session.getInstance().getLoggedInUsername();
+    private String loggedInUser = Session.getInstance().getLoggedInUsername();
     private NhanVienDAO nhanVienDAO = new NhanVienDAO();
     private DefaultTableModel dtmSanPhamChiTiet = new DefaultTableModel();
     private DefaultTableModel dtmGioHang = new DefaultTableModel();
@@ -55,9 +55,9 @@ public class BanHangJFrame extends javax.swing.JFrame {
         btnDangXuat.setVisible(false);
         listSPCT = sanPhamChiTietDAO.getAll();
         showDataSPCT(listSPCT);
-//        txtXinChao.setText("Xin chào: " + nhanVienDAO.searchHoVaTen(loggedInUser));
-//        int chucVu = Integer.parseInt(nhanVienDAO.searchChucVu(loggedInUser));
-//        txtChucVu.setText("Chức vụ: " + getChucVu(chucVu));
+        txtXinChao.setText("Xin chào: " + nhanVienDAO.searchHoVaTen(loggedInUser));
+        int chucVu = Integer.parseInt(nhanVienDAO.searchChucVu(loggedInUser));
+        txtChucVu.setText("Chức vụ: " + getChucVu(chucVu));
         dongHo();
         txtTongTienHang.setText("TỔNG TIỀN HÀNG: 0");
         txtTienDuocGiam.setText("TIỀN ĐƯỢC GIẢM: 0");
