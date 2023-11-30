@@ -536,9 +536,9 @@ DefaultTableModel dtm = new DefaultTableModel();
 
     private void btnQuanLyNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyNhanVienActionPerformed
         // TODO add your handling code here:
-        QuanLiNhanVien quanLiNhanVien = null;
+        QuanLyNhanVienJFrame quanLiNhanVien = null;
         try {
-            quanLiNhanVien = new QuanLiNhanVien();
+            quanLiNhanVien = new QuanLyNhanVienJFrame();
         } catch (SQLException ex) {
             Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -569,9 +569,9 @@ DefaultTableModel dtm = new DefaultTableModel();
     private void btnQuanLyThuocTinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyThuocTinhActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        QuanLiThuocTinh quanLiThuocTinh = null;
+        QuanLyThuocTinhJFrame quanLiThuocTinh = null;
         try {
-            quanLiThuocTinh = new QuanLiThuocTinh();
+            quanLiThuocTinh = new QuanLyThuocTinhJFrame();
         } catch (SQLException ex) {
             Logger.getLogger(DoiMatKhauJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }

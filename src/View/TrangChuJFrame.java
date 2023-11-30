@@ -377,9 +377,9 @@ public class TrangChuJFrame extends javax.swing.JFrame {
 
     private void btnQuanLyNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyNhanVienActionPerformed
         // TODO add your handling code here:
-        QuanLiNhanVien quanLiNhanVien = null;
+        QuanLyNhanVienJFrame quanLiNhanVien = null;
         try {
-            quanLiNhanVien = new QuanLiNhanVien();
+            quanLiNhanVien = new QuanLyNhanVienJFrame();
         } catch (SQLException ex) {
             Logger.getLogger(TrangChuJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -414,9 +414,9 @@ public class TrangChuJFrame extends javax.swing.JFrame {
     private void btnQuanLyThuocTinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyThuocTinhActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        QuanLiThuocTinh quanLiThuocTinh = null;
+        QuanLyThuocTinhJFrame quanLiThuocTinh = null;
         try {
-            quanLiThuocTinh = new QuanLiThuocTinh();
+            quanLiThuocTinh = new QuanLyThuocTinhJFrame();
         } catch (SQLException ex) {
             Logger.getLogger(DoiMatKhauJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
