@@ -356,18 +356,22 @@ public class TrangChuJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnQuanLySanPhamActionPerformed
 
     private void btnQuanLyKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyKhachHangActionPerformed
-        // TODO add your handling code here:
-        QuanLyKhachHang quanLyKhachHang = null;
-        quanLyKhachHang = new QuanLyKhachHang();
-        this.setVisible(false);
-        quanLyKhachHang.setVisible(true);
+        try {
+            // TODO add your handling code here:
+            QuanLyKhachHangJFrame quanLyKhachHang = null;
+            quanLyKhachHang = new QuanLyKhachHangJFrame();
+            this.setVisible(false);
+            quanLyKhachHang.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(TrangChuJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnQuanLyKhachHangActionPerformed
 
     private void btnQuanLyHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyHoaDonActionPerformed
         // TODO add your handling code here:
-        QuanLiHoaDon quanLiHoaDon = null;
+        QuanLyHoaDonJFrame quanLiHoaDon = null;
         try {
-            quanLiHoaDon = new QuanLiHoaDon();
+            quanLiHoaDon = new QuanLyHoaDonJFrame();
         } catch (SQLException ex) {
             Logger.getLogger(TrangChuJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }

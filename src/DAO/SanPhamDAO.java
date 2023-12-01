@@ -30,7 +30,7 @@ public class SanPhamDAO {
         "      ,[MoTa]\n" +
         "      ,[LoaiSanPhamID]\n" +
         "      ,[TrangThaiBan]\n" +
-        "  FROM [dbo].[SanPham]";
+        "  FROM [dbo].[SanPham] WHERE TRANGTHAIXOA = 0";
         Statement st = conn.createStatement();
         ResultSet rs = st.executeQuery(sql);
         
@@ -53,7 +53,7 @@ public class SanPhamDAO {
     public String addData(String ten, String donViTinh, String moTa, int loaiSanPham, int trangThaiBan) throws SQLException{
         Connection conn = ConnnectToSQLServer.getConnection();
         String sql = "INSERT INTO [dbo].[SanPham]\n" +
-                    "           ,[Ten]\n" +
+                    "           [Ten]\n" +
                     "           ,[DonViTinh]\n" +
                     "           ,[MoTa]\n" +
                     "           ,[LoaiSanPhamID]\n" +
@@ -104,7 +104,7 @@ public class SanPhamDAO {
     
     public String removeData(int id) throws SQLException {
         Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "DELETE FROM SANPHAM WHERE ID = ?";
+        String sql = "UPDATE SANPHAM SET TRANGTHAIXOA = 1 WHERE ID = ?";
         PreparedStatement preSt = conn.prepareCall(sql);
         preSt.setInt(1, id);
         int rs = preSt.executeUpdate();

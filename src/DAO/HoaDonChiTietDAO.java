@@ -87,4 +87,18 @@ public class HoaDonChiTietDAO {
         }
         return null;
     }
+    public int getIDSPCTByHDCTID(int id) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "SELECT SanPhamChiTietId FROM HoaDonChiTiet WHERE ID = ?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setInt(1, id);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    return rs.getInt("SanPhamChiTietId");
+                }
+            }
+        }
+        return 0;
+    }
+    
 }

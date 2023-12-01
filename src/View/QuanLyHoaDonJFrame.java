@@ -43,7 +43,7 @@ public class QuanLyHoaDonJFrame extends javax.swing.JFrame {
         for (HoaDon hoaDon : list) {
             Object data[] = {
                 stt++,
-                hoaDon.getID(),
+                hoaDon.getId(),
                 hoaDon.getNhanVienID(),
                 hoaDon.getKhachHangID(),
                 getTrangThaiName(hoaDon.getTrangthai())
@@ -53,7 +53,7 @@ public class QuanLyHoaDonJFrame extends javax.swing.JFrame {
     }
 
     private void detailData(HoaDon hoaDon) {
-        txtID.setText(String.valueOf(hoaDon.getID()));
+        txtID.setText(String.valueOf(hoaDon.getId()));
         txtTenSanPham.setText(String.valueOf(hoaDon.getNhanVienID()));
         txtTenSanPham1.setText(String.valueOf(hoaDon.getKhachHangID()));
         cboTrangThai.setSelectedIndex(hoaDon.getTrangthai());
@@ -83,7 +83,7 @@ public class QuanLyHoaDonJFrame extends javax.swing.JFrame {
                 hoaDon.getId(),
                 hoaDon.getNhanVienID(),
                 hoaDon.getKhachHangID(),
-                getTrangThaiName(hoaDon.getTrangThaiHoaDon())
+                getTrangThaiName(hoaDon.getTrangthai())
             };
             model.addRow(obj);
         }
@@ -556,9 +556,9 @@ public class QuanLyHoaDonJFrame extends javax.swing.JFrame {
     private void btnQuanLyThuocTinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyThuocTinhActionPerformed
         // TODO add your handling code here:
         this.setVisible(false);
-        QuanLiThuocTinh quanLiThuocTinh = null;
+        QuanLyThuocTinhJFrame quanLiThuocTinh = null;
         try {
-            quanLiThuocTinh = new QuanLiThuocTinh();
+            quanLiThuocTinh = new QuanLyThuocTinhJFrame();
         } catch (SQLException ex) {
             Logger.getLogger(DoiMatKhauJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -587,9 +587,9 @@ public class QuanLyHoaDonJFrame extends javax.swing.JFrame {
 
     private void btnQuanLyNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyNhanVienActionPerformed
         // TODO add your handling code here:
-        QuanLiNhanVien quanLiNhanVien = null;
+        QuanLyNhanVienJFrame quanLiNhanVien = null;
         try {
-            quanLiNhanVien = new QuanLiNhanVien();
+            quanLiNhanVien = new QuanLyNhanVienJFrame();
         } catch (SQLException ex) {
             Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -599,9 +599,9 @@ public class QuanLyHoaDonJFrame extends javax.swing.JFrame {
 
     private void btnQuanLyHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyHoaDonActionPerformed
         // TODO add your handling code here:
-        QuanLiHoaDon quanLiHoaDon = null;
+        QuanLyHoaDonJFrame quanLiHoaDon = null;
         try {
-            quanLiHoaDon = new QuanLiHoaDon();
+            quanLiHoaDon = new QuanLyHoaDonJFrame();
         } catch (SQLException ex) {
             Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -610,11 +610,15 @@ public class QuanLyHoaDonJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnQuanLyHoaDonActionPerformed
 
     private void btnQuanLyKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyKhachHangActionPerformed
-        // TODO add your handling code here:
-        QuanLyKhachHang quanLyKhachHang = null;
-        quanLyKhachHang = new QuanLyKhachHang();
-        this.setVisible(false);
-        quanLyKhachHang.setVisible(true);
+        try {
+            // TODO add your handling code here:
+            QuanLyKhachHangJFrame quanLyKhachHang = null;
+            quanLyKhachHang = new QuanLyKhachHangJFrame();
+            this.setVisible(false);
+            quanLyKhachHang.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLyHoaDonJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnQuanLyKhachHangActionPerformed
 
     private void btnQuanLySanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLySanPhamActionPerformed
@@ -678,136 +682,136 @@ public class QuanLyHoaDonJFrame extends javax.swing.JFrame {
         try {
             detailData(hoaDonDAO.getAll().get(selectedRow));
         } catch (SQLException ex) {
-            Logger.getLogger(QuanLiHoaDon.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(QuanLyHoaDonJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_tblQuanLyHoaDonMouseClicked
 
     private void btnTimByIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimByIDActionPerformed
         // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel) tblQuanLyHoaDon.getModel();
-        model.setRowCount(0);
-
-        try {
-            list = hoaDonDAO.searchDataByID(Integer.parseInt(txtID.getText()));
-            customShowData(model, list);
-        } catch (SQLException ex) {
-            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        DefaultTableModel model = (DefaultTableModel) tblQuanLyHoaDon.getModel();
+//        model.setRowCount(0);
+//
+//        try {
+//            list = hoaDonDAO.searchDataByID(Integer.parseInt(txtID.getText()));
+//            customShowData(model, list);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_btnTimByIDActionPerformed
 
     private void btnTimByNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimByNameActionPerformed
         // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel) tblQuanLyHoaDon.getModel();
-        model.setRowCount(0);
-
-        try {
-            list = hoaDonDAO.searchDataByNhanVienID(Integer.parseInt(txtTenSanPham.getText()));
-            customShowData(model, list);
-        } catch (SQLException ex) {
-            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        DefaultTableModel model = (DefaultTableModel) tblQuanLyHoaDon.getModel();
+//        model.setRowCount(0);
+//
+//        try {
+//            list = hoaDonDAO.searchDataByNhanVienID(Integer.parseInt(txtTenSanPham.getText()));
+//            customShowData(model, list);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_btnTimByNameActionPerformed
 
     private void btnTimByName1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimByName1ActionPerformed
         // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel) tblQuanLyHoaDon.getModel();
-        model.setRowCount(0);
-
-        try {
-            list = hoaDonDAO.searchDataByKhachHangID(Integer.parseInt(txtTenSanPham1.getText()));
-            customShowData(model, list);
-        } catch (SQLException ex) {
-            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        DefaultTableModel model = (DefaultTableModel) tblQuanLyHoaDon.getModel();
+//        model.setRowCount(0);
+//
+//        try {
+//            list = hoaDonDAO.searchDataByKhachHangID(Integer.parseInt(txtTenSanPham1.getText()));
+//            customShowData(model, list);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_btnTimByName1ActionPerformed
 
     private void btnTimByName3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimByName3ActionPerformed
         // TODO add your handling code here:
-        int chon = (JOptionPane.showConfirmDialog(this, "Delete ?", "Confirm", JOptionPane.YES_NO_OPTION));
-        if (chon == JOptionPane.YES_OPTION) {
-            int selectedRow = tblQuanLyHoaDon.getSelectedRow();
-            if (selectedRow == -1) {
-                JOptionPane.showMessageDialog(this, "Chưa chọn dòng để xóa!");
-            } else {
-                try {
-                    int id = Integer.parseInt(txtID.getText());
-                    list = hoaDonDAO.getAll();
-
-                    boolean isIdDuplicated = false;
-
-                    for (HoaDon hoaDon : list) {
-                        if (id == hoaDon.getID()) {
-                            isIdDuplicated = true;
-                            break;
-                        }
-                    }
-
-                    if (isIdDuplicated == false) {
-                        JOptionPane.showMessageDialog(this, "Không có mã sản phẩm cần xóa!");
-                    } else {
-                        int nhanVienID = Integer.parseInt(txtTenSanPham.getText());
-                        int khachHangID = Integer.parseInt(txtTenSanPham1.getText());
-                        int trangThai = cboTrangThai.getSelectedIndex();
-
-                        JOptionPane.showMessageDialog(this, hoaDonDAO.DeleteData(id));
-                        showData(hoaDonDAO.getAll());
-                    }
-                } catch (SQLException ex) {
-                    System.out.println(ex.getMessage());
-                }
-            }
-        }
-        return;
+//        int chon = (JOptionPane.showConfirmDialog(this, "Delete ?", "Confirm", JOptionPane.YES_NO_OPTION));
+//        if (chon == JOptionPane.YES_OPTION) {
+//            int selectedRow = tblQuanLyHoaDon.getSelectedRow();
+//            if (selectedRow == -1) {
+//                JOptionPane.showMessageDialog(this, "Chưa chọn dòng để xóa!");
+//            } else {
+//                try {
+//                    int id = Integer.parseInt(txtID.getText());
+//                    list = hoaDonDAO.getAll();
+//
+//                    boolean isIdDuplicated = false;
+//
+//                    for (HoaDon hoaDon : list) {
+//                        if (id == hoaDon.getId()) {
+//                            isIdDuplicated = true;
+//                            break;
+//                        }
+//                    }
+//
+//                    if (isIdDuplicated == false) {
+//                        JOptionPane.showMessageDialog(this, "Không có mã sản phẩm cần xóa!");
+//                    } else {
+//                        int nhanVienID = Integer.parseInt(txtTenSanPham.getText());
+//                        int khachHangID = Integer.parseInt(txtTenSanPham1.getText());
+//                        int trangThai = cboTrangThai.getSelectedIndex();
+//
+//                        JOptionPane.showMessageDialog(this, hoaDonDAO.DeleteData(id));
+//                        showData(hoaDonDAO.getAll());
+//                    }
+//                } catch (SQLException ex) {
+//                    System.out.println(ex.getMessage());
+//                }
+//            }
+//        }
+//        return;
     }//GEN-LAST:event_btnTimByName3ActionPerformed
 
     private void btnTimByName4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimByName4ActionPerformed
-        // TODO add your handling code here:
-        int selectedRow = tblQuanLyHoaDon.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Chưa chọn dòng để sửa!");
-        } else {
-            try {
-                int id = Integer.parseInt(txtID.getText());
-                list = hoaDonDAO.getAll();
-
-                boolean isIdDuplicated = false;
-
-                for (HoaDon hoaDon : list) {
-                    if (id == hoaDon.getID()) {
-                        isIdDuplicated = true;
-                        break;
-                    }
-                }
-
-                if (isIdDuplicated == false) {
-                    JOptionPane.showMessageDialog(this, "Không có mã hóa đơn cần sửa!");
-                } else {
-                    int nhanVienID = Integer.parseInt(txtTenSanPham.getText());
-                    int khachHangID = Integer.parseInt(txtTenSanPham.getText());
-                    int trangThai = cboTrangThai.getSelectedIndex();
-                    JOptionPane.showMessageDialog(this, hoaDonDAO.updateData(id, nhanVienID, khachHangID, trangThai));
-                    showData(hoaDonDAO.getAll());
-                }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
-            }
-        }
+//        // TODO add your handling code here:
+//        int selectedRow = tblQuanLyHoaDon.getSelectedRow();
+//        if (selectedRow == -1) {
+//            JOptionPane.showMessageDialog(this, "Chưa chọn dòng để sửa!");
+//        } else {
+//            try {
+//                int id = Integer.parseInt(txtID.getText());
+//                list = hoaDonDAO.getAll();
+//
+//                boolean isIdDuplicated = false;
+//
+//                for (HoaDon hoaDon : list) {
+//                    if (id == hoaDon.getId()) {
+//                        isIdDuplicated = true;
+//                        break;
+//                    }
+//                }
+//
+//                if (isIdDuplicated == false) {
+//                    JOptionPane.showMessageDialog(this, "Không có mã hóa đơn cần sửa!");
+//                } else {
+//                    int nhanVienID = Integer.parseInt(txtTenSanPham.getText());
+//                    int khachHangID = Integer.parseInt(txtTenSanPham.getText());
+//                    int trangThai = cboTrangThai.getSelectedIndex();
+//                    JOptionPane.showMessageDialog(this, hoaDonDAO.updateData(id,nhanVienID, khachHangID, trangThai));
+//                    showData(hoaDonDAO.getAll());
+//                }
+//            } catch (SQLException ex) {
+//                System.out.println(ex.getMessage());
+//            }
+//        }
 
     }//GEN-LAST:event_btnTimByName4ActionPerformed
 
     private void btnTimByName5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimByName5ActionPerformed
         // TODO add your handling code here:
-        try {
-
-            int nhanVienID = Integer.parseInt(txtTenSanPham.getText());
-            int khachHangID = Integer.parseInt(txtTenSanPham1.getText());
-            int trangThai = cboTrangThai.getSelectedIndex();
-            JOptionPane.showMessageDialog(this, hoaDonDAO.addData(nhanVienID, khachHangID, trangThai));
-            showData(hoaDonDAO.getAll());
-
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
+//        try {
+//
+//            int nhanVienID = Integer.parseInt(txtTenSanPham.getText());
+//            int khachHangID = Integer.parseInt(txtTenSanPham1.getText());
+//            int trangThai = cboTrangThai.getSelectedIndex();
+//            JOptionPane.showMessageDialog(this, hoaDonDAO.addData(nhanVienID, khachHangID, trangThai));
+//            showData(hoaDonDAO.getAll());
+//
+//        } catch (SQLException ex) {
+//            System.out.println(ex.getMessage());
+//        }
     }//GEN-LAST:event_btnTimByName5ActionPerformed
 
     /**

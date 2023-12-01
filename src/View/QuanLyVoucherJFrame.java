@@ -580,9 +580,9 @@ dtm = (DefaultTableModel) tblQuanLiVoucher.getModel();
 
     private void btnQuanLyHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyHoaDonActionPerformed
         // TODO add your handling code here:
-        QuanLiHoaDon quanLiHoaDon = null;
+        QuanLyHoaDonJFrame quanLiHoaDon = null;
         try {
-            quanLiHoaDon = new QuanLiHoaDon();
+            quanLiHoaDon = new QuanLyHoaDonJFrame();
         } catch (SQLException ex) {
             Logger.getLogger(QuanLyVoucherJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -591,11 +591,15 @@ dtm = (DefaultTableModel) tblQuanLiVoucher.getModel();
     }//GEN-LAST:event_btnQuanLyHoaDonActionPerformed
 
     private void btnQuanLyKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyKhachHangActionPerformed
-        // TODO add your handling code here:
-        QuanLyKhachHang quanLyKhachHang = null;
-        quanLyKhachHang = new QuanLyKhachHang();
-        this.setVisible(false);
-        quanLyKhachHang.setVisible(true);
+        try {
+            // TODO add your handling code here:
+            QuanLyKhachHangJFrame quanLyKhachHang = null;
+            quanLyKhachHang = new QuanLyKhachHangJFrame();
+            this.setVisible(false);
+            quanLyKhachHang.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLyVoucherJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnQuanLyKhachHangActionPerformed
 
     private void btnQuanLySanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLySanPhamActionPerformed
@@ -655,7 +659,7 @@ dtm = (DefaultTableModel) tblQuanLiVoucher.getModel();
         try {
             detailData(voucherDAO.getAll().get(selectedRow));
         } catch (SQLException ex) {
-            Logger.getLogger(QuanLiHoaDon.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(QuanLyHoaDonJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_tblQuanLiVoucherMouseClicked
 

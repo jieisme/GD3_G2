@@ -198,4 +198,18 @@ public class SanPhamChiTietDAO {
         }
         return 0;
     }  
+    
+    public int getIDSPByHDCTID(int id) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "SELECT SanPhamID FROM SanPhamChiTiet WHERE ID = ?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setInt(1, id);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    return rs.getInt("SanPhamID");
+                }
+            }
+        }
+        return 0;
+    }
 }

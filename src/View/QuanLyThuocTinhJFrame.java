@@ -669,18 +669,22 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnQuanLySanPhamActionPerformed
 
     private void btnQuanLyKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyKhachHangActionPerformed
-        // TODO add your handling code here:
-        QuanLyKhachHang quanLyKhachHang = null;
-        quanLyKhachHang = new QuanLyKhachHang();
-        this.setVisible(false);
-        quanLyKhachHang.setVisible(true);
+        try {
+            // TODO add your handling code here:
+            QuanLyKhachHangJFrame quanLyKhachHang = null;
+            quanLyKhachHang = new QuanLyKhachHangJFrame();
+            this.setVisible(false);
+            quanLyKhachHang.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLyThuocTinhJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnQuanLyKhachHangActionPerformed
 
     private void btnQuanLyHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyHoaDonActionPerformed
         // TODO add your handling code here:
-        QuanLiHoaDon quanLiHoaDon = null;
+        QuanLyHoaDonJFrame quanLiHoaDon = null;
         try {
-            quanLiHoaDon = new QuanLiHoaDon();
+            quanLiHoaDon = new QuanLyHoaDonJFrame();
         } catch (SQLException ex) {
             Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -738,7 +742,7 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
         try {
             detailData(mauSacDAO.getAll().get(selectedRow));
         } catch (SQLException ex) {
-            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(QuanLySanPhamJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_tblMauSacMouseClicked
 
@@ -748,7 +752,7 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
         try {
             detailDataCL(chatLieuDAO.getAll().get(selectedRow));
         } catch (SQLException ex) {
-            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(QuanLySanPhamJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_tblChatLieuMouseClicked
 

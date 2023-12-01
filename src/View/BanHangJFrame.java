@@ -4,11 +4,17 @@
  */
 package View;
 
+import DAO.HoaDonChiTietDAO;
+import DAO.HoaDonDAO;
+import DAO.KhachHangDAO;
 import DAO.MauSacDAO;
 import DAO.NhanVienDAO;
 import DAO.SanPhamChiTietDAO;
 import DAO.SanPhamDAO;
 import DAO.VoucherDAO;
+import Entity.HoaDon;
+import Entity.HoaDonChiTiet;
+import Entity.KhachHang;
 import Entity.SanPham;
 import Entity.SanPhamChiTiet;
 import Entity.Voucher;
@@ -36,25 +42,33 @@ public class BanHangJFrame extends javax.swing.JFrame {
     private NhanVienDAO nhanVienDAO = new NhanVienDAO();
     private DefaultTableModel dtmSanPhamChiTiet = new DefaultTableModel();
     private DefaultTableModel dtmGioHang = new DefaultTableModel();
+    private DefaultTableModel dtmHoaDon = new DefaultTableModel();
     private SanPhamDAO sanPhamDAO = new SanPhamDAO();
     private MauSacDAO mauSacDAO = new MauSacDAO();
     private SanPhamChiTietDAO sanPhamChiTietDAO = new SanPhamChiTietDAO();
     private List<SanPhamChiTiet> listSPCT = new ArrayList<>();
     private List<SanPhamChiTiet> listGH = new ArrayList<>();
+    private List<HoaDon> listHD = new ArrayList<>();
     private DecimalFormat decimalFormat = new DecimalFormat("#,###");
     private VoucherDAO voucherDAO = new VoucherDAO();
     private int tongTienHang = 0;
     private int soTienGiam = 0;
+    private int tongTienPhaiTra = 0;
+    private HoaDonDAO hoaDonDAO = new HoaDonDAO();
+    private KhachHangDAO khachHangDAO = new KhachHangDAO();
+    private HoaDonChiTietDAO hoaDonChiTietDAO = new HoaDonChiTietDAO();
 
     public BanHangJFrame() throws SQLException {
         initComponents();
         dtmSanPhamChiTiet = (DefaultTableModel) tblSanPhamChiTiet.getModel();
         dtmGioHang = (DefaultTableModel) tblGioHang.getModel();
+        dtmHoaDon = (DefaultTableModel) tblHoaDon.getModel();
         setLocationRelativeTo(null);
         btnDoiMatKhau.setVisible(false);
         btnDangXuat.setVisible(false);
         listSPCT = sanPhamChiTietDAO.getAll();
         showDataSPCT(listSPCT);
+        showDataHD(hoaDonDAO.getAll());
         txtXinChao.setText("Xin chào: " + nhanVienDAO.searchHoVaTen(loggedInUser));
         int chucVu = Integer.parseInt(nhanVienDAO.searchChucVu(loggedInUser));
         txtChucVu.setText("Chức vụ: " + getChucVu(chucVu));
@@ -74,6 +88,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnTrangThaiHD = new javax.swing.ButtonGroup();
         Background = new javax.swing.JPanel();
         btnTaiKhoan = new javax.swing.JButton();
         btnDoiMatKhau = new javax.swing.JButton();
@@ -81,8 +96,6 @@ public class BanHangJFrame extends javax.swing.JFrame {
         txtXinChao = new javax.swing.JLabel();
         txtChucVu = new javax.swing.JLabel();
         txtDongHo = new javax.swing.JLabel();
-        txtTile = new javax.swing.JLabel();
-        txtLogo = new javax.swing.JLabel();
         btnBanHang = new javax.swing.JButton();
         btnQuanLySanPham = new javax.swing.JButton();
         btnQuanLyKhachHang = new javax.swing.JButton();
@@ -125,6 +138,15 @@ public class BanHangJFrame extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         txtSoDienThoaiKH = new javax.swing.JTextField();
         btnThemSoDienThoaiKH = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblHoaDon = new javax.swing.JTable();
+        jLabel7 = new javax.swing.JLabel();
+        btnTaoHoaDonMoi = new javax.swing.JButton();
+        btnSuaHoaDon1 = new javax.swing.JButton();
+        btnXoaHoaDon = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
+        rdChuaThanhToan = new javax.swing.JRadioButton();
+        rdDaThanhToan = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("BÁN HÀNG");
@@ -171,24 +193,17 @@ public class BanHangJFrame extends javax.swing.JFrame {
 
         txtXinChao.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtXinChao.setText("Xin chào,");
-        Background.add(txtXinChao, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 792, -1, -1));
+        Background.add(txtXinChao, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 820, -1, -1));
 
         txtChucVu.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtChucVu.setText("Chức vụ: ");
-        Background.add(txtChucVu, new org.netbeans.lib.awtextra.AbsoluteConstraints(22, 814, -1, -1));
+        Background.add(txtChucVu, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 840, -1, -1));
 
         txtDongHo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txtDongHo.setForeground(new java.awt.Color(22, 72, 99));
         txtDongHo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Alarm.png"))); // NOI18N
         txtDongHo.setText("09:11:2001");
-        Background.add(txtDongHo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 800, -1, -1));
-
-        txtTile.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        txtTile.setText("HỆ THỐNG QUẢN LÝ BẢN ÁO");
-        Background.add(txtTile, new org.netbeans.lib.awtextra.AbsoluteConstraints(562, 10, -1, -1));
-
-        txtLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/logo2Clothes.png"))); // NOI18N
-        Background.add(txtLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(652, 80, 491, 91));
+        Background.add(txtDongHo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 830, -1, -1));
 
         btnBanHang.setBackground(new java.awt.Color(203, 241, 245));
         btnBanHang.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -303,7 +318,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblGioHang);
 
-        Background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 497, 767, 231));
+        Background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 550, 767, 231));
 
         tblSanPhamChiTiet.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -328,44 +343,44 @@ public class BanHangJFrame extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblSanPhamChiTiet);
 
-        Background.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 209, 767, 211));
+        Background.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 270, 767, 211));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("DÁNH SÁCH SẢN PHẨM:");
-        Background.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 183, -1, -1));
+        Background.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 240, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("GIỎ HÀNG:");
-        Background.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 471, -1, -1));
+        Background.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 520, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setText("ID:");
-        Background.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1140, 210, -1, -1));
-        Background.add(txtID, new org.netbeans.lib.awtextra.AbsoluteConstraints(1250, 210, 202, -1));
+        Background.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 270, -1, -1));
+        Background.add(txtID, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 270, 202, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setText("TÊN SẢN PHẨM:");
-        Background.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1140, 240, -1, -1));
-        Background.add(txtTenSanPham, new org.netbeans.lib.awtextra.AbsoluteConstraints(1250, 240, 202, -1));
+        Background.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 300, -1, -1));
+        Background.add(txtTenSanPham, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 300, 202, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setText("MÀU SẮC:");
-        Background.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1140, 270, -1, -1));
-        Background.add(txtMauSac, new org.netbeans.lib.awtextra.AbsoluteConstraints(1250, 270, 202, -1));
+        Background.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 330, -1, -1));
+        Background.add(txtMauSac, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 330, 202, -1));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel6.setText("KÍCH THƯỚC:");
-        Background.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1140, 300, -1, -1));
-        Background.add(txtKichThuoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(1250, 300, 202, -1));
+        Background.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 360, -1, -1));
+        Background.add(txtKichThuoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 360, 202, -1));
 
         titleDonGia.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         titleDonGia.setText("ĐƠN GIÁ:");
-        Background.add(titleDonGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(1140, 330, -1, -1));
-        Background.add(txtDonGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(1250, 330, 202, -1));
+        Background.add(titleDonGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 390, -1, -1));
+        Background.add(txtDonGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 390, 202, -1));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel8.setText("MÃ GIẢM GIÁ:");
-        Background.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 530, -1, -1));
+        Background.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 70, -1, -1));
 
         txtMaGiamGia.setEnabled(false);
         txtMaGiamGia.addActionListener(new java.awt.event.ActionListener() {
@@ -373,7 +388,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 txtMaGiamGiaActionPerformed(evt);
             }
         });
-        Background.add(txtMaGiamGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(1250, 530, 194, -1));
+        Background.add(txtMaGiamGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(1250, 70, 194, -1));
 
         btnThemSPToHoaDon.setBackground(new java.awt.Color(22, 72, 99));
         btnThemSPToHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -384,7 +399,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnThemSPToHoaDonActionPerformed(evt);
             }
         });
-        Background.add(btnThemSPToHoaDon, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 426, -1, -1));
+        Background.add(btnThemSPToHoaDon, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 490, -1, -1));
 
         btnSuaHoaDon.setBackground(new java.awt.Color(22, 72, 99));
         btnSuaHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -395,7 +410,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnSuaHoaDonActionPerformed(evt);
             }
         });
-        Background.add(btnSuaHoaDon, new org.netbeans.lib.awtextra.AbsoluteConstraints(351, 734, 150, -1));
+        Background.add(btnSuaHoaDon, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 790, 150, -1));
 
         btnXoaSanPham.setBackground(new java.awt.Color(22, 72, 99));
         btnXoaSanPham.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -406,7 +421,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnXoaSanPhamActionPerformed(evt);
             }
         });
-        Background.add(btnXoaSanPham, new org.netbeans.lib.awtextra.AbsoluteConstraints(519, 734, 150, -1));
+        Background.add(btnXoaSanPham, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 790, 150, -1));
 
         btnTimID.setBackground(new java.awt.Color(22, 72, 99));
         btnTimID.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -417,19 +432,19 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnTimIDActionPerformed(evt);
             }
         });
-        Background.add(btnTimID, new org.netbeans.lib.awtextra.AbsoluteConstraints(1470, 210, -1, -1));
+        Background.add(btnTimID, new org.netbeans.lib.awtextra.AbsoluteConstraints(1480, 270, -1, -1));
 
         txtTongTienHang.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         txtTongTienHang.setText("TỔNG TIỀN HÀNG:");
-        Background.add(txtTongTienHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 630, -1, -1));
+        Background.add(txtTongTienHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 570, -1, -1));
 
         txtTienDuocGiam.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         txtTienDuocGiam.setText("TIỀN ĐƯỢC GIẢM:");
-        Background.add(txtTienDuocGiam, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 670, -1, -1));
+        Background.add(txtTienDuocGiam, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 610, -1, -1));
 
         txtTongTienPhaiTra.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         txtTongTienPhaiTra.setText("TỔNG TIỀN PHẢI TRẢ:");
-        Background.add(txtTongTienPhaiTra, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 710, -1, -1));
+        Background.add(txtTongTienPhaiTra, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 650, -1, -1));
 
         btnThanhToan.setBackground(new java.awt.Color(22, 72, 99));
         btnThanhToan.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -440,7 +455,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnThanhToanActionPerformed(evt);
             }
         });
-        Background.add(btnThanhToan, new org.netbeans.lib.awtextra.AbsoluteConstraints(1263, 754, 240, -1));
+        Background.add(btnThanhToan, new org.netbeans.lib.awtextra.AbsoluteConstraints(1260, 710, 240, -1));
 
         cboMaGiamGia.setBackground(new java.awt.Color(166, 227, 233));
         cboMaGiamGia.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -450,12 +465,12 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 cboMaGiamGiaActionPerformed(evt);
             }
         });
-        Background.add(cboMaGiamGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 500, -1, -1));
+        Background.add(cboMaGiamGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 40, -1, -1));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel9.setText("SỐ LƯỢNG CÒN:");
-        Background.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(1140, 360, -1, -1));
-        Background.add(txtSoLuongCon, new org.netbeans.lib.awtextra.AbsoluteConstraints(1250, 360, 202, -1));
+        Background.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 420, -1, -1));
+        Background.add(txtSoLuongCon, new org.netbeans.lib.awtextra.AbsoluteConstraints(1240, 420, 202, -1));
 
         btnKiemTra.setBackground(new java.awt.Color(22, 72, 99));
         btnKiemTra.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -467,7 +482,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnKiemTraActionPerformed(evt);
             }
         });
-        Background.add(btnKiemTra, new org.netbeans.lib.awtextra.AbsoluteConstraints(1470, 530, -1, -1));
+        Background.add(btnKiemTra, new org.netbeans.lib.awtextra.AbsoluteConstraints(1470, 70, -1, -1));
 
         cboThemThongTinKhachHang.setBackground(new java.awt.Color(166, 227, 233));
         cboThemThongTinKhachHang.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -477,11 +492,11 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 cboThemThongTinKhachHangActionPerformed(evt);
             }
         });
-        Background.add(cboThemThongTinKhachHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 560, -1, -1));
+        Background.add(cboThemThongTinKhachHang, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 100, -1, -1));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel10.setText("SỐ ĐIỆN THOẠI KH:");
-        Background.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 590, -1, -1));
+        Background.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 130, -1, -1));
 
         txtSoDienThoaiKH.setEnabled(false);
         txtSoDienThoaiKH.addActionListener(new java.awt.event.ActionListener() {
@@ -489,7 +504,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 txtSoDienThoaiKHActionPerformed(evt);
             }
         });
-        Background.add(txtSoDienThoaiKH, new org.netbeans.lib.awtextra.AbsoluteConstraints(1250, 590, 194, -1));
+        Background.add(txtSoDienThoaiKH, new org.netbeans.lib.awtextra.AbsoluteConstraints(1250, 130, 194, -1));
 
         btnThemSoDienThoaiKH.setBackground(new java.awt.Color(22, 72, 99));
         btnThemSoDienThoaiKH.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -501,149 +516,260 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 btnThemSoDienThoaiKHActionPerformed(evt);
             }
         });
-        Background.add(btnThemSoDienThoaiKH, new org.netbeans.lib.awtextra.AbsoluteConstraints(1470, 590, 85, -1));
+        Background.add(btnThemSoDienThoaiKH, new org.netbeans.lib.awtextra.AbsoluteConstraints(1470, 130, 85, -1));
+
+        tblHoaDon.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "STT", "NHÂN VIÊN", "KHÁCH HÀNG", "KHUYỄN MÃI", "TỔNG TIỀN PHẢI TRẢ", "TRẠNG THÁI"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblHoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblHoaDonMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tblHoaDon);
+
+        Background.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 40, 767, 180));
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel7.setText("DANH SÁCH HÓA ĐƠN:");
+        Background.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 10, -1, -1));
+
+        btnTaoHoaDonMoi.setBackground(new java.awt.Color(22, 72, 99));
+        btnTaoHoaDonMoi.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnTaoHoaDonMoi.setForeground(new java.awt.Color(255, 255, 255));
+        btnTaoHoaDonMoi.setText("TẠO HÓA ĐƠN MỚI");
+        btnTaoHoaDonMoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTaoHoaDonMoiActionPerformed(evt);
+            }
+        });
+        Background.add(btnTaoHoaDonMoi, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 230, -1, -1));
+
+        btnSuaHoaDon1.setBackground(new java.awt.Color(22, 72, 99));
+        btnSuaHoaDon1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnSuaHoaDon1.setForeground(new java.awt.Color(255, 255, 255));
+        btnSuaHoaDon1.setText("SỬA HÓA ĐƠN");
+        btnSuaHoaDon1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaHoaDon1ActionPerformed(evt);
+            }
+        });
+        Background.add(btnSuaHoaDon1, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 230, -1, -1));
+
+        btnXoaHoaDon.setBackground(new java.awt.Color(22, 72, 99));
+        btnXoaHoaDon.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnXoaHoaDon.setForeground(new java.awt.Color(255, 255, 255));
+        btnXoaHoaDon.setText("XÓA HÓA ĐƠN");
+        btnXoaHoaDon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaHoaDonActionPerformed(evt);
+            }
+        });
+        Background.add(btnXoaHoaDon, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 230, -1, -1));
+
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel13.setText("TRẠNG THÁI:");
+        Background.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 170, -1, -1));
+
+        rdChuaThanhToan.setBackground(new java.awt.Color(166, 227, 233));
+        btnTrangThaiHD.add(rdChuaThanhToan);
+        rdChuaThanhToan.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        rdChuaThanhToan.setSelected(true);
+        rdChuaThanhToan.setText("Chưa thanh toán");
+        rdChuaThanhToan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdChuaThanhToanActionPerformed(evt);
+            }
+        });
+        Background.add(rdChuaThanhToan, new org.netbeans.lib.awtextra.AbsoluteConstraints(1250, 170, -1, 20));
+
+        rdDaThanhToan.setBackground(new java.awt.Color(166, 227, 233));
+        btnTrangThaiHD.add(rdDaThanhToan);
+        rdDaThanhToan.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        rdDaThanhToan.setText("Đã thanh toán");
+        rdDaThanhToan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdDaThanhToanActionPerformed(evt);
+            }
+        });
+        Background.add(rdDaThanhToan, new org.netbeans.lib.awtextra.AbsoluteConstraints(1370, 170, -1, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(Background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(Background, javax.swing.GroupLayout.DEFAULT_SIZE, 1635, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(Background, javax.swing.GroupLayout.PREFERRED_SIZE, 867, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnTaiKhoanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaiKhoanActionPerformed
+    private void rdDaThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdDaThanhToanActionPerformed
         // TODO add your handling code here:
-        if (!btnDoiMatKhau.isVisible() && !btnDangXuat.isVisible()) {
-            btnDoiMatKhau.setVisible(true);
-            btnDangXuat.setVisible(true);
-        } else {
-            btnDoiMatKhau.setVisible(false);
-            btnDangXuat.setVisible(false);
-        }
-    }//GEN-LAST:event_btnTaiKhoanActionPerformed
+    }//GEN-LAST:event_rdDaThanhToanActionPerformed
 
-    private void btnDoiMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoiMatKhauActionPerformed
+    private void rdChuaThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdChuaThanhToanActionPerformed
         // TODO add your handling code here:
-        DoiMatKhauJFrame doiMatKhauJFrame = null;
-        try {
-            doiMatKhauJFrame = new DoiMatKhauJFrame();
-        } catch (SQLException ex) {
-            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.setVisible(false);
-        doiMatKhauJFrame.setVisible(true);
-    }//GEN-LAST:event_btnDoiMatKhauActionPerformed
+    }//GEN-LAST:event_rdChuaThanhToanActionPerformed
 
-    private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangXuatActionPerformed
+    private void btnXoaHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaHoaDonActionPerformed
         // TODO add your handling code here:
-        DangNhapJFrame dangNhapJFrame = null;
-        try {
-            dangNhapJFrame = new DangNhapJFrame();
-        } catch (SQLException ex) {
-            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.setVisible(false);
-        dangNhapJFrame.setVisible(true);
-    }//GEN-LAST:event_btnDangXuatActionPerformed
+    }//GEN-LAST:event_btnXoaHoaDonActionPerformed
 
-    private void btnBanHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBanHangActionPerformed
+    private void btnSuaHoaDon1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaHoaDon1ActionPerformed
         // TODO add your handling code here:
-        BanHangJFrame banHangJFrame = null;
-        try {
-            banHangJFrame = new BanHangJFrame();
-        } catch (SQLException ex) {
-            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.setVisible(false);
-        banHangJFrame.setVisible(true);
-    }//GEN-LAST:event_btnBanHangActionPerformed
+    }//GEN-LAST:event_btnSuaHoaDon1ActionPerformed
 
-    private void btnQuanLySanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLySanPhamActionPerformed
+    private void btnTaoHoaDonMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoHoaDonMoiActionPerformed
         try {
             // TODO add your handling code here:
-            QuanLySanPham quanLySanPham = new QuanLySanPham();
-            this.setVisible(false);
-            quanLySanPham.setVisible(true);
+            int nhanVienID = nhanVienDAO.getIDByUsername(loggedInUser);
+
+            int khachHangID = 0;
+            int khuyenMaiID = 0;
+            int trangThai = 0;
+
+            String soDienThoaiText = txtSoDienThoaiKH.getText();
+            if (!soDienThoaiText.isEmpty()) {
+                List<KhachHang> listKH = khachHangDAO.getAll();
+                for (KhachHang khachHang : listKH) {
+                    if (khachHangDAO.getIDBSoDienThoai(soDienThoaiText) == khachHang.getId()) {
+                        khachHangID = Integer.parseInt(soDienThoaiText);
+                    }
+                }
+            }
+
+            if (rdChuaThanhToan.isSelected()) {
+                trangThai = 0;
+            } else if (rdDaThanhToan.isSelected()) {
+                trangThai = 1;
+            } else {
+                trangThai = -1;
+            }
+
+            String maGiamGiaText = txtMaGiamGia.getText();
+            if (!maGiamGiaText.isEmpty()) {
+                List<Voucher> listVC = voucherDAO.getAll();
+                for (Voucher voucher : listVC) {
+                    if (voucher.getId() == Integer.parseInt(maGiamGiaText)) {
+                        khuyenMaiID = Integer.parseInt(maGiamGiaText);
+                    }
+                }
+            }
+
+            hoaDonDAO.addData(nhanVienID, khachHangID, 0, 0, 0, 0, trangThai);
+            showDataHD(hoaDonDAO.getAll());
         } catch (SQLException ex) {
             Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_btnQuanLySanPhamActionPerformed
+    }//GEN-LAST:event_btnTaoHoaDonMoiActionPerformed
 
-    private void btnQuanLyKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyKhachHangActionPerformed
-        // TODO add your handling code here:
-        QuanLyKhachHang quanLyKhachHang = null;
-        quanLyKhachHang = new QuanLyKhachHang();
-        this.setVisible(false);
-        quanLyKhachHang.setVisible(true);
-    }//GEN-LAST:event_btnQuanLyKhachHangActionPerformed
-
-    private void btnQuanLyHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyHoaDonActionPerformed
-        // TODO add your handling code here:
-        QuanLiHoaDon quanLiHoaDon = null;
+    private void tblHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonMouseClicked
         try {
-            quanLiHoaDon = new QuanLiHoaDon();
+            // TODO add your handling code here:
+            detailDataHD(hoaDonDAO.getAll().get(tblHoaDon.getSelectedRow()));
         } catch (SQLException ex) {
             Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.setVisible(false);
-        quanLiHoaDon.setVisible(true);
-    }//GEN-LAST:event_btnQuanLyHoaDonActionPerformed
+    }//GEN-LAST:event_tblHoaDonMouseClicked
 
-    private void btnQuanLyNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyNhanVienActionPerformed
+    private void btnThemSoDienThoaiKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemSoDienThoaiKHActionPerformed
         // TODO add your handling code here:
-        QuanLyNhanVienJFrame quanLiNhanVien = null;
+    }//GEN-LAST:event_btnThemSoDienThoaiKHActionPerformed
+
+    private void txtSoDienThoaiKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSoDienThoaiKHActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSoDienThoaiKHActionPerformed
+
+    private void cboThemThongTinKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboThemThongTinKhachHangActionPerformed
+        // TODO add your handling code here:
+        if (cboThemThongTinKhachHang.isSelected()) {
+            txtSoDienThoaiKH.setEnabled(true);
+            btnThemSoDienThoaiKH.setEnabled(true);
+        } else {
+            txtSoDienThoaiKH.setEnabled(false);
+            btnThemSoDienThoaiKH.setEnabled(false);
+        }
+    }//GEN-LAST:event_cboThemThongTinKhachHangActionPerformed
+
+    private void btnKiemTraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKiemTraActionPerformed
         try {
-            quanLiNhanVien = new QuanLyNhanVienJFrame();
+            List<Voucher> listVoucher = voucherDAO.getAll();
+            int check = 0;
+            soTienGiam = 0;
+            for (Voucher voucher : listVoucher) {
+                if (Integer.parseInt(txtMaGiamGia.getText()) == voucher.getId()) {
+                    check++;
+                    if (voucher.getTrangThai() == 0) {
+                        try {
+                            soTienGiam = (int) ((tongTienHang * voucherDAO.giamTheoPhanTram(voucher.getId())) - voucherDAO.giamTheoGiaTien(voucher.getId()));
+                            JOptionPane.showMessageDialog(this, "Chúc mừng bạn được " + voucher.getMoTa());
+                        } catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(this, "Voucher này đã không còn hoạt động!");
+                        }
+                    }
+                } else {
+                    check++;
+                }
+            }
+
+            if (soTienGiam <= 0) {
+                soTienGiam *= -1;
+            }
+
+            txtTienDuocGiam.setText("TIỀN ĐƯỢC GIẢM: " + decimalFormat.format(soTienGiam) + " VNĐ");
+            txtTongTienPhaiTra.setText("TỔNG TIỀN PHẢI TRẢ: " + decimalFormat.format((tongTienHang - soTienGiam)) + " VNĐ");
         } catch (SQLException ex) {
             Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.setVisible(false);
-        quanLiNhanVien.setVisible(true);
-    }//GEN-LAST:event_btnQuanLyNhanVienActionPerformed
+    }//GEN-LAST:event_btnKiemTraActionPerformed
 
-    private void btnQuanLyVoucherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyVoucherActionPerformed
+    private void cboMaGiamGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboMaGiamGiaActionPerformed
         // TODO add your handling code here:
-        QuanLyVoucherJFrame quanLiVoucherJFrame = null;
-        try {
-            quanLiVoucherJFrame = new QuanLyVoucherJFrame();
-        } catch (SQLException ex) {
-            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        if (cboMaGiamGia.isSelected()) {
+            txtMaGiamGia.setEnabled(true);
+            btnKiemTra.setEnabled(true);
+        } else {
+            txtMaGiamGia.setEnabled(false);
+            btnKiemTra.setEnabled(false);
+            txtTienDuocGiam.setText("TIỀN ĐƯỢC GIẢM: 0");
         }
-        this.setVisible(false);
-        quanLiVoucherJFrame.setVisible(true);
-    }//GEN-LAST:event_btnQuanLyVoucherActionPerformed
+    }//GEN-LAST:event_cboMaGiamGiaActionPerformed
 
-    private void btnTrangChuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTrangChuActionPerformed
+    private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
-        TrangChuJFrame trangChuJFrame = null;
-        try {
-            trangChuJFrame = new TrangChuJFrame();
-        } catch (SQLException ex) {
-            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        trangChuJFrame.setVisible(true);
-    }//GEN-LAST:event_btnTrangChuActionPerformed
+    }//GEN-LAST:event_btnThanhToanActionPerformed
 
-    private void btnQuanLyThuocTinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyThuocTinhActionPerformed
+    private void btnTimIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimIDActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
-        QuanLyThuocTinhJFrame quanLiThuocTinh = null;
-        try {
-            quanLiThuocTinh = new QuanLyThuocTinhJFrame();
-        } catch (SQLException ex) {
-            Logger.getLogger(DoiMatKhauJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        quanLiThuocTinh.setVisible(true);
-    }//GEN-LAST:event_btnQuanLyThuocTinhActionPerformed
+    }//GEN-LAST:event_btnTimIDActionPerformed
+
+    private void btnXoaSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaSanPhamActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnXoaSanPhamActionPerformed
+
+    private void btnSuaHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaHoaDonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSuaHoaDonActionPerformed
 
     private void btnThemSPToHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemSPToHoaDonActionPerformed
         int id = Integer.parseInt(txtID.getText());
@@ -699,88 +825,9 @@ public class BanHangJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnThemSPToHoaDonActionPerformed
 
-    private void btnSuaHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaHoaDonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSuaHoaDonActionPerformed
-
-    private void btnXoaSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaSanPhamActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnXoaSanPhamActionPerformed
-
-    private void btnTimIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnTimIDActionPerformed
-
-    private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnThanhToanActionPerformed
-
     private void txtMaGiamGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaGiamGiaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMaGiamGiaActionPerformed
-
-    private void btnKiemTraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKiemTraActionPerformed
-        try {
-            List<Voucher> listVoucher = voucherDAO.getAll();
-            int check = 0;
-            soTienGiam = 0;
-            for (Voucher voucher : listVoucher) {
-                if (Integer.parseInt(txtMaGiamGia.getText()) == voucher.getId()) {
-                    check++;
-                    if (voucher.getTrangThai() == 0) {
-                        try {
-                            soTienGiam = (int) ((tongTienHang * voucherDAO.giamTheoPhanTram(voucher.getId())) - voucherDAO.giamTheoGiaTien(voucher.getId()));
-                            JOptionPane.showMessageDialog(this, "Chúc mừng bạn được " + voucher.getMoTa());
-                        } catch (SQLException ex) {
-                            JOptionPane.showMessageDialog(this, "Voucher này đã không còn hoạt động!");
-                        }
-                    }
-                } else {
-                    check++;
-                }
-            }
-            
-            if (soTienGiam <= 0) {
-                soTienGiam *= -1;
-            }
-            
-            txtTienDuocGiam.setText("TIỀN ĐƯỢC GIẢM: " + decimalFormat.format(soTienGiam) + " VNĐ");
-            txtTongTienPhaiTra.setText("TỔNG TIỀN PHẢI TRẢ: " + decimalFormat.format((tongTienHang - soTienGiam)) + " VNĐ");
-        } catch (SQLException ex) {
-            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_btnKiemTraActionPerformed
-
-    private void cboMaGiamGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboMaGiamGiaActionPerformed
-        // TODO add your handling code here:
-        if (cboMaGiamGia.isSelected()) {
-            txtMaGiamGia.setEnabled(true);
-            btnKiemTra.setEnabled(true);
-        } else {
-            txtMaGiamGia.setEnabled(false);
-            btnKiemTra.setEnabled(false);
-            txtTienDuocGiam.setText("TIỀN ĐƯỢC GIẢM: 0");
-        }
-    }//GEN-LAST:event_cboMaGiamGiaActionPerformed
-
-    private void cboThemThongTinKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboThemThongTinKhachHangActionPerformed
-        // TODO add your handling code here:
-        if (cboThemThongTinKhachHang.isSelected()) {
-            txtSoDienThoaiKH.setEnabled(true);
-            btnThemSoDienThoaiKH.setEnabled(true);
-        } else {
-            txtSoDienThoaiKH.setEnabled(false);
-            btnThemSoDienThoaiKH.setEnabled(false);
-        }
-    }//GEN-LAST:event_cboThemThongTinKhachHangActionPerformed
-
-    private void txtSoDienThoaiKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSoDienThoaiKHActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSoDienThoaiKHActionPerformed
-
-    private void btnThemSoDienThoaiKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemSoDienThoaiKHActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnThemSoDienThoaiKHActionPerformed
 
     private void tblSanPhamChiTietMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamChiTietMouseClicked
         // TODO add your handling code here:
@@ -801,6 +848,136 @@ public class BanHangJFrame extends javax.swing.JFrame {
             Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_tblGioHangMouseClicked
+
+    private void btnQuanLyThuocTinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyThuocTinhActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        QuanLyThuocTinhJFrame quanLiThuocTinh = null;
+        try {
+            quanLiThuocTinh = new QuanLyThuocTinhJFrame();
+        } catch (SQLException ex) {
+            Logger.getLogger(DoiMatKhauJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        quanLiThuocTinh.setVisible(true);
+    }//GEN-LAST:event_btnQuanLyThuocTinhActionPerformed
+
+    private void btnTrangChuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTrangChuActionPerformed
+        // TODO add your handling code here:
+        this.setVisible(false);
+        TrangChuJFrame trangChuJFrame = null;
+        try {
+            trangChuJFrame = new TrangChuJFrame();
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        trangChuJFrame.setVisible(true);
+    }//GEN-LAST:event_btnTrangChuActionPerformed
+
+    private void btnQuanLyVoucherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyVoucherActionPerformed
+        // TODO add your handling code here:
+        QuanLyVoucherJFrame quanLiVoucherJFrame = null;
+        try {
+            quanLiVoucherJFrame = new QuanLyVoucherJFrame();
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+        quanLiVoucherJFrame.setVisible(true);
+    }//GEN-LAST:event_btnQuanLyVoucherActionPerformed
+
+    private void btnQuanLyNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyNhanVienActionPerformed
+        // TODO add your handling code here:
+        QuanLyNhanVienJFrame quanLiNhanVien = null;
+        try {
+            quanLiNhanVien = new QuanLyNhanVienJFrame();
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+        quanLiNhanVien.setVisible(true);
+    }//GEN-LAST:event_btnQuanLyNhanVienActionPerformed
+
+    private void btnQuanLyHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyHoaDonActionPerformed
+        // TODO add your handling code here:
+        QuanLyHoaDonJFrame quanLiHoaDon = null;
+        try {
+            quanLiHoaDon = new QuanLyHoaDonJFrame();
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+        quanLiHoaDon.setVisible(true);
+    }//GEN-LAST:event_btnQuanLyHoaDonActionPerformed
+
+    private void btnQuanLyKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyKhachHangActionPerformed
+        try {
+            // TODO add your handling code here:
+            QuanLyKhachHangJFrame quanLyKhachHang = null;
+            quanLyKhachHang = new QuanLyKhachHangJFrame();
+            this.setVisible(false);
+            quanLyKhachHang.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnQuanLyKhachHangActionPerformed
+
+    private void btnQuanLySanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLySanPhamActionPerformed
+        try {
+            // TODO add your handling code here:
+            QuanLySanPhamJFrame quanLySanPham = new QuanLySanPhamJFrame();
+            this.setVisible(false);
+            quanLySanPham.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnQuanLySanPhamActionPerformed
+
+    private void btnBanHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBanHangActionPerformed
+        // TODO add your handling code here:
+        BanHangJFrame banHangJFrame = null;
+        try {
+            banHangJFrame = new BanHangJFrame();
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+        banHangJFrame.setVisible(true);
+    }//GEN-LAST:event_btnBanHangActionPerformed
+
+    private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangXuatActionPerformed
+        // TODO add your handling code here:
+        DangNhapJFrame dangNhapJFrame = null;
+        try {
+            dangNhapJFrame = new DangNhapJFrame();
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+        dangNhapJFrame.setVisible(true);
+    }//GEN-LAST:event_btnDangXuatActionPerformed
+
+    private void btnDoiMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoiMatKhauActionPerformed
+        // TODO add your handling code here:
+        DoiMatKhauJFrame doiMatKhauJFrame = null;
+        try {
+            doiMatKhauJFrame = new DoiMatKhauJFrame();
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+        doiMatKhauJFrame.setVisible(true);
+    }//GEN-LAST:event_btnDoiMatKhauActionPerformed
+
+    private void btnTaiKhoanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaiKhoanActionPerformed
+        // TODO add your handling code here:
+        if (!btnDoiMatKhau.isVisible() && !btnDangXuat.isVisible()) {
+            btnDoiMatKhau.setVisible(true);
+            btnDangXuat.setVisible(true);
+        } else {
+            btnDoiMatKhau.setVisible(false);
+            btnDangXuat.setVisible(false);
+        }
+    }//GEN-LAST:event_btnTaiKhoanActionPerformed
 
     /**
      * @param args the command line arguments
@@ -854,6 +1031,57 @@ public class BanHangJFrame extends javax.swing.JFrame {
         }
         return false;
     }
+    
+    private void detailDataHD(HoaDon hoaDon) throws SQLException {
+        if (!voucherDAO.getMoTaVoucher(hoaDon.getKhuyenMaiID()).trim().equals("") && voucherDAO.getMoTaVoucher(hoaDon.getKhuyenMaiID()) != null) {
+            cboMaGiamGia.setSelected(true);
+            txtMaGiamGia.setText(String.valueOf(hoaDon.getKhuyenMaiID()));
+            txtMaGiamGia.setEnabled(true);
+            btnKiemTra.setEnabled(true);
+        } else {
+            cboMaGiamGia.setSelected(false);
+            txtMaGiamGia.setText("");
+            txtMaGiamGia.setEnabled(false);
+            btnKiemTra.setEnabled(false);
+        }
+
+        if (khachHangDAO.getSDTKhachHang(hoaDon.getKhachHangID()) != null && !khachHangDAO.getSDTKhachHang(hoaDon.getKhachHangID()).trim().equals("")) {
+            cboThemThongTinKhachHang.setSelected(true);
+            txtSoDienThoaiKH.setText(khachHangDAO.getSDTKhachHang(hoaDon.getKhachHangID()));
+            txtSoDienThoaiKH.setEnabled(true);
+            btnThemSoDienThoaiKH.setEnabled(true);
+        } else {
+            cboThemThongTinKhachHang.setSelected(false);
+            txtSoDienThoaiKH.setText("");
+            txtSoDienThoaiKH.setEnabled(false);
+            btnThemSoDienThoaiKH.setEnabled(false);
+        }
+
+        if (String.valueOf(tblHoaDon.getValueAt(tblHoaDon.getSelectedRow(), 5)).equals("Chưa thanh toán")) {
+            rdChuaThanhToan.setSelected(true);
+        } else {
+            rdDaThanhToan.setSelected(true);
+        }
+        
+//        showDataHDCT();
+    }
+    
+    private void showDataHD(List<HoaDon> list) throws SQLException {
+        int stt = 1;
+        dtmHoaDon.setRowCount(0);
+
+        for (HoaDon hoaDon : list) {
+            Object dataHD[] = {
+                stt++,
+                nhanVienDAO.getTenNhanVien(hoaDon.getNhanVienID()),
+                khachHangDAO.getTenKhachHang(hoaDon.getKhachHangID()),
+                voucherDAO.getMoTaVoucher(hoaDon.getKhuyenMaiID()),
+                decimalFormat.format(hoaDon.getTongTienPhaiTra()) + " VNĐ",
+                getTrangThaiHoaDon(hoaDon.getTrangthai())
+            };
+            dtmHoaDon.addRow(dataHD);
+        }
+    }
 
     private void detailDataSPCT(SanPhamChiTiet sanPhamChiTiet) throws SQLException {
         txtID.setText(String.valueOf(sanPhamChiTiet.getId()));
@@ -862,6 +1090,23 @@ public class BanHangJFrame extends javax.swing.JFrame {
         txtKichThuoc.setText(getKichThuoc(sanPhamChiTiet.getKichThuocID()));
         txtDonGia.setText(String.valueOf(sanPhamChiTiet.getDonGia()));
         txtSoLuongCon.setText(String.valueOf(sanPhamChiTiet.getSoLuong()));
+    }
+    
+    private void showDataHDCT(List<HoaDonChiTiet> list) throws SQLException {
+        int stt = 1;
+        dtmGioHang.setRowCount(0);
+
+        for (HoaDonChiTiet hoaDonChiTiet : list) {
+            Object dataHDCT[] = {
+                stt++,
+                hoaDonChiTiet.getSanPhamChiTietID(),
+                sanPhamChiTietDAO.getIDSPbyIDSPCT(hoaDonChiTiet.getSanPhamChiTietID()),
+                mauSacDAO.getTenMauSac(sanPhamChiTietDAO.getIDSPByHDCTID(hoaDonChiTiet.getId())),
+                getKichThuoc(sanPhamChiTietDAO.getIDSPByHDCTID(hoaDonChiTiet.getId())),
+                sanPhamChiTietDAO.getDonGiabyIDSPCT(hoaDonChiTietDAO.getIDSPCTByHDCTID(hoaDonChiTiet.getId())),
+                sanPhamChiTietDAO.getSoLuongByIDSPCT(hoaDonChiTietDAO.getIDSPCTByHDCTID(hoaDonChiTiet.getId()))
+            };
+        }
     }
 
     private void showDataGH(List<SanPhamChiTiet> list) throws SQLException {
@@ -897,6 +1142,14 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 sanPhamChiTiet.getSoLuong()
             };
             dtmSanPhamChiTiet.addRow(dataSPCT);
+        }
+    }
+    
+    private String getTrangThaiHoaDon(int trangThai) {
+        if (trangThai == 0) {
+            return "Đã thanh toán";
+        } else {
+            return "Chưa thanh toán";
         }
     }
 
@@ -942,27 +1195,37 @@ public class BanHangJFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnQuanLyThuocTinh;
     private javax.swing.JButton btnQuanLyVoucher;
     private javax.swing.JButton btnSuaHoaDon;
+    private javax.swing.JButton btnSuaHoaDon1;
     private javax.swing.JButton btnTaiKhoan;
+    private javax.swing.JButton btnTaoHoaDonMoi;
     private javax.swing.JButton btnThanhToan;
     private javax.swing.JButton btnThemSPToHoaDon;
     private javax.swing.JButton btnThemSoDienThoaiKH;
     private javax.swing.JButton btnTimID;
     private javax.swing.JButton btnTrangChu;
+    private javax.swing.ButtonGroup btnTrangThaiHD;
+    private javax.swing.JButton btnXoaHoaDon;
     private javax.swing.JButton btnXoaSanPham;
     private javax.swing.JCheckBox cboMaGiamGia;
     private javax.swing.JCheckBox cboThemThongTinKhachHang;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JRadioButton rdChuaThanhToan;
+    private javax.swing.JRadioButton rdDaThanhToan;
     private javax.swing.JTable tblGioHang;
+    private javax.swing.JTable tblHoaDon;
     private javax.swing.JTable tblSanPhamChiTiet;
     private javax.swing.JLabel titleDonGia;
     private javax.swing.JLabel txtChucVu;
@@ -970,14 +1233,12 @@ public class BanHangJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel txtDongHo;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtKichThuoc;
-    private javax.swing.JLabel txtLogo;
     private javax.swing.JTextField txtMaGiamGia;
     private javax.swing.JTextField txtMauSac;
     private javax.swing.JTextField txtSoDienThoaiKH;
     private javax.swing.JTextField txtSoLuongCon;
     private javax.swing.JTextField txtTenSanPham;
     private javax.swing.JLabel txtTienDuocGiam;
-    private javax.swing.JLabel txtTile;
     private javax.swing.JLabel txtTongTienHang;
     private javax.swing.JLabel txtTongTienPhaiTra;
     private javax.swing.JLabel txtXinChao;

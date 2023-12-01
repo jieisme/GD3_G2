@@ -515,18 +515,22 @@ DefaultTableModel dtm = new DefaultTableModel();
     }//GEN-LAST:event_btnQuanLySanPhamActionPerformed
 
     private void btnQuanLyKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyKhachHangActionPerformed
+    try {
         // TODO add your handling code here:
-        QuanLyKhachHang quanLyKhachHang = null;
-        quanLyKhachHang = new QuanLyKhachHang();
+        QuanLyKhachHangJFrame quanLyKhachHang = null;
+        quanLyKhachHang = new QuanLyKhachHangJFrame();
         this.setVisible(false);
         quanLyKhachHang.setVisible(true);
+    } catch (SQLException ex) {
+        Logger.getLogger(QuanLyNhanVienJFrame.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }//GEN-LAST:event_btnQuanLyKhachHangActionPerformed
 
     private void btnQuanLyHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyHoaDonActionPerformed
         // TODO add your handling code here:
-        QuanLiHoaDon quanLiHoaDon = null;
+        QuanLyHoaDonJFrame quanLiHoaDon = null;
         try {
-            quanLiHoaDon = new QuanLiHoaDon();
+            quanLiHoaDon = new QuanLyHoaDonJFrame();
         } catch (SQLException ex) {
             Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -588,7 +592,7 @@ DefaultTableModel dtm = new DefaultTableModel();
         try {
             detailData(nhanVienDAO.getAll().get(selectedRow));
         } catch (SQLException ex) {
-            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(QuanLyHoaDonJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_tblQuanLyNhanVienMouseClicked
 
