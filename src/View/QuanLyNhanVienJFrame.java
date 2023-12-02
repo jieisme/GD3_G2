@@ -615,8 +615,9 @@ public class QuanLyNhanVienJFrame extends javax.swing.JFrame {
                     chucVu = 0;
                 }
                 String soDienThoai = txtSDt.getText();
-                list = nhanVienDAO.getAll();
+                
                 JOptionPane.showMessageDialog(this, nhanVienDAO.addData(tenDangNhap, matKhau, hoVaTen, chucVu, soDienThoai));
+                list = nhanVienDAO.getAll();
                 showData(list);
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
@@ -845,6 +846,12 @@ public class QuanLyNhanVienJFrame extends javax.swing.JFrame {
             txtSDt.requestFocus();
             return false;
         }
+        String soDienThoai = txtSDt.getText();
+        
+         if (soDienThoai.charAt(0) != '0') {
+                JOptionPane.showMessageDialog(this, "Số đầu tiền trong số điện thoại phải là '0'");
+                return false;
+         }
 //        Pattern ps = Pattern.compile("^[0]{10}$");
 //        if (ps.matcher(txtSDt.getText()).find()) {
 //            JOptionPane.showMessageDialog(this, "Số điện thoại phải bắt đầu bằng số 0");

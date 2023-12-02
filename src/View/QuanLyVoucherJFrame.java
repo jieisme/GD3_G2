@@ -739,8 +739,9 @@ dtm = (DefaultTableModel) tblQuanLiVoucher.getModel();
                     TrangThai = 1;
                 }
                 String MoTa =txtMoTa.getText();
-                list = voucherDAO.getAll();
+                
                 JOptionPane.showMessageDialog(this,voucherDAO.addData(LoaiKhuyenMai, GiamTheoPhanTram, GiamTheoGiaTien, SoLuong, ThoiGianBatDau, ThoiGianKetThuc, TrangThai, MoTa));
+                list = voucherDAO.getAll();
                 showData(list);
             
         } catch (SQLException ex) {

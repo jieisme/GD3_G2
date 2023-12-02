@@ -762,8 +762,9 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
         if (checkFormCL()) {
             try {
                 String ten = txtTenChatLieu.getText();
-                listCL = chatLieuDAO.getAll();
+
                 JOptionPane.showMessageDialog(this, chatLieuDAO.addData(ten));
+                listCL = chatLieuDAO.getAll();
                 showDataChatLieu(listCL);
 
             } catch (SQLException ex) {
@@ -830,8 +831,9 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
         if (checkForm()) {
             try {
                 String ten = txtTenMau.getText();
-                list = mauSacDAO.getAll();
+
                 JOptionPane.showMessageDialog(this, mauSacDAO.addData(ten));
+                list = mauSacDAO.getAll();
                 showDataMauSac(list);
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());

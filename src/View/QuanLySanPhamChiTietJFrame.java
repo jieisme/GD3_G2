@@ -718,8 +718,8 @@ public class QuanLySanPhamChiTietJFrame extends javax.swing.JFrame {
                     int kichThuoc = cboKichThuoc.getSelectedIndex();
                     int donGia = Integer.parseInt(txtDonGia.getText());
                     int soLuong = Integer.parseInt(txtSoLuong.getText());
-                    list = sanPhamChiTietDAO.getAll();
                     JOptionPane.showMessageDialog(this, sanPhamChiTietDAO.addData(id, sanPhamId, mauSacId, chatLieuId, kichThuoc, donGia, soLuong));
+                    list = sanPhamChiTietDAO.getAll();
                     showData(list);
                 }
             } catch (SQLException ex) {
@@ -802,7 +802,7 @@ public class QuanLySanPhamChiTietJFrame extends javax.swing.JFrame {
         });
     }
 
-     boolean checkForm() {
+    boolean checkForm() {
         if (txtID.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "ID không được để trống");
             txtID.requestFocus();
@@ -814,7 +814,7 @@ public class QuanLySanPhamChiTietJFrame extends javax.swing.JFrame {
             return false;
         }
         Pattern p = Pattern.compile("^[0-9]{1}$");
-        if (!p.matcher(txtSanPhamID.getText()).find() ) {
+        if (!p.matcher(txtSanPhamID.getText()).find()) {
             JOptionPane.showMessageDialog(this, "ID sản phẩm  phải là số");
             txtSanPhamID.requestFocus();
             return false;

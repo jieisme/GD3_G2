@@ -630,94 +630,93 @@ public class QuanLyKhachHangJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTenKHActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        if(checkForm()){
+        if (checkForm()) {
             // TODO add your handling code here:
-        try {
-            String Hoten = txtTenKH.getText();
-            String SDT = txtSDT.getText();
-            String DiaChi = txtDiaChi.getText();
-            list = khachHangDAO.getAll();
-            JOptionPane.showMessageDialog(this, khachHangDAO.addData(Hoten, SDT, DiaChi));
-            showData(list);
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-        
+            try {
+                String Hoten = txtTenKH.getText();
+                String SDT = txtSDT.getText();
+                String DiaChi = txtDiaChi.getText();
+                JOptionPane.showMessageDialog(this, khachHangDAO.addData(Hoten, SDT, DiaChi));
+                list = khachHangDAO.getAll();
+                showData(list);
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+            }
+
         }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
-        if(checkForm()){
+        if (checkForm()) {
             int selectedRow = tblQuanLyKhachHang.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Chưa chọn dòng để sửa!");
-        } else {
-            try {
-                int id = Integer.parseInt(txtID.getText());
-                list = khachHangDAO.getAll();
-                boolean isIdDuplicated = false;
-                for (KhachHang khachHang : list) {
-                    if (id == khachHang.getId()) {
-                        isIdDuplicated = true;
-                        break;
-                    }
-                }
-                if (isIdDuplicated == false) {
-                    JOptionPane.showMessageDialog(this, "Không có mã khách hàng cần sửa!");
-                } else {
-                    String ten = txtTenKH.getText();
-                    String SDT = txtSDT.getText();
-                    String DiaChi = txtDiaChi.getText();
-                    
-                    JOptionPane.showMessageDialog(this, khachHangDAO.updateData(id, ten, SDT, DiaChi));
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(this, "Chưa chọn dòng để sửa!");
+            } else {
+                try {
+                    int id = Integer.parseInt(txtID.getText());
                     list = khachHangDAO.getAll();
-                    showData(list);
+                    boolean isIdDuplicated = false;
+                    for (KhachHang khachHang : list) {
+                        if (id == khachHang.getId()) {
+                            isIdDuplicated = true;
+                            break;
+                        }
+                    }
+                    if (isIdDuplicated == false) {
+                        JOptionPane.showMessageDialog(this, "Không có mã khách hàng cần sửa!");
+                    } else {
+                        String ten = txtTenKH.getText();
+                        String SDT = txtSDT.getText();
+                        String DiaChi = txtDiaChi.getText();
+
+                        JOptionPane.showMessageDialog(this, khachHangDAO.updateData(id, ten, SDT, DiaChi));
+                        list = khachHangDAO.getAll();
+                        showData(list);
+                    }
+                } catch (SQLException ex) {
+                    System.out.println(ex.getMessage());
                 }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
             }
-        }
         }
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
-      if(checkForm()){
+        if (checkForm()) {
             int selectedRow = tblQuanLyKhachHang.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Chưa chọn dòng để xóa!");
-        } else {
-            try {
-                int id = Integer.parseInt(txtID.getText());
-                list = khachHangDAO.getAll();
-
-                boolean isIdDuplicated = false;
-
-                for (KhachHang khachHang : list) {
-                    if (id == khachHang.getId()) {
-                        isIdDuplicated = true;
-                        break;
-                    }
-                }
-
-                if (isIdDuplicated == false) {
-                    JOptionPane.showMessageDialog(this, "Không có mã sản phẩm cần xóas!");
-                } else {
-                    String HoTen = txtTenKH.getText();
-                    String SDT = txtSDT.getText();
-                    String DiaChi = txtDiaChi.getText();
-                    
-
-                    JOptionPane.showMessageDialog(this, khachHangDAO.deleteData(id));
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(this, "Chưa chọn dòng để xóa!");
+            } else {
+                try {
+                    int id = Integer.parseInt(txtID.getText());
                     list = khachHangDAO.getAll();
-                    showData(list);
+
+                    boolean isIdDuplicated = false;
+
+                    for (KhachHang khachHang : list) {
+                        if (id == khachHang.getId()) {
+                            isIdDuplicated = true;
+                            break;
+                        }
+                    }
+
+                    if (isIdDuplicated == false) {
+                        JOptionPane.showMessageDialog(this, "Không có mã sản phẩm cần xóas!");
+                    } else {
+                        String HoTen = txtTenKH.getText();
+                        String SDT = txtSDT.getText();
+                        String DiaChi = txtDiaChi.getText();
+
+                        JOptionPane.showMessageDialog(this, khachHangDAO.deleteData(id));
+                        list = khachHangDAO.getAll();
+                        showData(list);
+                    }
+                } catch (SQLException ex) {
+                    System.out.println(ex.getMessage());
                 }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
             }
         }
-      }
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void tblQuanLyKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblQuanLyKhachHangMouseClicked
@@ -795,8 +794,7 @@ public class QuanLyKhachHangJFrame extends javax.swing.JFrame {
                 khachHang.getId(),
                 khachHang.getHoVaTen(),
                 khachHang.getSoDienThoai(),
-                khachHang.getDiaChi(),
-            };
+                khachHang.getDiaChi(),};
             dtm.addRow(data);
         }
     }
@@ -821,7 +819,8 @@ public class QuanLyKhachHangJFrame extends javax.swing.JFrame {
             model.addRow(obj);
         }
     }
-     boolean checkForm(){
+
+    boolean checkForm() {
         if (txtTenKH.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Tên khách hàng không được để trống");
             txtTenKH.requestFocus();
@@ -844,13 +843,19 @@ public class QuanLyKhachHangJFrame extends javax.swing.JFrame {
             txtSDT.requestFocus();
             return false;
         }
+         String soDienThoai = txtSDT.getText();
         
+         if (soDienThoai.charAt(0) != '0') {
+                JOptionPane.showMessageDialog(this, "Số đầu tiền trong số điện thoại phải là '0'");
+                return false;
+         }
+
         if (txtDiaChi.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Địa chỉ không được để trống");
             txtDiaChi.requestFocus();
             return false;
         }
-        
+
         return true;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

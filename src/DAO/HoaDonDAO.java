@@ -113,4 +113,12 @@ public class HoaDonDAO {
         }
         return null;
     }
+    public String removeData(int id) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "UPDATE hoadon SET TRANGTHAIXOA = 1 WHERE ID = ?";
+        PreparedStatement preSt = conn.prepareCall(sql);
+        preSt.setInt(1, id);
+        int rs = preSt.executeUpdate();
+        return "Xóa thành công!";
+    }
 }
