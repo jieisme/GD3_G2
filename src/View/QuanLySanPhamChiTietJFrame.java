@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -677,7 +678,8 @@ public class QuanLySanPhamChiTietJFrame extends javax.swing.JFrame {
                         float donGia = Float.parseFloat(txtDonGia.getText());
                         int soLuong = Integer.parseInt(txtSoLuong.getText());
                         JOptionPane.showMessageDialog(this, sanPhamChiTietDAO.updateData(id, sanPhamId, mauSacId, chatLieuId, kichThuoc, donGia, soLuong));
-                        showData(sanPhamChiTietDAO.getAll());
+                        list = sanPhamChiTietDAO.getAll();
+                        showData(list);
                     }
                 } catch (SQLException ex) {
                     System.out.println(ex.getMessage());
@@ -716,8 +718,9 @@ public class QuanLySanPhamChiTietJFrame extends javax.swing.JFrame {
                     int kichThuoc = cboKichThuoc.getSelectedIndex();
                     int donGia = Integer.parseInt(txtDonGia.getText());
                     int soLuong = Integer.parseInt(txtSoLuong.getText());
+                    list = sanPhamChiTietDAO.getAll();
                     JOptionPane.showMessageDialog(this, sanPhamChiTietDAO.addData(id, sanPhamId, mauSacId, chatLieuId, kichThuoc, donGia, soLuong));
-                    showData(sanPhamChiTietDAO.getAll());
+                    showData(list);
                 }
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
@@ -734,7 +737,8 @@ public class QuanLySanPhamChiTietJFrame extends javax.swing.JFrame {
                 try {
                     // TODO add your handling code here:
                     JOptionPane.showMessageDialog(this, sanPhamChiTietDAO.removeData(txtID.getText()));
-                    showData(sanPhamChiTietDAO.getAll());
+                    list = sanPhamChiTietDAO.getAll();
+                    showData(list);
                 } catch (SQLException ex) {
                 }
             }
@@ -798,20 +802,32 @@ public class QuanLySanPhamChiTietJFrame extends javax.swing.JFrame {
         });
     }
 
-    boolean checkForm() {
+     boolean checkForm() {
+        if (txtID.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "ID không được để trống");
+            txtID.requestFocus();
+            return false;
+        }
         if (txtSanPhamID.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "ID sản phẩm không được để trống");
             txtSanPhamID.requestFocus();
             return false;
-//        } else {
-//            if (!txt_Name.getText().trim().matches("[a-zA-z ]+")) {
-//                JOptionPane.showMessageDialog(this, "Name Sai dinh dang");
-//                txt_Name.requestFocus();
-//                return false;
-//            }
         }
+        Pattern p = Pattern.compile("^[0-9]{1}$");
+        if (!p.matcher(txtSanPhamID.getText()).find() ) {
+            JOptionPane.showMessageDialog(this, "ID sản phẩm  phải là số");
+            txtSanPhamID.requestFocus();
+            return false;
+        }
+
         if (txtMauSacID.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "ID Màu sắc không được để trống");
+            txtMauSacID.requestFocus();
+            return false;
+        }
+        Pattern ps = Pattern.compile("^[0-9]{1}$");
+        if (!ps.matcher(txtMauSacID.getText()).find()) {
+            JOptionPane.showMessageDialog(this, "ID màu sắc phải là số");
             txtMauSacID.requestFocus();
             return false;
         }
@@ -820,12 +836,24 @@ public class QuanLySanPhamChiTietJFrame extends javax.swing.JFrame {
             txtChatLieuid.requestFocus();
             return false;
         }
+        Pattern pn = Pattern.compile("^[0-9]{1}$");
+        if (!pn.matcher(txtChatLieuid.getText()).find()) {
+            JOptionPane.showMessageDialog(this, "ID chất liệu phải là số");
+            txtChatLieuid.requestFocus();
+            return false;
+        }
         if (txtDonGia.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Đon giá không được để trống");
+            JOptionPane.showMessageDialog(this, "Đơn giá không được để trống");
             txtDonGia.requestFocus();
             return false;
 
         }
+//        Pattern pj = Pattern.compile("^[0-9]$");
+//        if (!pj.matcher(txtDonGia.getText()).find()) {
+//            JOptionPane.showMessageDialog(this, "Đơn giá phải là số ");
+//            txtDonGia.requestFocus();
+//            return false;
+//        }
         if (txtSoLuong.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Số lượng không được để trống");
             txtSoLuong.requestFocus();

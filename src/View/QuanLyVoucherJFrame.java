@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -669,7 +670,8 @@ dtm = (DefaultTableModel) tblQuanLiVoucher.getModel();
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
-        int selectedRow = tblQuanLiVoucher.getSelectedRow();
+        if(checkFrom()){
+            int selectedRow = tblQuanLiVoucher.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Chưa chọn dòng để xóa!");
         } else {
@@ -678,6 +680,7 @@ dtm = (DefaultTableModel) tblQuanLiVoucher.getModel();
                 list = voucherDAO.getAll();
 
                 boolean isIdDuplicated = false;
+        // TODO add your handling code here:
 
                 for (Voucher voucher : list) {
                     if (id == voucher.getId()) {
@@ -704,11 +707,13 @@ dtm = (DefaultTableModel) tblQuanLiVoucher.getModel();
                 String MoTa =txtMoTa.getText();
 
                     JOptionPane.showMessageDialog(this, voucherDAO.DeleteData(id));
-                    showData(voucherDAO.getAll());
+                    list = voucherDAO.getAll();
+                    showData(list);
                 }
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
+        }
         }
     }//GEN-LAST:event_btnXoaActionPerformed
 
@@ -718,7 +723,8 @@ dtm = (DefaultTableModel) tblQuanLiVoucher.getModel();
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        try {
+       if(checkFrom()){
+            try {
             
                 int LoaiKhuyenMai =  cboLoai.getSelectedIndex();
                 int SoLuong = Integer.parseInt(txtSoLuong.getText());
@@ -733,16 +739,19 @@ dtm = (DefaultTableModel) tblQuanLiVoucher.getModel();
                     TrangThai = 1;
                 }
                 String MoTa =txtMoTa.getText();
+                list = voucherDAO.getAll();
                 JOptionPane.showMessageDialog(this,voucherDAO.addData(LoaiKhuyenMai, GiamTheoPhanTram, GiamTheoGiaTien, SoLuong, ThoiGianBatDau, ThoiGianKetThuc, TrangThai, MoTa));
-                showData(voucherDAO.getAll());
+                showData(list);
             
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
+       }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        // TODO add your handling code here:
+      if(checkFrom()){
+            // TODO add your handling code here:
        int selectedRow = tblQuanLiVoucher.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Chưa chọn dòng để sửa!");
@@ -777,12 +786,14 @@ dtm = (DefaultTableModel) tblQuanLiVoucher.getModel();
                 }
                 String MoTa =txtMoTa.getText();
                     JOptionPane.showMessageDialog(this, voucherDAO.updateData(id, LoaiKhuyenMai, GiamTheoPhanTram, GiamTheoGiaTien, SoLuong, ThoiGianBatDau, ThoiGianKetThuc, TrangThai, MoTa));
-                    showData(voucherDAO.getAll());
+                    list = voucherDAO.getAll();
+                    showData(list);
                 }
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
         }
+      }
     }//GEN-LAST:event_btnSuaActionPerformed
 private void detailData(Voucher voucher) {
         txtID.setText(String.valueOf(voucher.getId()));
@@ -967,7 +978,46 @@ private void detailData(Voucher voucher) {
         DongHo dongHo = new DongHo(txtDongHo);
         dongHo.start();
     }
-    
+    boolean checkFrom() {
+        if (txtgiamtheopt.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Giảm theo phần trăm không được để trống");
+            txtgiamtheopt.requestFocus();
+            return false;
+        }
+        if (txtgiamtheotien.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Giảm theo giá tiền không được để trống");
+            txtgiamtheotien.requestFocus();
+            return false;
+        }
+        if (txtSoLuong.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Sô lượng không được để trống");
+            txtSoLuong.requestFocus();
+            return false;
+        }
+        if (txtTimeStart.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Sô lượng không được để trống");
+            txtTimeStart.requestFocus();
+            return false;
+        }
+        Pattern p = Pattern.compile("^[0-9]{2}-[0-9]{2}-[0-9]{4}$");
+        if (!p.matcher(txtTimeStart.getText()).find()) {
+            JOptionPane.showMessageDialog(this, "Time start phải đúng định dạng [dd-mm-yyyy]");
+            txtTimeStart.requestFocus();
+            return false;
+        }
+        if (txtTimeEnd.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Sô lượng không được để trống");
+            txtTimeEnd.requestFocus();
+            return false;
+        }
+        Pattern pn = Pattern.compile("^[0-9]{2}-[0-9]{2}-[0-9]{4}$");
+        if (!pn.matcher(txtTimeEnd.getText()).find()) {
+            JOptionPane.showMessageDialog(this, "Time end phải đúng định dạng [dd-mm-yyyy]");
+            txtTimeEnd.requestFocus();
+            return false;
+        }
+        return true;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Background;

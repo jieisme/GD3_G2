@@ -15,6 +15,7 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 /**
@@ -37,9 +38,9 @@ public class QuanLyKhachHangJFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         btnDoiMatKhau.setVisible(false);
         btnDangXuat.setVisible(false);
-        txtXinChao.setText("Xin chào: " + nhanVienDAO.searchHoVaTen(loggedInUser));
-        int chucVu = Integer.parseInt(nhanVienDAO.searchChucVu(loggedInUser));
-        txtChucVu.setText("Chức vụ: " + getChucVu(chucVu));
+//        txtXinChao.setText("Xin chào: " + nhanVienDAO.searchHoVaTen(loggedInUser));
+////        int chucVu = Integer.parseInt(nhanVienDAO.searchChucVu(loggedInUser));
+//        txtChucVu.setText("Chức vụ: " + getChucVu(chucVu));
         dongHo();
         dtm = (DefaultTableModel) tblQuanLyKhachHang.getModel();
         dtm.setRowCount(0);
@@ -629,23 +630,26 @@ public class QuanLyKhachHangJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTenKHActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        // TODO add your handling code here:
+        if(checkForm()){
+            // TODO add your handling code here:
         try {
             String Hoten = txtTenKH.getText();
             String SDT = txtSDT.getText();
             String DiaChi = txtDiaChi.getText();
-
+            list = khachHangDAO.getAll();
             JOptionPane.showMessageDialog(this, khachHangDAO.addData(Hoten, SDT, DiaChi));
-            showData(khachHangDAO.getAll());
+            showData(list);
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
         
+        }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
-        int selectedRow = tblQuanLyKhachHang.getSelectedRow();
+        if(checkForm()){
+            int selectedRow = tblQuanLyKhachHang.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Chưa chọn dòng để sửa!");
         } else {
@@ -667,17 +671,20 @@ public class QuanLyKhachHangJFrame extends javax.swing.JFrame {
                     String DiaChi = txtDiaChi.getText();
                     
                     JOptionPane.showMessageDialog(this, khachHangDAO.updateData(id, ten, SDT, DiaChi));
-                    showData(khachHangDAO.getAll());
+                    list = khachHangDAO.getAll();
+                    showData(list);
                 }
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
         }
+        }
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
-        int selectedRow = tblQuanLyKhachHang.getSelectedRow();
+      if(checkForm()){
+            int selectedRow = tblQuanLyKhachHang.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Chưa chọn dòng để xóa!");
         } else {
@@ -703,12 +710,14 @@ public class QuanLyKhachHangJFrame extends javax.swing.JFrame {
                     
 
                     JOptionPane.showMessageDialog(this, khachHangDAO.deleteData(id));
-                    showData(khachHangDAO.getAll());
+                    list = khachHangDAO.getAll();
+                    showData(list);
                 }
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
         }
+      }
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void tblQuanLyKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblQuanLyKhachHangMouseClicked
@@ -811,6 +820,38 @@ public class QuanLyKhachHangJFrame extends javax.swing.JFrame {
                 khachHang.getDiaChi(),};
             model.addRow(obj);
         }
+    }
+     boolean checkForm(){
+        if (txtTenKH.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Tên khách hàng không được để trống");
+            txtTenKH.requestFocus();
+            return false;
+        }
+        if (txtSDT.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại không được để trống");
+            txtSDT.requestFocus();
+            return false;
+        }
+//        Pattern ps = Pattern.compile("^[0]{10}$");
+//        if (!ps.matcher(txtSDT.getText()).find()) {
+//            JOptionPane.showMessageDialog(this, "Số điện thoại phải bắt đầu bằng số 0");
+//            txtSDT.requestFocus();
+//            return false;
+//        }
+        Pattern p = Pattern.compile("^[0-9]{10}$");
+        if (!p.matcher(txtSDT.getText()).find()) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại phải là số và có 10 số");
+            txtSDT.requestFocus();
+            return false;
+        }
+        
+        if (txtDiaChi.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Địa chỉ không được để trống");
+            txtDiaChi.requestFocus();
+            return false;
+        }
+        
+        return true;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Background;

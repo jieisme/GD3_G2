@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package View;
+
 import DAO.NhanVienDAO;
 import Entity.NhanVien;
 import java.sql.SQLException;
@@ -10,14 +11,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Thuylq
  */
 public class QuanLyNhanVienJFrame extends javax.swing.JFrame {
-DefaultTableModel dtm = new DefaultTableModel();
+
+    DefaultTableModel dtm = new DefaultTableModel();
     List<NhanVien> list = new ArrayList<>();
     NhanVienDAO nhanVienDAO = new NhanVienDAO();
 
@@ -515,15 +519,15 @@ DefaultTableModel dtm = new DefaultTableModel();
     }//GEN-LAST:event_btnQuanLySanPhamActionPerformed
 
     private void btnQuanLyKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyKhachHangActionPerformed
-    try {
-        // TODO add your handling code here:
-        QuanLyKhachHangJFrame quanLyKhachHang = null;
-        quanLyKhachHang = new QuanLyKhachHangJFrame();
-        this.setVisible(false);
-        quanLyKhachHang.setVisible(true);
-    } catch (SQLException ex) {
-        Logger.getLogger(QuanLyNhanVienJFrame.class.getName()).log(Level.SEVERE, null, ex);
-    }
+        try {
+            // TODO add your handling code here:
+            QuanLyKhachHangJFrame quanLyKhachHang = null;
+            quanLyKhachHang = new QuanLyKhachHangJFrame();
+            this.setVisible(false);
+            quanLyKhachHang.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLyNhanVienJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnQuanLyKhachHangActionPerformed
 
     private void btnQuanLyHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyHoaDonActionPerformed
@@ -598,119 +602,121 @@ DefaultTableModel dtm = new DefaultTableModel();
 
     private void btnthemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnthemActionPerformed
         // TODO add your handling code here:
-       if(checkForm()){
+        if (checkForm()) {
             try {
-            String tenDangNhap = txtTenDangNhap.getText();
-            char[] charMatKhau = txtMatKhau.getPassword();
-            String matKhau = String.valueOf(charMatKhau);
-            String hoVaTen = txtHoTen.getText();
-            int chucVu;
-            if (rdoNhanVien.isSelected()) {
-                chucVu = 1;
-            } else {
-                chucVu = 0;
+                String tenDangNhap = txtTenDangNhap.getText();
+                char[] charMatKhau = txtMatKhau.getPassword();
+                String matKhau = String.valueOf(charMatKhau);
+                String hoVaTen = txtHoTen.getText();
+                int chucVu;
+                if (rdoNhanVien.isSelected()) {
+                    chucVu = 1;
+                } else {
+                    chucVu = 0;
+                }
+                String soDienThoai = txtSDt.getText();
+                list = nhanVienDAO.getAll();
+                JOptionPane.showMessageDialog(this, nhanVienDAO.addData(tenDangNhap, matKhau, hoVaTen, chucVu, soDienThoai));
+                showData(list);
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
             }
-            String soDienThoai = txtSDt.getText();
-
-            JOptionPane.showMessageDialog(this, nhanVienDAO.addData(tenDangNhap, matKhau, hoVaTen, chucVu, soDienThoai));
-            showData(nhanVienDAO.getAll());
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
         }
-       }
     }//GEN-LAST:event_btnthemActionPerformed
 
     private void btnxoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnxoaActionPerformed
         // TODO add your handling code here:
-        if(checkForm()){
-            int chon = (JOptionPane.showConfirmDialog(this,"Delete ?","Confirm", JOptionPane.YES_NO_OPTION));
-        if(chon == JOptionPane.YES_OPTION){
-            int selectedRow = tblQuanLyNhanVien.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Chưa chọn dòng để xóa!");
-        } else {
-            try {
-                int id = Integer.parseInt(txtID.getText());
-                list = nhanVienDAO.getAll();
-
-                boolean isIdDuplicated = false;
-
-                for (NhanVien nhanVien : list) {
-                    if (id == nhanVien.getID()) {
-                        isIdDuplicated = true;
-                        break;
-                    }
-                }
-
-                if (isIdDuplicated == false) {
-                    JOptionPane.showMessageDialog(this, "Không có mã sản phẩm cần xóas!");
+        if (checkForm()) {
+            int chon = (JOptionPane.showConfirmDialog(this, "Delete ?", "Confirm", JOptionPane.YES_NO_OPTION));
+            if (chon == JOptionPane.YES_OPTION) {
+                int selectedRow = tblQuanLyNhanVien.getSelectedRow();
+                if (selectedRow == -1) {
+                    JOptionPane.showMessageDialog(this, "Chưa chọn dòng để xóa!");
                 } else {
-                    String tenDangNhap = txtTenDangNhap.getText();
-                    char[] charMatKhau = txtMatKhau.getPassword();
-                    String matKhau = String.valueOf(charMatKhau);
-                    String hoVaTen = txtHoTen.getText();
-                    int chucVu;
-                    if (rdoNhanVien.isSelected()) {
-                        chucVu = 1;
-                    } else {
-                        chucVu = 0;
-                    }
-                    String soDienThoai = txtSDt.getText();
+                    try {
+                        int id = Integer.parseInt(txtID.getText());
+                        list = nhanVienDAO.getAll();
 
-                    JOptionPane.showMessageDialog(this, nhanVienDAO.DeleteData(id));
-                    showData(nhanVienDAO.getAll());
+                        boolean isIdDuplicated = false;
+
+                        for (NhanVien nhanVien : list) {
+                            if (id == nhanVien.getID()) {
+                                isIdDuplicated = true;
+                                break;
+                            }
+                        }
+
+                        if (isIdDuplicated == false) {
+                            JOptionPane.showMessageDialog(this, "Không có mã sản phẩm cần xóas!");
+                        } else {
+                            String tenDangNhap = txtTenDangNhap.getText();
+                            char[] charMatKhau = txtMatKhau.getPassword();
+                            String matKhau = String.valueOf(charMatKhau);
+                            String hoVaTen = txtHoTen.getText();
+                            int chucVu;
+                            if (rdoNhanVien.isSelected()) {
+                                chucVu = 1;
+                            } else {
+                                chucVu = 0;
+                            }
+                            String soDienThoai = txtSDt.getText();
+
+                            JOptionPane.showMessageDialog(this, nhanVienDAO.DeleteData(id));
+                            list = nhanVienDAO.getAll();
+                            showData(list);
+                        }
+                    } catch (SQLException ex) {
+                        System.out.println(ex.getMessage());
+                    }
                 }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
             }
+            return;
         }
-        }
-        return;
-        }
-        
+
     }//GEN-LAST:event_btnxoaActionPerformed
 
     private void btnsuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsuaActionPerformed
         // TODO add your handling code here:
-        if(checkForm()){
+        if (checkForm()) {
             int selectedRow = tblQuanLyNhanVien.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Chưa chọn dòng để sửa!");
-        } else {
-            try {
-                int id = Integer.parseInt(txtID.getText());
-                list = nhanVienDAO.getAll();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(this, "Chưa chọn dòng để sửa!");
+            } else {
+                try {
+                    int id = Integer.parseInt(txtID.getText());
+                    list = nhanVienDAO.getAll();
 
-                boolean isIdDuplicated = false;
+                    boolean isIdDuplicated = false;
 
-                for (NhanVien nhanVien : list) {
-                    if (id == nhanVien.getID()) {
-                        isIdDuplicated = true;
-                        break;
+                    for (NhanVien nhanVien : list) {
+                        if (id == nhanVien.getID()) {
+                            isIdDuplicated = true;
+                            break;
+                        }
                     }
-                }
 
-                if (isIdDuplicated == false) {
-                    JOptionPane.showMessageDialog(this, "Không có mã sản phẩm cần sửa!");
-                } else {
-                    String tenDangNhap = txtTenDangNhap.getText();
-                    String matKhau = txtMatKhau.getText();
-                    String hoVaTen = txtHoTen.getText();
-                    int chucVu;
-                    if (rdoNhanVien.isSelected()) {
-                        chucVu = 1;
+                    if (isIdDuplicated == false) {
+                        JOptionPane.showMessageDialog(this, "Không có mã sản phẩm cần sửa!");
                     } else {
-                        chucVu = 0;
-                    }
-                    String soDienThoai = txtSDt.getText();
+                        String tenDangNhap = txtTenDangNhap.getText();
+                        String matKhau = txtMatKhau.getText();
+                        String hoVaTen = txtHoTen.getText();
+                        int chucVu;
+                        if (rdoNhanVien.isSelected()) {
+                            chucVu = 1;
+                        } else {
+                            chucVu = 0;
+                        }
+                        String soDienThoai = txtSDt.getText();
 
-                    JOptionPane.showMessageDialog(this, nhanVienDAO.updateData(id, tenDangNhap, matKhau, hoVaTen, chucVu, soDienThoai));
-                    showData(nhanVienDAO.getAll());
+                        JOptionPane.showMessageDialog(this, nhanVienDAO.updateData(id, tenDangNhap, matKhau, hoVaTen, chucVu, soDienThoai));
+                        list = nhanVienDAO.getAll();
+                        showData(list);
+                    }
+                } catch (SQLException ex) {
+                    System.out.println(ex.getMessage());
                 }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
             }
-        }
         }
     }//GEN-LAST:event_btnsuaActionPerformed
 
@@ -755,7 +761,8 @@ DefaultTableModel dtm = new DefaultTableModel();
             }
         });
     }
-     private void showData(List<NhanVien> list) {
+
+    private void showData(List<NhanVien> list) {
         int stt = 1;
         dtm.setRowCount(0);
 
@@ -785,6 +792,7 @@ DefaultTableModel dtm = new DefaultTableModel();
         txtSDt.setText(nhanVien.getSoDienThoai());
 
     }
+
     private String getChucVu(int chucVu) {
         switch (chucVu) {
             case 0:
@@ -796,41 +804,55 @@ DefaultTableModel dtm = new DefaultTableModel();
 
         }
     }
+
     boolean checkForm() {
-//        char[] charMatKhau = txtMatKhau.getPassword();
-//        String matKhau = String.valueOf(charMatKhau);
-    
+
         if (txtTenDangNhap.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Tên đang nhập không được để trống");
             txtTenDangNhap.requestFocus();
             return false;
         }
+        for (NhanVien nhanVien : list) {
+            if (txtTenDangNhap.getText().equalsIgnoreCase(nhanVien.getUserName())) {
+                JOptionPane.showMessageDialog(this, "Tên Đăng nhập không được trùng");
+                txtTenDangNhap.requestFocus();
+                return false;
+            }
+        }
+        if (txtMatKhau.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Mật khẩu không được để trống !");
+            txtMatKhau.requestFocus();
+            return false;
+        }
+
         if (txtHoTen.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Họ và tên không được để trống");
             txtHoTen.requestFocus();
             return false;
-        } 
-        if(txtSDt.getText().isEmpty()){
+        }
+        if (txtSDt.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Số điện thoại không được để trống");
             txtSDt.requestFocus();
             return false;
         }
-//        } else {
-////            if (!txtTenDangNhap.getText().trim().matches("[a-zA-z ]+")) {
-////                JOptionPane.showMessageDialog(this, "Tên đăng nhập sai định ");
-////                txt_Name.requestFocus();
-////                return false;
-////            }
-//        }
-//        if (txtMatKhau.getPassword().equals("")) {
-//            JOptionPane.showMessageDialog(this, "Mật khẩu không được để trống");
-//            txtMatKhau.requestFocus();
+        try {
+
+        } catch (Exception e) {
+        }
+        Pattern p = Pattern.compile("^[0-9]{10}$");
+        if (!p.matcher(txtSDt.getText()).find()) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại phải là số và có 10 số");
+            txtSDt.requestFocus();
+            return false;
+        }
+//        Pattern ps = Pattern.compile("^[0]{10}$");
+//        if (ps.matcher(txtSDt.getText()).find()) {
+//            JOptionPane.showMessageDialog(this, "Số điện thoại phải bắt đầu bằng số 0");
+//            txtSDt.requestFocus();
 //            return false;
 //        }
-        
 
-    
-                return true;
+        return true;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -40,9 +40,10 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
         dtmMauSac.setRowCount(0);
         dtmChatLieu = (DefaultTableModel) tblChatLieu.getModel();
         dtmChatLieu.setRowCount(0);
-        list = new ArrayList<>();
-        showDataMauSac(mauSacDAO.getAll());
-        showDataChatLieu(chatLieuDAO.getAll());
+        list = mauSacDAO.getAll();
+        listCL = chatLieuDAO.getAll();
+        showDataMauSac(list);
+        showDataChatLieu(listCL);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
@@ -758,66 +759,69 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
 
     private void btnTimID2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimID2ActionPerformed
         // TODO add your handling code here:
-       if(checkFormCL()){
+        if (checkFormCL()) {
             try {
-            String ten = txtTenChatLieu.getText();
-            JOptionPane.showMessageDialog(this, chatLieuDAO.addData(ten));
-            showDataChatLieu(chatLieuDAO.getAll());
-
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
-       }
-    }//GEN-LAST:event_btnTimID2ActionPerformed
-
-    private void btnTimID3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimID3ActionPerformed
-        // TODO add your handling code here:
-       if(checkFormCL()){
-            int selectedRow = tblChatLieu.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Chưa chọn dòng để sửa!");
-        } else {
-            try {
-                int id = Integer.parseInt(txtIDChatLieu.getText());
+                String ten = txtTenChatLieu.getText();
                 listCL = chatLieuDAO.getAll();
+                JOptionPane.showMessageDialog(this, chatLieuDAO.addData(ten));
+                showDataChatLieu(listCL);
 
-                boolean isIdDuplicated = false;
-
-                for (ChatLieu chatLieu : listCL) {
-                    if (id == chatLieu.getId()) {
-                        isIdDuplicated = true;
-                        break;
-                    }
-                }
-
-                if (isIdDuplicated == false) {
-                    JOptionPane.showMessageDialog(this, "Không có mã hóa đơn cần sửa!");
-                } else {
-                    String ten = txtTenChatLieu.getText();
-
-                    JOptionPane.showMessageDialog(this, chatLieuDAO.updateData(id, ten));
-                    showDataChatLieu(chatLieuDAO.getAll());
-                }
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
         }
-       }
+    }//GEN-LAST:event_btnTimID2ActionPerformed
+
+    private void btnTimID3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimID3ActionPerformed
+        // TODO add your handling code here:
+        if (checkFormCL()) {
+            int selectedRow = tblChatLieu.getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(this, "Chưa chọn dòng để sửa!");
+            } else {
+                try {
+                    int id = Integer.parseInt(txtIDChatLieu.getText());
+                    listCL = chatLieuDAO.getAll();
+
+                    boolean isIdDuplicated = false;
+
+                    for (ChatLieu chatLieu : listCL) {
+                        if (id == chatLieu.getId()) {
+                            isIdDuplicated = true;
+                            break;
+                        }
+                    }
+
+                    if (isIdDuplicated == false) {
+                        JOptionPane.showMessageDialog(this, "Không có mã hóa đơn cần sửa!");
+                    } else {
+                        String ten = txtTenChatLieu.getText();
+
+                        JOptionPane.showMessageDialog(this, chatLieuDAO.updateData(id, ten));
+                        listCL = chatLieuDAO.getAll();
+                        showDataChatLieu(listCL);
+                    }
+                } catch (SQLException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            }
+        }
     }//GEN-LAST:event_btnTimID3ActionPerformed
 
     private void btnTimID4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimID4ActionPerformed
         // TODO add your handling code here:
-        if(checkFormCL()){
+        if (checkFormCL()) {
             int chon = (JOptionPane.showConfirmDialog(this, "Delete ?", "Confirm", JOptionPane.YES_NO_OPTION));
-        if (chon == JOptionPane.YES_OPTION) {
-            try {
-                // TODO add your handling code here:
-                JOptionPane.showMessageDialog(this, chatLieuDAO.removeData(txtIDChatLieu.getText()));
-                showDataChatLieu(chatLieuDAO.getAll());
-            } catch (SQLException ex) {
+            if (chon == JOptionPane.YES_OPTION) {
+                try {
+                    // TODO add your handling code here:
+                    JOptionPane.showMessageDialog(this, chatLieuDAO.removeData(txtIDChatLieu.getText()));
+                    listCL = chatLieuDAO.getAll();
+                    showDataChatLieu(listCL);
+                } catch (SQLException ex) {
+                }
             }
-        }
-        return;
+            return;
         }
     }//GEN-LAST:event_btnTimID4ActionPerformed
 
@@ -826,8 +830,9 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
         if (checkForm()) {
             try {
                 String ten = txtTenMau.getText();
+                list = mauSacDAO.getAll();
                 JOptionPane.showMessageDialog(this, mauSacDAO.addData(ten));
-                showDataMauSac(mauSacDAO.getAll());
+                showDataMauSac(list);
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
@@ -836,36 +841,37 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
 
     private void btnsuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsuaActionPerformed
         // TODO add your handling code here:
-        if(checkForm()){
+        if (checkForm()) {
             int selectedRow = tblMauSac.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Chưa chọn dòng để sửa!");
-        } else {
-            try {
-                int id = Integer.parseInt(txtIDMau.getText());
-                list = mauSacDAO.getAll();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(this, "Chưa chọn dòng để sửa!");
+            } else {
+                try {
+                    int id = Integer.parseInt(txtIDMau.getText());
+                    list = mauSacDAO.getAll();
 
-                boolean isIdDuplicated = false;
+                    boolean isIdDuplicated = false;
 
-                for (MauSac mauSac : list) {
-                    if (id == mauSac.getId()) {
-                        isIdDuplicated = true;
-                        break;
+                    for (MauSac mauSac : list) {
+                        if (id == mauSac.getId()) {
+                            isIdDuplicated = true;
+                            break;
+                        }
                     }
-                }
 
-                if (isIdDuplicated == false) {
-                    JOptionPane.showMessageDialog(this, "Không có mã hóa đơn cần sửa!");
-                } else {
-                    String ten = txtTenMau.getText();
+                    if (isIdDuplicated == false) {
+                        JOptionPane.showMessageDialog(this, "Không có mã hóa đơn cần sửa!");
+                    } else {
+                        String ten = txtTenMau.getText();
 
-                    JOptionPane.showMessageDialog(this, mauSacDAO.updateData(id, ten));
-                    showDataMauSac(mauSacDAO.getAll());
+                        JOptionPane.showMessageDialog(this, mauSacDAO.updateData(id, ten));
+                        list = mauSacDAO.getAll();
+                        showDataMauSac(list);
+                    }
+                } catch (SQLException ex) {
+                    System.out.println(ex.getMessage());
                 }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
             }
-        }
         }
     }//GEN-LAST:event_btnsuaActionPerformed
 
@@ -877,7 +883,8 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
                 try {
                     // TODO add your handling code here:
                     JOptionPane.showMessageDialog(this, mauSacDAO.removeData(txtIDMau.getText()));
-                    showDataMauSac(mauSacDAO.getAll());
+                    list = mauSacDAO.getAll();
+                    showDataMauSac(list);
                 } catch (SQLException ex) {
                 }
             }
@@ -932,26 +939,31 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "tên màu không được để trống !");
             txtTenMau.requestFocus();
             return false;
-        } else {
-            if (!txtTenMau.getText().trim().matches("[a-zA-z ]+")) {
-                JOptionPane.showMessageDialog(this, "Tên sai định dạng");
+        }
+        for (MauSac mauSac : list) {
+            if (txtTenMau.getText().equalsIgnoreCase(mauSac.getTen())) {
+                JOptionPane.showMessageDialog(this, "Tên màu không được trùng");
                 txtTenMau.requestFocus();
                 return false;
+
             }
         }
-
         return true;
     }
+
     boolean checkFormCL() {
+
         if (txtTenChatLieu.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "tên Chất không được để trống !");
+            JOptionPane.showMessageDialog(this, "Tên Chất liệu không được để trống !");
             txtTenChatLieu.requestFocus();
             return false;
         } else {
-            if (!txtTenChatLieu.getText().trim().matches("[a-zA-z ]+")) {
-                JOptionPane.showMessageDialog(this, "Tên sai định dạng");
-                txtTenChatLieu.requestFocus();
-                return false;
+            for (ChatLieu chatLieu : listCL) {
+                if (txtTenChatLieu.getText().equalsIgnoreCase(chatLieu.getLoai())) {
+                    JOptionPane.showMessageDialog(this, "Tên Chât liệu không được trùng");
+                    txtTenChatLieu.requestFocus();
+                    return false;
+                }
             }
         }
 
