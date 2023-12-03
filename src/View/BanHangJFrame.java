@@ -62,6 +62,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
 
     public BanHangJFrame() throws SQLException {
         initComponents();
+        setSize(700, 800);
         dtmSanPhamChiTiet = (DefaultTableModel) tblSanPhamChiTiet.getModel();
         dtmHoaDonChiTiet = (DefaultTableModel) tblHoaDonChiTiet.getModel();
         dtmHoaDon = (DefaultTableModel) tblHoaDon.getModel();
@@ -688,7 +689,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
             // TODO add your handling code here:
             detailDataHD(hoaDonDAO.getAll().get(tblHoaDon.getSelectedRow()));
             int hoaDonID = (int) tblHoaDon.getValueAt(tblHoaDon.getSelectedRow(), 0);
-            showDataHDCT(hoaDonChiTietDAO.getIDSPCTByHDCTID(hoaDonID));
+//            showDataHDCT(hoaDonChiTietDAO.getIDSPCTByHDCTID(hoaDonID));
         } catch (SQLException ex) {
             Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -770,7 +771,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnXoaSanPhamActionPerformed
 
     private void btnThemSPToHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemSPToHoaDonActionPerformed
-        int id = Integer.parseInt(txtID.getText());
+//      int id = Integer.parseInt(txtID.getText());
         int selectedRow = tblSanPhamChiTiet.getSelectedRow();
         int soLuongConLaiSPCT = (int) tblSanPhamChiTiet.getValueAt(selectedRow, 6);
 
@@ -786,8 +787,8 @@ public class BanHangJFrame extends javax.swing.JFrame {
                     if (soLuong <= 0) {
                         JOptionPane.showMessageDialog(this, "Số lượng nhập vào phải >= 0");
                     } else {
-                        SanPhamChiTiet sanPhamChiTiet = sanPhamChiTietDAO.getSPCTbyID(id);
-                        sanPhamChiTiet.setSoLuong(soLuong);
+//                        SanPhamChiTiet sanPhamChiTiet = sanPhamChiTietDAO.getSPCTbyID(id);
+//                        sanPhamChiTiet.setSoLuong(soLuong);
 
                         if (soLuong > soLuongConLaiSPCT) {
                             JOptionPane.showMessageDialog(this, "Số lượng thêm vào giỏ hàng phải <= số lượng còn");
@@ -813,8 +814,6 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 }
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "Số lượng nhập vào phải là số nguyên!");
-            } catch (SQLException ex) {
-                Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_btnThemSPToHoaDonActionPerformed
@@ -1014,10 +1013,10 @@ public class BanHangJFrame extends javax.swing.JFrame {
             }
         });
     }
-    
+
     private boolean checkVoucher() throws SQLException {
         List<Voucher> listVoucher = voucherDAO.getAll();
-        
+
         for (Voucher voucher : listVoucher) {
             if (Integer.parseInt(txtMaGiamGia.getText()) == voucher.getId()) {
                 return true;
@@ -1025,7 +1024,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
         }
         return false;
     }
-    
+
     private void detailDataHD(HoaDon hoaDon) throws SQLException {
         if (!voucherDAO.getMoTaVoucher(hoaDon.getKhuyenMaiID()).trim().equals("") && voucherDAO.getMoTaVoucher(hoaDon.getKhuyenMaiID()) != null) {
             cboMaGiamGia.setSelected(true);
@@ -1051,7 +1050,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
             btnThemSoDienThoaiKH.setEnabled(false);
         }
     }
-    
+
     private void showDataHD(List<HoaDon> list) throws SQLException {
         int stt = 1;
         dtmHoaDon.setRowCount(0);
@@ -1072,7 +1071,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
     private void detailDataSPCT(SanPhamChiTiet sanPhamChiTiet) throws SQLException {
         txtTenSanPham.setText(sanPhamDAO.getTenSanPham(sanPhamChiTiet.getSanPhamID()));
     }
-    
+
     private void showDataHDCT(List<HoaDonChiTietVER2> list) throws SQLException {
         dtmHoaDonChiTiet.setRowCount(0);
         for (HoaDonChiTietVER2 hoaDonChiTietVER2 : list) {
@@ -1097,7 +1096,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
             dtmSanPhamChiTiet.addRow(dataSPCT);
         }
     }
-    
+
     private String getTrangThaiHoaDon(int trangThai) {
         if (trangThai == 0) {
             return "Đã thanh toán";
