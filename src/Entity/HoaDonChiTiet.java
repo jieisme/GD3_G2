@@ -76,4 +76,6 @@ public class HoaDonChiTiet {
     public void setTrangThaiXoa(int trangThaiXoa) {
         this.trangThaiXoa = trangThaiXoa;
     }
+    
+
 }
