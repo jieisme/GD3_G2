@@ -48,7 +48,7 @@ KhuyenMaiID int null,
 TongTienHang int not null,
 TongTienDuocGiam int null,
 TongTienPhaiTra int not null,
-Trangthai	int not null,
+Trangthai int not null,
 TrangThaiXoa int null
 );
 
@@ -58,9 +58,7 @@ create table HoaDonChiTiet(
 ID int identity(0,1) primary key,
 HoaDonId int not null,
 SanPhamChiTietId int not null,
-GiaBan int not null,
-SoLuong int not null,        
-TrangThaiXoa int null
+SoLuong int not null,
 );
 
 go
@@ -238,22 +236,24 @@ go
 -- TrangThai
 -- Đang hoạt động: 0
 -- Không hoạt động: 1
+
 insert into KhuyenMai
-values (0, 50, 0, 10, '', '', 0, N'Giảm 50% trên tổng hóa đơn', 0),
-	   (1, 0, 50000, 5, '', '', 0, N'Giảm 50k trên tổng hóa đơn', 0)
+values (0, 0, 0, 100, '', '', 0, '', 0),
+	   (1, 50, 0, 10, '', '', 0, N'Giảm 50% trên tổng hóa đơn', 0),
+	   (2, 0, 50000, 5, '', '', 0, N'Giảm 50k trên tổng hóa đơn', 0) 
 go
 --Trangthai
 -- Đã thanh toán: 0
 -- Chưa thanh toán: 1
 
 insert into HoaDon
-values (0, 0, 0, 200000, 0, 100000, 0, 0),
+values (0, 0, 0, 200000, 0, 100000, 1, 0),
 	   (0, 1, 1, 200000, 1, 150000, 1, 0)
 go
 
 insert into HoaDonChiTiet
-values (0, 0, 200000, 1, 0),
-	   (1, 0, 200000, 1, 0)
+values (1, 1, 1),
+	   (1, 1, 1)
 
 go
 --------VIEW TABLE---------
