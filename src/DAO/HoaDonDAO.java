@@ -23,7 +23,7 @@ public class HoaDonDAO {
     public List<HoaDon> getAll() throws SQLException {
         list = new ArrayList<>();
         Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "select * from HoaDon where TrangThaiXoa = 0";
+        String sql = "select * from HoaDon ";
         Statement st = conn.createStatement();
         ResultSet rs = st.executeQuery(sql);
 
@@ -120,5 +120,31 @@ public class HoaDonDAO {
         preSt.setInt(1, id);
         int rs = preSt.executeUpdate();
         return "Xóa thành công!";
+    }
+     public List<HoaDon> searchDataByTranghai(int trangthai) throws SQLException{
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "select * from hoadon where trangthai = ?";
+        PreparedStatement preSt = conn.prepareCall(sql);
+        preSt.setInt(1, trangthai);
+        ResultSet rs = preSt.executeQuery();
+        
+        while (rs.next()) {            
+             int id = rs.getInt("ID");
+            int nhanVienID = rs.getInt("NhanVienID");
+            int khachHangID  = rs.getInt("KhachHangID");
+            int KhuyenMaiID = rs.getInt("KhuyenMaiID");
+            int TongTienHang = rs.getInt("TongTienHang");
+            int TongTienDuocGiam = rs.getInt("TongTienDuocGiam");
+            int TongTienPhaiTra = rs.getInt("TongTienPhaiTra");
+            int Trangthai = rs.getInt("Trangthai");
+             int TrangThaiXoa = rs.getInt("TrangThaiXoa");
+            HoaDon hoaDon = new HoaDon(id, nhanVienID, khachHangID, KhuyenMaiID, TongTienHang, TongTienDuocGiam, TongTienPhaiTra, Trangthai, TrangThaiXoa);
+            list.add(hoaDon);
+        }
+        rs.close();
+        preSt.close();
+        conn.close();
+        return list;
+        
     }
 }

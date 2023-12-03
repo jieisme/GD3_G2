@@ -31,7 +31,7 @@ public class VoucherDAO {
         while (rs.next()) {
             int id = rs.getInt("ID");
             int LoaiKhuyenMai = rs.getInt("LoaiKhuyenMai");
-            int GiamTheoPhanTram = rs.getInt("GiamTheoPhamTram");
+            int GiamTheoPhanTram = rs.getInt("GiamTheoPhanTram");
             int GiamTheoGiaTien = rs.getInt("GiamTheoGiaTien");
             int SoLuong = rs.getInt("SoLuong");
             String ThoiGianBatDau = rs.getString("ThoigianBatDau");
