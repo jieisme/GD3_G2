@@ -18,6 +18,7 @@ import Entity.HoaDonChiTietVER2;
 import Entity.KhachHang;
 import Entity.SanPham;
 import Entity.SanPhamChiTiet;
+import Entity.SanPhamChiTietV3;
 import Entity.Voucher;
 import Utils.DongHo;
 import Utils.Session;
@@ -48,7 +49,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
     private MauSacDAO mauSacDAO = new MauSacDAO();
     private SanPhamChiTietDAO sanPhamChiTietDAO = new SanPhamChiTietDAO();
     private List<SanPhamChiTiet> listSPCT = new ArrayList<>();
-    private List<SanPhamChiTiet> listGH = new ArrayList<>();
+    private List<SanPhamChiTietV3> listGH = new ArrayList<>();
     private List<HoaDon> listHD = new ArrayList<>();
     private DecimalFormat decimalFormat = new DecimalFormat("#,###");
     private VoucherDAO voucherDAO = new VoucherDAO();
@@ -62,7 +63,6 @@ public class BanHangJFrame extends javax.swing.JFrame {
 
     public BanHangJFrame() throws SQLException {
         initComponents();
-        setSize(700, 800);
         dtmSanPhamChiTiet = (DefaultTableModel) tblSanPhamChiTiet.getModel();
         dtmHoaDonChiTiet = (DefaultTableModel) tblHoaDonChiTiet.getModel();
         dtmHoaDon = (DefaultTableModel) tblHoaDon.getModel();
@@ -668,16 +668,33 @@ public class BanHangJFrame extends javax.swing.JFrame {
             }
 
             String maGiamGiaText = txtMaGiamGia.getText();
+            Voucher voucher = null;
             if (!maGiamGiaText.isEmpty()) {
                 List<Voucher> listVC = voucherDAO.getAll();
-                for (Voucher voucher : listVC) {
-                    if (voucher.getId() == Integer.parseInt(maGiamGiaText)) {
+                for (Voucher vc : listVC) {
+                    if (vc.getId() == Integer.parseInt(maGiamGiaText)) {
                         khuyenMaiID = Integer.parseInt(maGiamGiaText);
+                        voucher = vc;
                     }
                 }
             }
-
+            int tongTien = 0;
+            int tongTìenGiam = 0;
+            int soTienPhaiTra = 0;
             hoaDonDAO.addData(nhanVienID, khachHangID, 0, 0, 0, 0, trangThai);
+            int hoaDonId = hoaDonDAO.lastHoaDonId();
+            for (SanPhamChiTietV3 spct : listGH) {
+                int donGia = Integer.valueOf(spct.getDonGia().replaceAll("\\D", ""));
+                hoaDonChiTietDAO.addData(hoaDonId, spct.getId(), spct.getSoLuong());
+                tongTien += (donGia * spct.getSoLuong());
+            }
+            if (voucher.getGiamtheoGiaTien() > 0) {
+                tongTìenGiam = voucher.getGiamtheoGiaTien();
+            } else if (voucher.getGiamTheoPhanTram() > 0) {
+                tongTìenGiam += (tongTien * voucher.getGiamTheoPhanTram() /100);
+            }
+            soTienPhaiTra = tongTien - tongTìenGiam;
+            hoaDonDAO.updateData(nhanVienID, khachHangID, khuyenMaiID, tongTien, tongTìenGiam, soTienPhaiTra, trangThai, hoaDonId);
             showDataHD(hoaDonDAO.getAll());
         } catch (SQLException ex) {
             Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -768,52 +785,76 @@ public class BanHangJFrame extends javax.swing.JFrame {
 
     private void btnXoaSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaSanPhamActionPerformed
         // TODO add your handling code here:
+        int selectedRow = tblSanPhamChiTiet.getSelectedRow();
+        listGH.remove(selectedRow);
+            showDataHDCT(listGH);
+    
     }//GEN-LAST:event_btnXoaSanPhamActionPerformed
 
     private void btnThemSPToHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemSPToHoaDonActionPerformed
-//      int id = Integer.parseInt(txtID.getText());
-        int selectedRow = tblSanPhamChiTiet.getSelectedRow();
-        int soLuongConLaiSPCT = (int) tblSanPhamChiTiet.getValueAt(selectedRow, 6);
 
+        int selectedRow = tblSanPhamChiTiet.getSelectedRow();
+        int id = (int) tblSanPhamChiTiet.getValueAt(selectedRow, 0);
+        int soLuongConLaiSPCT = (int) tblSanPhamChiTiet.getValueAt(selectedRow, 5);
         if (soLuongConLaiSPCT <= 0) {
             JOptionPane.showMessageDialog(this, "Sản phẩm này đã hết hàng!");
         } else {
             try {
                 String stringSoLuong = JOptionPane.showInputDialog(this, "Nhập số lượng cần thêm:", "Thông báo:", HEIGHT);
-
+                  System.out.println("so luong " + stringSoLuong);
                 if (stringSoLuong != null && !stringSoLuong.trim().isEmpty()) {
                     int soLuong = Integer.parseInt(stringSoLuong);
 
                     if (soLuong <= 0) {
                         JOptionPane.showMessageDialog(this, "Số lượng nhập vào phải >= 0");
                     } else {
-//                        SanPhamChiTiet sanPhamChiTiet = sanPhamChiTietDAO.getSPCTbyID(id);
-//                        sanPhamChiTiet.setSoLuong(soLuong);
 
-                        if (soLuong > soLuongConLaiSPCT) {
+                        SanPhamChiTiet sanPhamChiTiet = sanPhamChiTietDAO.getSPCTbyID(id);
+               
+                        String giaBan = (String) tblSanPhamChiTiet.getValueAt(selectedRow, 4);
+                        int soLuongConLai = (int) tblSanPhamChiTiet.getValueAt(selectedRow, 5);
+                        if (soLuong > soLuongConLai) {
                             JOptionPane.showMessageDialog(this, "Số lượng thêm vào giỏ hàng phải <= số lượng còn");
                         } else {
-                            for (int i = 0; i < listGH.size(); i++) {
-                                Object giaBanObj = tblHoaDonChiTiet.getValueAt(i, 5);
-                                Object soLuongObj = tblHoaDonChiTiet.getValueAt(i, 6);
-
-                                if (giaBanObj instanceof String && soLuongObj instanceof Integer) {
-                                    String giaBanStr = (String) giaBanObj;
-                                    giaBanStr = giaBanStr.replaceAll("[^\\d.]", "");
-                                    int giaBan = Integer.parseInt(giaBanStr);
-                                    int soLuongGH = (int) soLuongObj;
-                                    int tienHangSPCT = giaBan * soLuongGH;
-                                    tongTienHang += tienHangSPCT;
+                            if (listGH.isEmpty()) {
+                                listGH.add(new SanPhamChiTietV3(id,
+                                        (String) tblSanPhamChiTiet.getValueAt(selectedRow, 1),
+                                        (String) tblSanPhamChiTiet.getValueAt(selectedRow, 2),
+                                        (String) tblSanPhamChiTiet.getValueAt(selectedRow, 3),
+                                        giaBan,
+                                        soLuong));
+                            } else {
+                                int index = -1;
+                                for (int i = 0; i < listGH.size(); i++) {
+                                    SanPhamChiTietV3 sp = listGH.get(i);
+                                    if (sp.getId() == id) {
+                                        index = i;
+                                        
+                                    }
+                                }
+                                if (index < 0) {
+                                    listGH.add(new SanPhamChiTietV3(id,
+                                                (String) tblSanPhamChiTiet.getValueAt(selectedRow, 1),
+                                                (String) tblSanPhamChiTiet.getValueAt(selectedRow, 2),
+                                                (String) tblSanPhamChiTiet.getValueAt(selectedRow, 3),
+                                                giaBan,
+                                                soLuong));
+                                } else {
+                                    listGH.get(index).setSoLuong(listGH.get(index).getSoLuong() + soLuong);
                                 }
                             }
-
-                            txtTongTienHang.setText("TỔNG TIỀN HÀNG: " + decimalFormat.format(tongTienHang) + " VNĐ");
-                            txtTongTienPhaiTra.setText("TỔNG TIỀN PHẢI TRẢ: " + decimalFormat.format(tongTienHang - soTienGiam) + " VNĐ");
+                            showDataHDCT(listGH);
                         }
+
+                        txtTongTienHang.setText("TỔNG TIỀN HÀNG: " + decimalFormat.format(tongTienHang) + " VNĐ");
+                        txtTongTienPhaiTra.setText("TỔNG TIỀN PHẢI TRẢ: " + decimalFormat.format(tongTienHang - soTienGiam) + " VNĐ");
+
                     }
                 }
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "Số lượng nhập vào phải là số nguyên!");
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, "Error get product by id!" + ex);
             }
         }
     }//GEN-LAST:event_btnThemSPToHoaDonActionPerformed
@@ -835,11 +876,11 @@ public class BanHangJFrame extends javax.swing.JFrame {
     private void tblHoaDonChiTietMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonChiTietMouseClicked
         // TODO add your handling code here:
         int selectedRow = tblHoaDonChiTiet.getSelectedRow();
-        try {
-            detailDataSPCT(listGH.get(selectedRow));
-        } catch (SQLException ex) {
-            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            detailDataSPCT(listGH.get(selectedRow));
+//        } catch (SQLException ex) {
+//            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }//GEN-LAST:event_tblHoaDonChiTietMouseClicked
 
     private void btnQuanLyThuocTinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyThuocTinhActionPerformed
@@ -1072,20 +1113,18 @@ public class BanHangJFrame extends javax.swing.JFrame {
         txtTenSanPham.setText(sanPhamDAO.getTenSanPham(sanPhamChiTiet.getSanPhamID()));
     }
 
-    private void showDataHDCT(List<HoaDonChiTietVER2> list) throws SQLException {
+    private void showDataHDCT(List<SanPhamChiTietV3> list){
         dtmHoaDonChiTiet.setRowCount(0);
-        for (HoaDonChiTietVER2 hoaDonChiTietVER2 : list) {
-            dtmHoaDonChiTiet.addRow(hoaDonChiTietVER2.toDatarow());
+        for (SanPhamChiTietV3 spct : list) {
+            dtmHoaDonChiTiet.addRow(spct.toDatarow());
         }
     }
 
     private void showDataSPCT(List<SanPhamChiTiet> list) throws SQLException {
-        int stt = 1;
         dtmSanPhamChiTiet.setRowCount(0);
 
         for (SanPhamChiTiet sanPhamChiTiet : list) {
             Object dataSPCT[] = {
-                stt++,
                 sanPhamChiTiet.getId(),
                 sanPhamDAO.getTenSanPham(sanPhamChiTiet.getSanPhamID()),
                 mauSacDAO.getTenMauSac(sanPhamChiTiet.getMauSacID()),

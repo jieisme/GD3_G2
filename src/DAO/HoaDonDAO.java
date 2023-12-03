@@ -23,7 +23,7 @@ public class HoaDonDAO {
     public List<HoaDon> getAll() throws SQLException {
         list = new ArrayList<>();
         Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "select * from HoaDon ";
+        String sql = "select * from HoaDon order by id asc";
         Statement st = conn.createStatement();
         ResultSet rs = st.executeQuery(sql);
 
@@ -46,6 +46,21 @@ public class HoaDonDAO {
         st.close();
         conn.close();
         return list;
+    }
+    
+    public int lastHoaDonId() throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "select * from HoaDon order by id desc";
+        Statement st = conn.createStatement();
+        ResultSet rs = st.executeQuery(sql);
+        int id = 0;
+        while (rs.next()) {            
+            return rs.getInt("ID");
+        }
+        rs.close();
+        st.close();
+        conn.close();
+        return id;
     }
     
     public List<HoaDon> getAllChuaThanhToan() throws SQLException {

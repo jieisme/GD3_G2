@@ -57,25 +57,22 @@ public class HoaDonChiTietDAO {
         return list;
     }
     
-    public String addData(int hoaDonID, int sanPhamChiTietID, int giaBan, int soLuong) throws SQLException {
+    public String addData(int hoaDonID, int sanPhamChiTietID, int soLuong) throws SQLException {
         Connection conn = ConnnectToSQLServer.getConnection();
         String sql = "INSERT INTO [dbo].[HoaDonChiTiet]\n"
                 + "           ([HoaDonId]\n"
                 + "           ,[SanPhamChiTietId]\n"
-                + "           ,[GiaBan]\n"
                 + "           ,[SoLuong]\n"
                 + "           ,[TrangThaiXoa])\n"
                 + "     VALUES\n"
                 + "           (?\n"
                 + "           ,?\n"
                 + "           ,?\n"
-                + "           ,?\n"
                 + "           ,0)";
         PreparedStatement preSt = conn.prepareCall(sql);
         preSt.setInt(1, hoaDonID);
         preSt.setInt(2, sanPhamChiTietID);
-        preSt.setInt(3, giaBan);
-        preSt.setInt(4, soLuong);
+        preSt.setInt(3, soLuong);
         
         int rs = preSt.executeUpdate();
 
