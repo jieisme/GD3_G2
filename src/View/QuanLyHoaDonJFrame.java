@@ -351,9 +351,17 @@ public class QuanLyHoaDonJFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "STT", "ID", "Nhân Viên ID", "Khách Hàng ID", "Khuyễn Mãi ID", "Tổng tiền Hàng", "Tổng tiền được giảm", "Tổng tiền phải trả", " Trạng Thái ", "Trạng thái xóa"
+                "STT", "ID", "Nhân Viên", "Khách Hàng", "Khuyễn Mãi", "Tổng tiền Hàng", "Tổng tiền được giảm", "Tổng tiền phải trả", "Trạng Thái ", "Trạng thái xóa"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblQuanLyHoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblQuanLyHoaDonMouseClicked(evt);
@@ -555,13 +563,13 @@ public class QuanLyHoaDonJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLocActionPerformed
-        DefaultTableModel model = (DefaultTableModel) tblQuanLyHoaDon.getModel();
+        DefaultTableModel serachModel = (DefaultTableModel) tblQuanLyHoaDon.getModel();
         
-        model.setRowCount(0);
+        serachModel.setRowCount(0);
         try {
             list = hoaDonDAO.getAll();
             list = hoaDonDAO.searchDataByTranghai(cboTrangThai.getSelectedIndex());
-            customShowData(model, list);
+            customShowData(serachModel, list);
         
         } catch (SQLException ex) {
             Logger.getLogger(QuanLyHoaDonJFrame.class.getName()).log(Level.SEVERE, null, ex);

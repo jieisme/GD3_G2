@@ -705,41 +705,60 @@ public class BanHangJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cboThemThongTinKhachHangActionPerformed
 
-    private void btnKiemTraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKiemTraActionPerformed
+    private void btnKiemTraActionPerformed(java.awt.event.ActionEvent evt) {                                           
         try {
             List<Voucher> listVoucher = voucherDAO.getAll();
-            int check = 0;
-            soTienGiam = 0;
-            for (Voucher voucher : listVoucher) {
-                if (Integer.parseInt(txtMaGiamGia.getText()) == voucher.getId()) {
-                    check++;
-                    if (voucher.getTrangThai() == 0) {
-                        try {
-                            soTienGiam = (int) ((tongTienHang * voucherDAO.giamTheoPhanTram(voucher.getId())) - voucherDAO.giamTheoGiaTien(voucher.getId()));
-                            JOptionPane.showMessageDialog(this, "Chúc mừng bạn được " + voucher.getMoTa());
-                        } catch (SQLException ex) {
-                            JOptionPane.showMessageDialog(this, "Voucher này đã không còn hoạt động!");
-                        }
-                    }
-                } else {
-                    check++;
-                }
+            int selectedRowHD = tblHoaDon.getSelectedRow();
+    
+            if (selectedRowHD == -1) {
+                JOptionPane.showMessageDialog(this, "Bạn chưa chọn hóa đơn để kiểm tra voucher!");
+                return;
             }
             
-            if (check == 0) {
-                JOptionPane.showMessageDialog(this, "Không tồn tại mã Voucher này!");
+            int tongTienHang = 0;
+                List<HoaDonChiTietVER2> listHDCT = hoaDonChiTietDAO.getSPCTByHDID((int) tblHoaDon.getValueAt(selectedRowHD, 0));
+                for (HoaDonChiTietVER2 hoaDonChiTietVER2 : listHDCT) {
+                    int giaBan = sanPhamChiTietDAO.getDonGiabyIDSPCT(hoaDonChiTietVER2.getId());
+                    int soLuongMua = hoaDonChiTietVER2.getSoluong();
+                    tongTienHang += (giaBan * soLuongMua);
+                }
+    
+            int voucherIDToCheck = Integer.parseInt(txtMaGiamGia.getText());
+            boolean foundVoucher = false;
+            soTienGiam = 0;
+    
+            for (Voucher voucher : listVoucher) {
+                if (voucherIDToCheck == voucher.getId() && voucher.getTrangThai() == 0) {
+                    try {
+                        soTienGiam = (int) ((tongTienHang * voucherDAO.giamTheoPhanTram(voucher.getId())) - voucherDAO.giamTheoGiaTien(voucher.getId()));
+                        JOptionPane.showMessageDialog(this, "Chúc mừng bạn được " + voucher.getMoTa());
+                        foundVoucher = true;
+                        break;
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(this, "Voucher này đã không còn hoạt động!");
+                        foundVoucher = true;
+                        break;
+                    }
+                }
+            }
+    
+            if (!foundVoucher) {
+                JOptionPane.showMessageDialog(this, "Không tồn tại mã Voucher này hoặc Voucher đã không còn hoạt động!");
             } else {
                 if (soTienGiam <= 0) {
-                soTienGiam *= -1;
+                    soTienGiam *= -1;
                 }
-                hoaDonDAO.updateVoucher(Integer.parseInt(txtMaGiamGia.getText()), tongTienHang, tongTienHang, tongTienPhaiTra, (int) tblHoaDon.getValueAt(tblHoaDon.getSelectedRow(), 0));
-                txtTienDuocGiam.setText("TIỀN ĐƯỢC GIẢM: " + decimalFormat.format((int) tblHoaDon.getValueAt(tblHoaDon.getSelectedRow(), 5)) + " VNĐ");
-                txtTongTienPhaiTra.setText("TỔNG TIỀN PHẢI TRẢ: " + decimalFormat.format(((int) tblHoaDon.getValueAt(tblHoaDon.getSelectedRow(), 6))) + " VNĐ");
+                tongTienPhaiTra = tongTienHang - soTienGiam;
+    
+                hoaDonDAO.updateVoucher(voucherIDToCheck, tongTienHang, soTienGiam, tongTienPhaiTra, (int) tblHoaDon.getValueAt(selectedRowHD, 0));
+                detailDataHD(hoaDonDAO.getAllChuaThanhToan().get(selectedRowHD));
+                showDataHD(hoaDonDAO.getAllChuaThanhToan());
             }
         } catch (SQLException ex) {
             Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_btnKiemTraActionPerformed
+    }
+    
 
     private void cboMaGiamGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboMaGiamGiaActionPerformed
         // TODO add your handling code here:
@@ -753,16 +772,38 @@ public class BanHangJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cboMaGiamGiaActionPerformed
 
-    private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
+    private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {
         try {
-            // TODO add your handling code here:
-            hoaDonDAO.thanhToanHoaDon((int) tblHoaDon.getValueAt(tblHoaDon.getSelectedRow(), 0));
+            // Check if a row is selected in tblHoaDon
+            int selectedRowHD = tblHoaDon.getSelectedRow();
+            if (selectedRowHD == -1) {
+                JOptionPane.showMessageDialog(this, "Bạn chưa chọn hóa đơn để thanh toán!");
+                return;
+            }
+    
+            int hoaDonID = (int) tblHoaDon.getValueAt(selectedRowHD, 0);
+            
+            int selectedSPCT = tblSanPhamChiTiet.getSelectedRow();
+            int selectedRowHDCT = tblHoaDonChiTiet.getSelectedRow();
+
+    
+            int sanPhamChiTietID = hoaDonChiTietDAO.getIDSPCTByHDID(hoaDonID);
+            int soLuongMua = hoaDonChiTietDAO.getSoLuongByHDID(hoaDonID);
+
+            sanPhamChiTietDAO.updateSoLuong(soLuongMua, sanPhamChiTietID);
+            showDataHD(hoaDonDAO.getAllChuaThanhToan());
+            showDataSPCT(sanPhamChiTietDAO.getAllDuDieuKien());
+            txtTongTienHang.setText("TỔNG TIỀN HÀNG: 0 VNĐ");
+            txtTienDuocGiam.setText("TIỀN ĐƯỢC GIẢM: 0 VNĐ");
+            txtTongTienPhaiTra.setText("TỔNG TIỀN PHẢI TRẢ: 0 VNĐ");
+            hoaDonDAO.thanhToanHoaDon(hoaDonID);
             JOptionPane.showMessageDialog(this, "Thanh toán thành công!");
+   
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Có lỗi gì đó: " + ex.getMessage());
         }
-    }//GEN-LAST:event_btnThanhToanActionPerformed
-
+    }
+    
     private void btnXoaSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaSanPhamActionPerformed
         try {
             // TODO add your handling code here:
@@ -776,38 +817,52 @@ public class BanHangJFrame extends javax.swing.JFrame {
     private void btnThemSPToHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemSPToHoaDonActionPerformed
         int selectedRowHD = tblHoaDon.getSelectedRow();
         int selectedRowSPCT = tblSanPhamChiTiet.getSelectedRow();
-        int selectedRowHDCT = tblHoaDonChiTiet.getSelectedRow();
-        int hoaDonID = (int) tblHoaDon.getValueAt(tblHoaDon.getSelectedRow(), 0);
-        int sanPhamChiTietID = (int) tblSanPhamChiTiet.getValueAt(tblSanPhamChiTiet.getSelectedRow(), 0);
-        int checkHDCT = 0;
-        
+    
         if (selectedRowHD == -1) {
             JOptionPane.showMessageDialog(this, "Bạn chưa chọn hóa đơn để thêm!");
-        } else if (selectedRowSPCT == -1) {
+            return;
+        }
+    
+        if (selectedRowSPCT == -1) {
             JOptionPane.showMessageDialog(this, "Bạn chưa chọn sản phẩm để thêm!");
-        } else {
+            return; 
+        }
+    
+        try {
+            int hoaDonID = (int) tblHoaDon.getValueAt(selectedRowHD, 0);
+            int sanPhamChiTietID = (int) tblSanPhamChiTiet.getValueAt(selectedRowSPCT, 0);
+    
             String stringSoLuong = JOptionPane.showInputDialog(this, "Vui lòng nhập số lượng cần thêm!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             if (stringSoLuong == null || stringSoLuong.trim().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Vui lòng nhập số lượng!");
             } else {
-                try {
-                    int soLuong = Integer.parseInt(stringSoLuong);
-                    if (soLuong > sanPhamChiTietDAO.getSoLuongByIDSPCT(sanPhamChiTietID)) {
-                        JOptionPane.showMessageDialog(this, "Số lượng nhập phải nhỏ hơn số lượng còn! (" + sanPhamChiTietDAO.getSoLuongByIDSPCT(sanPhamChiTietID) + ")");
-                    } else if (soLuong <= 0) {
-                        JOptionPane.showMessageDialog(this, "Số lượng nhập phải > 0");
-                    } else {
-                        hoaDonChiTietDAO.addData(hoaDonID, sanPhamChiTietID, soLuong);
-                        showDataHDCT(hoaDonChiTietDAO.getSPCTByHDID(hoaDonID));
+                int soLuong = Integer.parseInt(stringSoLuong);
+                if (soLuong > sanPhamChiTietDAO.getSoLuongByIDSPCT(sanPhamChiTietID)) {
+                    JOptionPane.showMessageDialog(this, "Số lượng nhập phải nhỏ hơn số lượng còn! (" + sanPhamChiTietDAO.getSoLuongByIDSPCT(sanPhamChiTietID) + ")");
+                } else if (soLuong <= 0) {
+                    JOptionPane.showMessageDialog(this, "Số lượng nhập phải > 0");
+                } else {
+                    int tongTienHang = 0;
+                    List<HoaDonChiTietVER2> listHDCT = hoaDonChiTietDAO.getSPCTByHDID(hoaDonID);
+                    for (HoaDonChiTietVER2 hoaDonChiTietVER2 : listHDCT) {
+                        int giaBan = sanPhamChiTietDAO.getDonGiabyIDSPCT(hoaDonChiTietVER2.getId());
+                        int soLuongMua = hoaDonChiTietVER2.getSoluong();
+                        tongTienHang += (giaBan * soLuongMua);
                     }
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(this, "Có lỗi gì đó: " + ex.getMessage());
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(this, "Giá trị nhập phải là số nguyên!");
+                    hoaDonChiTietDAO.addData(hoaDonID, sanPhamChiTietID, soLuong);
+                    hoaDonDAO.updateData(nhanVienID, 0, 0, tongTienHang, 0, tongTienHang, 1, hoaDonID);
+                    showDataHDCT(hoaDonChiTietDAO.getSPCTByHDID(hoaDonID));
+                    showDataHD(hoaDonDAO.getAllChuaThanhToan());
+                    detailDataHD(hoaDonDAO.getAllChuaThanhToan().get(selectedRowHD));
                 }
             }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Có lỗi gì đó: " + ex.getMessage());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Giá trị nhập phải là số nguyên!");
         }
     }//GEN-LAST:event_btnThemSPToHoaDonActionPerformed
+    
 
     private void txtMaGiamGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaGiamGiaActionPerformed
         // TODO add your handling code here:
@@ -990,8 +1045,19 @@ public class BanHangJFrame extends javax.swing.JFrame {
                             } else if (soLuong <= 0) {
                                 JOptionPane.showMessageDialog(this, "Số lượng nhập phải > 0");
                             } else {
-                                JOptionPane.showMessageDialog(this, hoaDonChiTietDAO.updateSoLuong(soLuong, hoaDonChiTietID));
+                                int selectedRowHD = tblHoaDon.getSelectedRow();
+                                int tongTienHang = 0;
+                                List<HoaDonChiTietVER2> listHDCT = hoaDonChiTietDAO.getSPCTByHDID(hoaDonID);
+                                for (HoaDonChiTietVER2 hoaDonChiTietVER2 : listHDCT) {
+                                    int giaBan = sanPhamChiTietDAO.getDonGiabyIDSPCT(hoaDonChiTietVER2.getId());
+                                    int soLuongMua = hoaDonChiTietVER2.getSoluong();
+                                    tongTienHang += (giaBan * soLuongMua);
+                                }
+                                hoaDonChiTietDAO.updateSoLuong(soLuong, hoaDonChiTietID);
+                                hoaDonDAO.updateData(nhanVienID, 0, 0, tongTienHang, 0, tongTienHang, 1, hoaDonID);
                                 showDataHDCT(hoaDonChiTietDAO.getSPCTByHDID(hoaDonID));
+                                showDataHD(hoaDonDAO.getAllChuaThanhToan());
+                                detailDataHD(hoaDonDAO.getAllChuaThanhToan().get(selectedRowHD));
                             }
                         } else {
                             JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm chi tiết trước khi sửa!");

@@ -237,4 +237,13 @@ public class SanPhamChiTietDAO {
         }
         return 0;
     }
+    
+    public void updateSoLuong(int soLuong, int sanPhamChiTietID) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "UPDATE SanPhamChiTiet SET SoLuong = SoLuong - ? WHERE ID = ?";
+        PreparedStatement preSt = conn.prepareCall(sql);
+        preSt.setInt(1, soLuong);
+        preSt.setInt(2, sanPhamChiTietID);
+        int rs = preSt.executeUpdate();
+    }
 }

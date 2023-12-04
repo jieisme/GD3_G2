@@ -92,6 +92,36 @@ public class HoaDonChiTietDAO {
         }
         return 0;
     }
+    
+    public int getIDSPCTByHDID(int hoaDonID) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "select SanPhamChiTietid from HoaDonChiTiet where HoaDonId = ?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setInt(1, hoaDonID);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    return rs.getInt("SanPhamChiTietId");
+                }
+            }
+        }
+        return 0;
+    }
+    
+    public int getSoLuongByHDID(int hoaDonID) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "SELECT        HoaDonChiTiet.SoLuong\n" +
+"FROM            HoaDon INNER JOIN\n" +
+"                         HoaDonChiTiet ON HoaDon.ID = HoaDonChiTiet.HoaDonId WHERE HoaDon.ID = ?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setInt(1, hoaDonID);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    return rs.getInt("SoLuong");
+                }
+            }
+        }
+        return 0;
+    }
 
     public String removeData(int hoaDonChiTietID) throws SQLException {
         int rs;
