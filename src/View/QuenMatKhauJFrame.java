@@ -28,6 +28,7 @@ public class QuenMatKhauJFrame extends javax.swing.JFrame {
     
     public QuenMatKhauJFrame() throws SQLException {
         initComponents();
+        setLocationRelativeTo(null);
         list = new ArrayList<>();
         list = nhanVienDAO.getAll();
         txtNewPassword.setEnabled(false);

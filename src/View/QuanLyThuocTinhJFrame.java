@@ -39,6 +39,7 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
      */
     public QuanLyThuocTinhJFrame() throws SQLException {
         initComponents();
+        setLocationRelativeTo(null);
         dtmMauSac = (DefaultTableModel) tblMauSac.getModel();
         dtmMauSac.setRowCount(0);
         dtmChatLieu = (DefaultTableModel) tblChatLieu.getModel();
@@ -774,11 +775,14 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTrangChuActionPerformed
 
     private void btnQuanLyVoucherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyVoucherActionPerformed
-        // TODO add your handling code here:
-        //        QuanLiVoucherJ quanLiVoucher = null;
-        //        quanLiVoucher = new QuanLiVoucher();
-        //        this.setVisible(false);
-        //        quanLiVoucher.setVisible(true);
+        QuanLyVoucherJFrame quanLiVoucherJFrame = null;
+        try {
+            quanLiVoucherJFrame = new QuanLyVoucherJFrame();
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+        quanLiVoucherJFrame.setVisible(true);
     }//GEN-LAST:event_btnQuanLyVoucherActionPerformed
 
     private void btnQuanLyNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyNhanVienActionPerformed
