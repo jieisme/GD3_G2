@@ -247,6 +247,7 @@ public class QuanLySanPhamChiTietJFrame extends javax.swing.JFrame {
         cboChatLieu = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("QUẢN LÝ SẢN PHẨM CHI TIẾT");
 
         Background.setBackground(new java.awt.Color(166, 227, 233));
         Background.setForeground(new java.awt.Color(253, 247, 228));

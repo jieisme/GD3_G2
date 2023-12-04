@@ -93,6 +93,7 @@ public class QuanLyNhanVienJFrame extends javax.swing.JFrame {
         txtDongHo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("QUẢN LÝ NHÂN VIÊN");
 
         Background.setBackground(new java.awt.Color(166, 227, 233));
         Background.setForeground(new java.awt.Color(253, 247, 228));

@@ -74,6 +74,7 @@ public class QuenMatKhauJFrame extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("QUÊN MẬT KHẨU");
 
         btnResetPassword.setBackground(new java.awt.Color(153, 255, 255));
         btnResetPassword.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N

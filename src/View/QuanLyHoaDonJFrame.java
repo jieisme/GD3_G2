@@ -195,6 +195,7 @@ public class QuanLyHoaDonJFrame extends javax.swing.JFrame {
         btnlast = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("QUẢN LÝ HÓA ĐƠN");
 
         Background.setBackground(new java.awt.Color(166, 227, 233));
         Background.setForeground(new java.awt.Color(253, 247, 228));
