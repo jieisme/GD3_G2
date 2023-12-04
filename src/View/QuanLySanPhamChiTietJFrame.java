@@ -763,6 +763,14 @@ public class QuanLySanPhamChiTietJFrame extends javax.swing.JFrame {
 
     private void btnQuanLySanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLySanPhamActionPerformed
         // TODO add your handling code here:
+        QuanLySanPhamJFrame quanLySanPhamJFrame = null;
+        try {
+            quanLySanPhamJFrame = new QuanLySanPhamJFrame();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPhamChiTietJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+        quanLySanPhamJFrame.setVisible(true);
 
     }//GEN-LAST:event_btnQuanLySanPhamActionPerformed
 

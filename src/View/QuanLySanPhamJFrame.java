@@ -4,8 +4,11 @@
  */
 package View;
 
+import DAO.NhanVienDAO;
 import DAO.SanPhamDAO;
 import Entity.SanPham;
+import Utils.DongHo;
+import Utils.Session;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +23,11 @@ import javax.swing.table.DefaultTableModel;
  */
 public class QuanLySanPhamJFrame extends javax.swing.JFrame {
 
+    private String loggedInUser = Session.getInstance().getLoggedInUsername();
     DefaultTableModel dtm = new DefaultTableModel();
     List<SanPham> list = new ArrayList<>();
     SanPhamDAO sanPhamDAO = new SanPhamDAO();
+    private NhanVienDAO nhanVienDAO = new NhanVienDAO();
 
     /**
      * Creates new form QuanLySanPhamJFrame
@@ -36,6 +41,10 @@ public class QuanLySanPhamJFrame extends javax.swing.JFrame {
         dtm.setRowCount(0);
         list = sanPhamDAO.getAll();
         showData(list);
+        txtXinChao.setText("Xin chào: " + nhanVienDAO.searchHoVaTen(loggedInUser));
+        int chucVu = Integer.parseInt(nhanVienDAO.searchChucVu(loggedInUser));
+        txtChucVu.setText("Chức vụ: " + getChucVu(chucVu));
+        dongHo();
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
@@ -48,6 +57,7 @@ public class QuanLySanPhamJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         Background = new javax.swing.JPanel();
         btnTaiKhoan = new javax.swing.JButton();
         btnDoiMatKhau = new javax.swing.JButton();
@@ -91,9 +101,9 @@ public class QuanLySanPhamJFrame extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         txtTenSanPham = new javax.swing.JTextField();
         btnSua1 = new javax.swing.JButton();
-        btnSPCT = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("QUẢN LÝ SẢN PHẨM");
 
         Background.setBackground(new java.awt.Color(166, 227, 233));
         Background.setForeground(new java.awt.Color(253, 247, 228));
@@ -319,6 +329,8 @@ public class QuanLySanPhamJFrame extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel9.setText("Trạng thái bán:");
 
+        rdDangBan.setBackground(new java.awt.Color(166, 227, 233));
+        buttonGroup1.add(rdDangBan);
         rdDangBan.setSelected(true);
         rdDangBan.setText("Đang bán");
         rdDangBan.addActionListener(new java.awt.event.ActionListener() {
@@ -330,6 +342,8 @@ public class QuanLySanPhamJFrame extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setText("ID:");
 
+        rdNgungBan.setBackground(new java.awt.Color(166, 227, 233));
+        buttonGroup1.add(rdNgungBan);
         rdNgungBan.setText("Ngừng bán");
         rdNgungBan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -347,13 +361,6 @@ public class QuanLySanPhamJFrame extends javax.swing.JFrame {
         btnSua1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSua1ActionPerformed(evt);
-            }
-        });
-
-        btnSPCT.setText("QUẢN LÝ SẢN PHẨM CHI TIẾT");
-        btnSPCT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSPCTActionPerformed(evt);
             }
         });
 
@@ -426,10 +433,7 @@ public class QuanLySanPhamJFrame extends javax.swing.JFrame {
                             .addComponent(txtErrorIDChatLieu, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtErrorTenMau, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtErrorIDMau, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(BackgroundLayout.createSequentialGroup()
-                        .addComponent(btnDangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSPCT))
+                    .addComponent(btnDangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(BackgroundLayout.createSequentialGroup()
                             .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -523,9 +527,7 @@ public class QuanLySanPhamJFrame extends javax.swing.JFrame {
                                     .addComponent(btnSua1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnDangXuat)
-                            .addComponent(btnSPCT))
+                        .addComponent(btnDangXuat)
                         .addGap(18, 18, 18)
                         .addComponent(txtXinChao)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -607,6 +609,14 @@ public class QuanLySanPhamJFrame extends javax.swing.JFrame {
 
     private void btnQuanLySanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLySanPhamActionPerformed
         // TODO add your handling code here:
+        QuanLySanPhamJFrame quanLySanPhamJFrame = null;
+        try {
+            quanLySanPhamJFrame = new QuanLySanPhamJFrame();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPhamChiTietJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+        quanLySanPhamJFrame.setVisible(true);
     }//GEN-LAST:event_btnQuanLySanPhamActionPerformed
 
     private void btnQuanLyKhachHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyKhachHangActionPerformed
@@ -863,20 +873,6 @@ public class QuanLySanPhamJFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnSua1ActionPerformed
 
-    private void btnSPCTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSPCTActionPerformed
-        // TODO add your handling code here:
-        try {
-            // TODO add your handling code here:
-            QuanLySanPhamChiTietJFrame quanLySanPhamChiTietJFrame = null;
-            quanLySanPhamChiTietJFrame = new QuanLySanPhamChiTietJFrame();
-            this.setVisible(false);
-            quanLySanPhamChiTietJFrame.setVisible(true);
-        } catch (SQLException ex) {
-            Logger.getLogger(QuanLySanPhamJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }//GEN-LAST:event_btnSPCTActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -1048,6 +1044,19 @@ public class QuanLySanPhamJFrame extends javax.swing.JFrame {
         }
         return true;
     }
+    
+    private String getChucVu(int chucVu) {
+        if (chucVu == 0) {
+            return "Quản lý";
+        } else {
+            return "Nhân viên";
+        }
+    }
+
+    private void dongHo() {
+        DongHo dongHo = new DongHo(txtDongHo);
+        dongHo.start();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Background;
@@ -1061,12 +1070,12 @@ public class QuanLySanPhamJFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnQuanLySanPham;
     private javax.swing.JButton btnQuanLyThuocTinh;
     private javax.swing.JButton btnQuanLyVoucher;
-    private javax.swing.JButton btnSPCT;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnSua1;
     private javax.swing.JButton btnTaiKhoan;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnTrangChu;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cboLoaiSanPham;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
