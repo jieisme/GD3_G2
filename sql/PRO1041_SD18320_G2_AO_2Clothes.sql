@@ -10,7 +10,6 @@ SoDienThoai varchar(10) null,
 DiaChi nvarchar(200) null,
 TrangThaiXoa int null,
 ); 
-
 go
 
 create table KhuyenMai(

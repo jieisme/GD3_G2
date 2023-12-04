@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 
 public class ConnnectToSQLServer {
 
-    private static String DB_URL = "jdbc:sqlserver://localhost:1433;databaseName=PRO1041_SD18320_G2_AO_2Clothes;user=sa;password=123;";
+    private static String DB_URL = "jdbc:sqlserver://localhost:1344;databaseName=PRO1041_SD18320_G2_AO_2Clothes;user=sa;password=123;";
     
     public static Connection getConnection(){
         Connection conn = null;
