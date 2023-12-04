@@ -49,94 +49,80 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="22" pref="22" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="txtXinChao" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtChucVu" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="btnBanHang" min="-2" pref="284" max="-2" attributes="0"/>
+                              <Component id="btnQuanLySanPham" min="-2" pref="284" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="1082" max="-2" attributes="0"/>
-                          <Component id="txtDongHo" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="244" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" attributes="0">
+                          <EmptySpace min="134" pref="134" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="btnBanHang" min="-2" pref="284" max="-2" attributes="0"/>
-                                      <Component id="btnQuanLySanPham" min="-2" pref="284" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="134" pref="134" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="90" pref="90" max="-2" attributes="0"/>
-                                          <Component id="txtLogo" min="-2" pref="491" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="txtTile" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                                  <EmptySpace min="90" pref="90" max="-2" attributes="0"/>
+                                  <Component id="txtLogo" min="-2" pref="491" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                  <Component id="btnTrangChu" min="-2" pref="92" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="btnDangXuat" min="-2" pref="284" max="-2" attributes="0"/>
-                                      <Component id="btnTaiKhoan" alignment="0" min="-2" pref="284" max="-2" attributes="0"/>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="btnQuanLyKhachHang" min="-2" pref="284" max="-2" attributes="0"/>
-                                              <Component id="btnQuanLyHoaDon" min="-2" pref="284" max="-2" attributes="0"/>
-                                              <Component id="btnQuanLyNhanVien" min="-2" pref="284" max="-2" attributes="0"/>
-                                              <Component id="btnQuanLyVoucher" min="-2" pref="284" max="-2" attributes="0"/>
-                                              <Component id="btnQuanLyThuocTinh" min="-2" pref="284" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" attributes="0">
-                                                  <EmptySpace min="-2" pref="104" max="-2" attributes="0"/>
-                                                  <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" attributes="0">
-                                                  <EmptySpace min="-2" pref="94" max="-2" attributes="0"/>
-                                                  <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="1" attributes="0">
-                                                  <EmptySpace max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="jLabel10" alignment="1" min="-2" max="-2" attributes="0"/>
-                                                      <Component id="jLabel7" alignment="1" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                              </Group>
-                                          </Group>
-                                          <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" attributes="0">
-                                                  <Component id="btnThem" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                  <Component id="btnSua" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                  <Component id="btnXoa" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="txtID" min="-2" pref="203" max="-2" attributes="0"/>
-                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                  <Component id="btnTimByID" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="txtTenKH" min="-2" pref="203" max="-2" attributes="0"/>
-                                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                  <Component id="btnTimByName" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Component id="txtSDT" alignment="0" min="-2" pref="203" max="-2" attributes="0"/>
-                                              <Component id="JScrollPane1" min="-2" pref="229" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="jScrollPane2" min="-2" pref="738" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="btnDoiMatKhau" min="-2" pref="284" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
+                              <Component id="txtTile" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                      <Component id="btnTrangChu" alignment="1" min="-2" pref="92" max="-2" attributes="0"/>
+                      <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                          <Component id="btnDangXuat" min="-2" pref="284" max="-2" attributes="0"/>
+                          <Component id="btnTaiKhoan" alignment="0" min="-2" pref="284" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="btnQuanLyKhachHang" min="-2" pref="284" max="-2" attributes="0"/>
+                                  <Component id="btnQuanLyHoaDon" min="-2" pref="284" max="-2" attributes="0"/>
+                                  <Component id="btnQuanLyNhanVien" min="-2" pref="284" max="-2" attributes="0"/>
+                                  <Component id="btnQuanLyVoucher" min="-2" pref="284" max="-2" attributes="0"/>
+                                  <Component id="btnQuanLyThuocTinh" min="-2" pref="284" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="-2" pref="104" max="-2" attributes="0"/>
+                                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="-2" pref="94" max="-2" attributes="0"/>
+                                      <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jLabel10" alignment="1" min="-2" max="-2" attributes="0"/>
+                                          <Component id="jLabel7" alignment="1" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="btnThem" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="btnSua" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="btnXoa" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="txtSDT" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="txtTenKH" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="txtID" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="JScrollPane1" alignment="0" pref="229" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
+                              <Component id="jScrollPane2" min="-2" pref="738" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="btnDoiMatKhau" min="-2" pref="284" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="txtXinChao" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtChucVu" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" pref="1320" max="32767" attributes="0"/>
+                              <Component id="txtDongHo" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -183,13 +169,6 @@
                           <Component id="btnDoiMatKhau" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnDangXuat" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="txtXinChao" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="txtChucVu" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtDongHo" alignment="3" min="-2" max="-2" attributes="0"/>
-                          </Group>
                       </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
@@ -198,16 +177,10 @@
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="txtID" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="btnTimByID" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="txtTenKH" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="btnTimByName" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                                          <Component id="txtID" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                                          <Component id="txtTenKH" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="3" attributes="0">
                                               <Component id="txtSDT" alignment="3" min="-2" max="-2" attributes="0"/>
                                               <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -234,7 +207,14 @@
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                  <EmptySpace pref="56" max="32767" attributes="0"/>
+                  <Component id="txtXinChao" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="txtChucVu" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtDongHo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -305,36 +285,6 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDangXuatActionPerformed"/>
           </Events>
-        </Component>
-        <Component class="javax.swing.JLabel" name="txtXinChao">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="12" style="1"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Xin ch&#xe0;o,"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="txtChucVu">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="12" style="1"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Ch&#x1ee9;c v&#x1ee5;: "/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="txtDongHo">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="1"/>
-            </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="0" red="ff" type="rgb"/>
-            </Property>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/icons/Alarm.png"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="09:11:2001"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="txtTile">
           <Properties>
@@ -510,24 +460,11 @@
         <Component class="javax.swing.JTextField" name="txtID">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="btnTimByName">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="60" green="46" red="16" type="rgb"/>
-            </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Segoe UI" size="12" style="1"/>
             </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="T&#xcc;M"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTimByNameActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtSDT">
         </Component>
@@ -559,23 +496,6 @@
             </Property>
             <Property name="text" type="java.lang.String" value="T&#xca;N:"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="btnTimByID">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="60" green="46" red="16" type="rgb"/>
-            </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="12" style="1"/>
-            </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="T&#xcc;M"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTimByIDActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnXoa">
           <Properties>
@@ -665,11 +585,11 @@
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="5" rowCount="0">
-                    <Column editable="true" title="STT" type="java.lang.Object"/>
-                    <Column editable="true" title="ID" type="java.lang.Object"/>
-                    <Column editable="true" title="H&#x1ecd; T&#xea;n" type="java.lang.Object"/>
-                    <Column editable="true" title="SDT" type="java.lang.Object"/>
-                    <Column editable="true" title="&#x110;&#x1ecb;a Ch&#x1ec9;" type="java.lang.Object"/>
+                    <Column editable="false" title="STT" type="java.lang.Object"/>
+                    <Column editable="false" title="ID KH&#xc1;CH H&#xc0;NG" type="java.lang.Object"/>
+                    <Column editable="false" title="H&#x1ecc; V&#xc0; T&#xca;N" type="java.lang.Object"/>
+                    <Column editable="false" title="S&#x1ed0; &#x110;I&#x1ec6;N THO&#x1ea0;I" type="java.lang.Object"/>
+                    <Column editable="false" title="&#x110;&#x1eca;A CH&#x1ec8;" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
@@ -682,6 +602,36 @@
             </Component>
           </SubComponents>
         </Container>
+        <Component class="javax.swing.JLabel" name="txtXinChao">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="12" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Xin ch&#xe0;o,"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="txtChucVu">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="12" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Ch&#x1ee9;c v&#x1ee5;: "/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="txtDongHo">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="18" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="63" green="48" red="16" type="rgb"/>
+            </Property>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/icons/Alarm.png"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="09:11:2001"/>
+          </Properties>
+        </Component>
       </SubComponents>
     </Container>
   </SubComponents>

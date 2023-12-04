@@ -66,7 +66,17 @@ public class HoaDonDAO {
     public List<HoaDon> getAllChuaThanhToan() throws SQLException {
         list = new ArrayList<>();
         Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "select * from HoaDon where trangthai = 1 ";
+        String sql = "SELECT [ID]\n" +
+                    "      ,[NhanVienId]\n" +
+                    "      ,[KhachHangId]\n" +
+                    "      ,[KhuyenMaiID]\n" +
+                    "      ,[TongTienHang]\n" +
+                    "      ,[TongTienDuocGiam]\n" +
+                    "      ,[TongTienPhaiTra]\n" +
+                    "      ,[Trangthai]\n" +
+                    "      ,[TrangThaiXoa]\n" +
+                    "  FROM [dbo].[HoaDon]\n" +
+                    "  WHERE Trangthai = 1";
         Statement st = conn.createStatement();
         ResultSet rs = st.executeQuery(sql);
 
@@ -172,7 +182,7 @@ public class HoaDonDAO {
         ResultSet rs = preSt.executeQuery();
         
         while (rs.next()) {            
-             int id = rs.getInt("ID");
+            int id = rs.getInt("ID");
             int nhanVienID = rs.getInt("NhanVienID");
             int khachHangID  = rs.getInt("KhachHangID");
             int KhuyenMaiID = rs.getInt("KhuyenMaiID");
@@ -188,6 +198,37 @@ public class HoaDonDAO {
         preSt.close();
         conn.close();
         return list;
-        
+    }
+     
+    public void updateVoucher(int voucherID, int tongTienHang, int tongTienDuocGiam, int tongTienPhaiTra, int hoaDonID) throws SQLException{
+       Connection conn = ConnnectToSQLServer.getConnection();
+       String sql = "UPDATE HoaDon SET KhuyenMaiID = ?, TongTienHang = ?, TongTienDuocGiam = ?, TongTienPhaiTra = ? WHERE HoaDon.ID = ?";
+       PreparedStatement preSt = conn.prepareCall(sql);
+       preSt.setInt(1, voucherID);
+       preSt.setInt(2, tongTienHang);
+       preSt.setInt(3, tongTienDuocGiam);
+       preSt.setInt(4, tongTienPhaiTra);
+       preSt.setInt(5, hoaDonID);
+
+       int rs = preSt.executeUpdate();
+    }
+    
+    public void updateKhachHang(int khachHangID, int hoaDonID) throws SQLException{
+       Connection conn = ConnnectToSQLServer.getConnection();
+       String sql = "UPDATE HoaDon SET KhachHangId = ? WHERE HoaDon.ID = ?";
+       PreparedStatement preSt = conn.prepareCall(sql);
+       preSt.setInt(1, khachHangID);
+       preSt.setInt(2, hoaDonID);
+
+       int rs = preSt.executeUpdate();
+    }
+    
+    public void thanhToanHoaDon(int hoaDonID) throws SQLException {
+       Connection conn = ConnnectToSQLServer.getConnection();
+       String sql = "UPDATE HoaDon SET Trangthai = 0 WHERE HoaDon.ID = ?";
+       PreparedStatement preSt = conn.prepareCall(sql);
+       preSt.setInt(1, hoaDonID);
+
+       int rs = preSt.executeUpdate();
     }
 }

@@ -224,5 +224,37 @@ public class NhanVienDAO {
         }
         return 0;
     }
+    
+    public String getSoDienThoai (int id) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "SELECT SoDienThoai FROM NhanVien WHERE ID = ?";
+        try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            preparedStatement.setInt(1, id);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    return rs.getString("SoDienThoai");
+                }
+            }
+        }
+        return null;
+    }
+    
+    public int getIDBySoDienThoai(String soDienThoai) throws SQLException {
+    Connection conn = ConnnectToSQLServer.getConnection();
+    String sql = "SELECT id FROM NhanVien WHERE SoDienThoai = ?";
+    
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, soDienThoai);
+            ResultSet rs = ps.executeQuery();
 
+            while (rs.next()) {
+                return rs.getInt("id");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            conn.close();
+        }
+        return 0;
+    }
 }

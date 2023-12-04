@@ -46,6 +46,31 @@ public class SanPhamChiTietDAO {
         conn.close();
         return list;
     }
+    
+    public List<SanPhamChiTiet> getAllDuDieuKien() throws SQLException {
+        list = new ArrayList<>();
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "SELECT * FROM SANPHAMCHITIET where TrangThaiXoa = 0 AND SoLuong > 0;";
+        Statement st = conn.createStatement();
+        ResultSet rs = st.executeQuery(sql);
+
+        while (rs.next()) {
+            int id = rs.getInt("ID");
+            int sanPhamId = rs.getInt("SanPhamID");
+            int mauSacId = rs.getInt("MauSacID");
+            int chatLieuId = rs.getInt("ChatLieuID");
+            int kichThuoc = rs.getInt("KichThuoc");
+            int donGia = rs.getInt("DonGia");
+            int soLuong = rs.getInt("soLuong");
+
+            SanPhamChiTiet sanPhamChiTiet = new SanPhamChiTiet(id, sanPhamId, mauSacId, chatLieuId, kichThuoc, donGia, soLuong, sanPhamId);
+            list.add(sanPhamChiTiet);
+        }
+        rs.close();
+        st.close();
+        conn.close();
+        return list;
+    }
 
     public String addData(int id ,int sanPhamId, int mauSacId, int chatLieuId, int kichThuoc, float donGia, int soLuong) throws SQLException {
         Connection conn = ConnnectToSQLServer.getConnection();

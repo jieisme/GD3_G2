@@ -175,7 +175,6 @@ public class KhachHangDAO {
         } finally {
             conn.close();
         }
-
         return 0;
     }
 }

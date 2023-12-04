@@ -3,87 +3,82 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package DAO;
-import Entity.HoaDonChiTiet;
-import java.util.List;
+
+import Entity.ChatLieu;
+import Entity.HoaDon;
+import Entity.HoaDonChiTietVER2;
+import Entity.MauSac;
+import Entity.SanPham;
+import Entity.SanPhamChiTietVER2;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.sql.PreparedStatement;
+import java.util.List;
+
 /**
  *
  * @author zudd4
  */
 public class HoaDonChiTietDAO {
-    private List<HoaDonChiTiet> list;
-    
-    public List<HoaDonChiTiet> getAll() throws SQLException {
-        list = new ArrayList<>();
+    private List<HoaDonChiTietVER2> listV2;
+
+    public List<HoaDonChiTietVER2> getSPCTByHDID(int hoaDonID) throws SQLException {
+        listV2 = new ArrayList<>();
         Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "SELECT * FROM HoaDonChiTiet WHERE TrangThaiXoa = 0";
+        String sql = """
+                     SELECT HoaDonChiTiet.ID, SanPham.Ten, MauSac.Ten, SanPhamChiTiet.KichThuoc, HoaDonChiTiet.SoLuong, SanPhamChiTiet.DonGia
+                     FROM HoaDonChiTiet
+                          INNER JOIN SanPhamChiTiet ON HoaDonChiTiet.SanPhamChiTietId = SanPhamChiTiet.ID
+                          INNER JOIN HoaDon ON HoaDonChiTiet.HoaDonId = HoaDon.ID
+                          INNER JOIN MauSac ON SanPhamChiTiet.MauSacID = MauSac.ID
+                          INNER JOIN SanPham ON SanPhamChiTiet.SanPhamID = SanPham.ID
+                     WHERE HoaDon.ID = """ + hoaDonID;
         Statement st = conn.createStatement();
         ResultSet rs = st.executeQuery(sql);
 
-        while (rs.next()) {            
+        while (rs.next()) {
             int id = rs.getInt("ID");
-            int hoaDonID = rs.getInt("HoaDonId");
-            int sanPhamChiTietID = rs.getInt("SanPhamChiTietId");
-            int GiaBan = rs.getInt("GiaBan");
+            int GiaBan = rs.getInt("DonGia");
             int SoLuong = rs.getInt("SoLuong");
-            int TrangThaiXoa = rs.getInt("TrangThaiXoa");
-            
-            list.add(new HoaDonChiTiet(id, hoaDonID, sanPhamChiTietID, GiaBan, SoLuong, TrangThaiXoa));
+            SanPham sanPham = new SanPham(id, rs.getString(2), sql, sql, GiaBan, GiaBan);
+            MauSac mauSac = new MauSac(id, rs.getString(3));
+            ChatLieu chatLieu = new ChatLieu(id, sql);
+            HoaDon hoaDon = new HoaDon(id, hoaDonID, hoaDonID, hoaDonID, GiaBan, SoLuong, GiaBan, GiaBan, GiaBan);
+            SanPhamChiTietVER2 sanPhamChiTietVER2 = new SanPhamChiTietVER2(id, sanPham, mauSac, chatLieu, rs.getInt(4), GiaBan, SoLuong, GiaBan);
+            listV2.add(new HoaDonChiTietVER2(rs.getInt(1), hoaDon, sanPhamChiTietVER2, rs.getInt(5)));
         }
-        return list;
+        return listV2;
     }
-    
-    public List<HoaDonChiTiet> getSPCTByHDID(int hoaDonID) throws SQLException {
-        list = new ArrayList<>();
-        Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "SELECT * FROM HoaDonChiTiet WHERE TrangThaiXoa = 0 AND HoaDonID = " + hoaDonID;
-        Statement st = conn.createStatement();
-        ResultSet rs = st.executeQuery(sql);
 
-        while (rs.next()) {            
-            int id = rs.getInt("ID");
-            int sanPhamChiTietID = rs.getInt("SanPhamChiTietId");
-            int GiaBan = rs.getInt("GiaBan");
-            int SoLuong = rs.getInt("SoLuong");
-            int TrangThaiXoa = rs.getInt("TrangThaiXoa");
-            
-            list.add(new HoaDonChiTiet(id, hoaDonID, sanPhamChiTietID, GiaBan, SoLuong, TrangThaiXoa));
-        }
-        return list;
-    }
-    
     public String addData(int hoaDonID, int sanPhamChiTietID, int soLuong) throws SQLException {
-        Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "INSERT INTO [dbo].[HoaDonChiTiet]\n"
-                + "           ([HoaDonId]\n"
-                + "           ,[SanPhamChiTietId]\n"
-                + "           ,[SoLuong]\n"
-                + "           ,[TrangThaiXoa])\n"
-                + "     VALUES\n"
-                + "           (?\n"
-                + "           ,?\n"
-                + "           ,?\n"
-                + "           ,0)";
-        PreparedStatement preSt = conn.prepareCall(sql);
-        preSt.setInt(1, hoaDonID);
-        preSt.setInt(2, sanPhamChiTietID);
-        preSt.setInt(3, soLuong);
-        
-        int rs = preSt.executeUpdate();
-
-        preSt.close();
-        conn.close();
+        int rs;
+        try (Connection conn = ConnnectToSQLServer.getConnection()) {
+            String sql = """
+                         INSERT INTO [dbo].[HoaDonChiTiet]
+                                    ([HoaDonId]
+                                    ,[SanPhamChiTietId]
+                                    ,[SoLuong])
+                              VALUES
+                                    (?
+                                    ,?
+                                    ,?)""";
+            try (PreparedStatement preSt = conn.prepareStatement(sql)) {
+                preSt.setInt(1, hoaDonID);
+                preSt.setInt(2, sanPhamChiTietID);
+                preSt.setInt(3, soLuong);
+                rs = preSt.executeUpdate();
+            }
+        }
 
         if (rs > 0) {
             return "Thêm thành công!";
         }
         return null;
     }
+
     public int getIDSPCTByHDCTID(int id) throws SQLException {
         Connection conn = ConnnectToSQLServer.getConnection();
         String sql = "SELECT SanPhamChiTietId FROM HoaDonChiTiet WHERE ID = ?";
@@ -97,5 +92,41 @@ public class HoaDonChiTietDAO {
         }
         return 0;
     }
+
+    public String removeData(int hoaDonChiTietID) throws SQLException {
+        int rs;
+        try (Connection conn = ConnnectToSQLServer.getConnection()) {
+            String sql = """
+                         DELETE FROM [dbo].[HoaDonChiTiet]
+                               WHERE HoaDonChiTiet.ID = ?""";
+            try (PreparedStatement preSt = conn.prepareCall(sql)) {
+                preSt.setInt(1, hoaDonChiTietID);
+                rs = preSt.executeUpdate();
+            }
+        }
+
+        if (rs > 0) {
+            return "Xóa thành công!";
+        }
+        return null;
+    }
     
+    public String updateSoLuong(int SoLuong, int hoaDonChiTietID) throws SQLException {
+        int rs;
+        try (Connection conn = ConnnectToSQLServer.getConnection()) {
+            String sql = """
+                         UPDATE [dbo].[HoaDonChiTiet] SET SoLuong = ?
+                               WHERE HoaDonChiTiet.ID = ?""";
+            try (PreparedStatement preSt = conn.prepareCall(sql)) {
+                preSt.setInt(1, SoLuong);
+                preSt.setInt(2, hoaDonChiTietID);
+                rs = preSt.executeUpdate();
+            }
+        }
+
+        if (rs > 0) {
+            return "Cập nhật số lượng thành công!";
+        }
+        return null;
+    }
 }

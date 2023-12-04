@@ -10,6 +10,7 @@ import Entity.SanPham;
 import Entity.Voucher;
 import Utils.DongHo;
 import Utils.Session;
+import java.awt.HeadlessException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +61,7 @@ dtm = (DefaultTableModel) tblQuanLiVoucher.getModel();
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         Background = new javax.swing.JPanel();
         btnTaiKhoan = new javax.swing.JButton();
         btnDoiMatKhau = new javax.swing.JButton();
@@ -80,7 +82,6 @@ dtm = (DefaultTableModel) tblQuanLiVoucher.getModel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblQuanLiVoucher = new javax.swing.JTable();
         txtTimeEnd = new javax.swing.JTextField();
-        btnTimByID = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         rdoHetHan = new javax.swing.JRadioButton();
         txtSoLuong = new javax.swing.JTextField();
@@ -246,9 +247,17 @@ dtm = (DefaultTableModel) tblQuanLiVoucher.getModel();
 
             },
             new String [] {
-                "STT", "ID", "Loại Khuyến Mãi", "Giảm Theo %", "Giảm Theo Tiền", "Số Lượng", "Time Start", "Time End", "Trạng Thái", "Mô Tả"
+                "ID", "Loại", "Giảm Theo %", "Giảm Theo Tiền", "Số Lượng", "Time Start", "Time End", "Trạng Thái", "Mô Tả"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblQuanLiVoucher.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblQuanLiVoucherMouseClicked(evt);
@@ -256,20 +265,11 @@ dtm = (DefaultTableModel) tblQuanLiVoucher.getModel();
         });
         jScrollPane2.setViewportView(tblQuanLiVoucher);
 
-        btnTimByID.setBackground(new java.awt.Color(22, 70, 96));
-        btnTimByID.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnTimByID.setForeground(new java.awt.Color(255, 255, 255));
-        btnTimByID.setText("Tìm ID");
-        btnTimByID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTimByIDActionPerformed(evt);
-            }
-        });
-
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel6.setText("Loại KM");
+        jLabel6.setText("Loại khuyến mãi:");
 
-        rdoHetHan.setText("Hết Hạn");
+        buttonGroup1.add(rdoHetHan);
+        rdoHetHan.setText("Ngừng hoạt động");
 
         btnThem.setBackground(new java.awt.Color(22, 70, 96));
         btnThem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -285,6 +285,7 @@ dtm = (DefaultTableModel) tblQuanLiVoucher.getModel();
         txtMoTa.setRows(5);
         JScrollPane1.setViewportView(txtMoTa);
 
+        buttonGroup1.add(rdDangHoatDong);
         rdDangHoatDong.setSelected(true);
         rdDangHoatDong.setText("Đang Hoạt Động");
         rdDangHoatDong.addActionListener(new java.awt.event.ActionListener() {
@@ -297,16 +298,16 @@ dtm = (DefaultTableModel) tblQuanLiVoucher.getModel();
         jLabel13.setText("Trạng Thái");
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel9.setText("Time Start");
+        jLabel9.setText("Thời gian bắt đầu:");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel8.setText("Số  Lượng");
+        jLabel8.setText("Số lượng");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setText("ID:");
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel12.setText("Time End");
+        jLabel12.setText("Thời gian kết thúc:");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel7.setText("Mô tả");
@@ -331,13 +332,20 @@ dtm = (DefaultTableModel) tblQuanLiVoucher.getModel();
             }
         });
 
+        txtID.setEnabled(false);
+
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel10.setText("Giảm theo %");
+        jLabel10.setText("% Giảm:");
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel11.setText("Giảm theo giá tiền");
+        jLabel11.setText("Tiền giảm:");
 
-        cboLoai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Giảm Theo %", "Giảm Theo Tiền", " " }));
+        cboLoai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Không sử dụng", "Giảm Theo %", "Giảm Theo Tiền" }));
+        cboLoai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboLoaiActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout BackgroundLayout = new javax.swing.GroupLayout(Background);
         Background.setLayout(BackgroundLayout);
@@ -383,11 +391,14 @@ dtm = (DefaultTableModel) tblQuanLiVoucher.getModel();
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 769, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(BackgroundLayout.createSequentialGroup()
                                 .addGap(2, 2, 2)
                                 .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
+                                    .addGroup(BackgroundLayout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(cboLoai, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jLabel5)
                                     .addComponent(jLabel10)))
                             .addGroup(BackgroundLayout.createSequentialGroup()
@@ -402,33 +413,28 @@ dtm = (DefaultTableModel) tblQuanLiVoucher.getModel();
                                             .addComponent(jLabel13)
                                             .addComponent(jLabel7))))
                                 .addGap(18, 18, 18)
-                                .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtSoLuong, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtTimeStart, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtgiamtheotien, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtgiamtheopt, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(BackgroundLayout.createSequentialGroup()
-                                        .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnTimByID))
-                                    .addComponent(cboLoai, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, BackgroundLayout.createSequentialGroup()
-                                            .addComponent(rdDangHoatDong)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(rdoHetHan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addComponent(txtTimeEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(rdDangHoatDong)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(rdoHetHan))
+                                    .addComponent(txtID)
+                                    .addComponent(txtgiamtheopt)
+                                    .addComponent(txtgiamtheotien)
+                                    .addComponent(txtSoLuong)
+                                    .addComponent(txtTimeStart)
+                                    .addComponent(txtTimeEnd)))
                             .addGroup(BackgroundLayout.createSequentialGroup()
-                                .addGap(113, 113, 113)
-                                .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(JScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(119, 119, 119)
+                                .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(JScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(BackgroundLayout.createSequentialGroup()
                                         .addComponent(btnThem)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(btnSua)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(btnXoa)))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(53, Short.MAX_VALUE))))
         );
         BackgroundLayout.setVerticalGroup(
             BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -471,9 +477,8 @@ dtm = (DefaultTableModel) tblQuanLiVoucher.getModel();
                             .addGroup(BackgroundLayout.createSequentialGroup()
                                 .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5)
-                                    .addComponent(btnTimByID, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(16, 16, 16)
+                                    .addComponent(jLabel5))
+                                .addGap(17, 17, 17)
                                 .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel6)
                                     .addComponent(cboLoai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -506,7 +511,7 @@ dtm = (DefaultTableModel) tblQuanLiVoucher.getModel();
                                 .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7)
                                     .addComponent(JScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(4, 4, 4)
+                                .addGap(18, 18, 18)
                                 .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -673,62 +678,25 @@ dtm = (DefaultTableModel) tblQuanLiVoucher.getModel();
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
-        if(checkFrom()){
-            int selectedRow = tblQuanLiVoucher.getSelectedRow();
+        int selectedRow = tblQuanLiVoucher.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Chưa chọn dòng để xóa!");
         } else {
             try {
-                int id = Integer.parseInt(txtID.getText());
+                int khuyenMaiID = Integer.parseInt(txtID.getText());
+                JOptionPane.showMessageDialog(this, voucherDAO.DeleteData(khuyenMaiID));
                 list = voucherDAO.getAll();
-
-                boolean isIdDuplicated = false;
-        // TODO add your handling code here:
-
-                for (Voucher voucher : list) {
-                    if (id == voucher.getId()) {
-                        isIdDuplicated = true;
-                        break;
-                    }
-                }
-
-                if (isIdDuplicated == false) {
-                    JOptionPane.showMessageDialog(this, "Không có mã sản phẩm cần xóa!");
-                } else {
-                    int LoaiKhuyenMai =  cboLoai.getSelectedIndex();
-                int SoLuong = Integer.parseInt(txtSoLuong.getText());
-                int GiamTheoPhanTram = Integer.parseInt(txtgiamtheopt.getText());
-                int GiamTheoGiaTien = Integer.parseInt(txtgiamtheotien.getText());
-                String ThoiGianBatDau =txtTimeStart.getText();
-                String ThoiGianKetThuc =txtTimeEnd.getText();
-                int TrangThai;
-                if(rdDangHoatDong.isSelected()) {
-                    TrangThai = 0;
-                } else {
-                    TrangThai = 1;
-                }
-                String MoTa =txtMoTa.getText();
-
-                    JOptionPane.showMessageDialog(this, voucherDAO.DeleteData(id));
-                    list = voucherDAO.getAll();
-                    showData(list);
-                }
+                showData(list);
             } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
+                Logger.getLogger(QuanLyVoucherJFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
         }
     }//GEN-LAST:event_btnXoaActionPerformed
 
-    private void btnTimByIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimByIDActionPerformed
-
-    }//GEN-LAST:event_btnTimByIDActionPerformed
-
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-       if(checkFrom()){
+        if (checkFrom()){
             try {
-            
                 int LoaiKhuyenMai =  cboLoai.getSelectedIndex();
                 int SoLuong = Integer.parseInt(txtSoLuong.getText());
                 int GiamTheoPhanTram = Integer.parseInt(txtgiamtheopt.getText());
@@ -743,70 +711,97 @@ dtm = (DefaultTableModel) tblQuanLiVoucher.getModel();
                 }
                 String MoTa =txtMoTa.getText();
                 
-                JOptionPane.showMessageDialog(this,voucherDAO.addData(LoaiKhuyenMai, GiamTheoPhanTram, GiamTheoGiaTien, SoLuong, ThoiGianBatDau, ThoiGianKetThuc, TrangThai, MoTa));
                 list = voucherDAO.getAll();
-                showData(list);
-            
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
+                int check = 0;
+                for (Voucher voucher : list) {
+                    if (txtID.equals(String.valueOf(voucher.getId()))) {
+                        check++;
+                    }
+                }
+                
+                if (check == 0) {
+                    JOptionPane.showMessageDialog(this,voucherDAO.addData(LoaiKhuyenMai, GiamTheoPhanTram, GiamTheoGiaTien, SoLuong, ThoiGianBatDau, ThoiGianKetThuc, TrangThai, MoTa));
+                    list = voucherDAO.getAll();
+                    showData(list);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Trùng mã khuyễn mãi!");
+                }
+                } catch (SQLException ex) {
+                    System.out.println(ex.getMessage());
+                }
        }
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-      if(checkFrom()){
-            // TODO add your handling code here:
-       int selectedRow = tblQuanLiVoucher.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Chưa chọn dòng để sửa!");
-        } else {
-            try {
-                int id = Integer.parseInt(txtID.getText());
-                list = voucherDAO.getAll();
-
-                boolean isIdDuplicated = false;
-
-                for (Voucher voucher : list) {
-                    if (id == voucher.getId()) {
-                        isIdDuplicated = true;
-                        break;
+        if(checkFrom()){
+            int selectedRow = tblQuanLiVoucher.getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(this, "Chưa chọn dòng để sửa!");
+            } else {
+                try {
+                    int khuyenMaiID = Integer.parseInt(txtID.getText());
+                    int LoaiKhuyenMai =  cboLoai.getSelectedIndex();
+                    int SoLuong = Integer.parseInt(txtSoLuong.getText());
+                    int GiamTheoPhanTram = Integer.parseInt(txtgiamtheopt.getText());
+                    int GiamTheoGiaTien = Integer.parseInt(txtgiamtheotien.getText());
+                    String ThoiGianBatDau =txtTimeStart.getText();
+                    String ThoiGianKetThuc =txtTimeEnd.getText();
+                    int TrangThai;
+                    if(rdDangHoatDong.isSelected()) {
+                        TrangThai = 0;
+                    } else {
+                        TrangThai = 1;
                     }
-                }
-
-                if (isIdDuplicated == false) {
-                    JOptionPane.showMessageDialog(this, "Không có mã sản phẩm cần sửa!");
-                } else {
-                int LoaiKhuyenMai =  cboLoai.getSelectedIndex();
-                int SoLuong = Integer.parseInt(txtSoLuong.getText());
-                int GiamTheoPhanTram = Integer.parseInt(txtgiamtheopt.getText());
-                int GiamTheoGiaTien = Integer.parseInt(txtgiamtheotien.getText());
-                String ThoiGianBatDau =txtTimeStart.getText();
-                String ThoiGianKetThuc =txtTimeEnd.getText();
-                int TrangThai;
-                if(rdDangHoatDong.isSelected()) {
-                    TrangThai = 0;
-                } else {
-                    TrangThai = 1;
-                }
-                String MoTa =txtMoTa.getText();
-                    JOptionPane.showMessageDialog(this, voucherDAO.updateData(id, LoaiKhuyenMai, GiamTheoPhanTram, GiamTheoGiaTien, SoLuong, ThoiGianBatDau, ThoiGianKetThuc, TrangThai, MoTa));
+                    String MoTa =txtMoTa.getText();
+                    JOptionPane.showMessageDialog(this, voucherDAO.updateData(khuyenMaiID, LoaiKhuyenMai, GiamTheoPhanTram, GiamTheoGiaTien, SoLuong, ThoiGianBatDau, ThoiGianKetThuc, TrangThai, MoTa));
                     list = voucherDAO.getAll();
                     showData(list);
+                } catch (SQLException ex) {
+                    Logger.getLogger(QuanLyVoucherJFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
             }
         }
-      }
     }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void cboLoaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboLoaiActionPerformed
+        // TODO add your handling code here:
+        if (cboLoai.getSelectedIndex() == 1) {
+            txtgiamtheotien.setEnabled(false);
+            txtgiamtheopt.setEnabled(true);
+            txtgiamtheotien.setText("0");
+        } else if (cboLoai.getSelectedIndex() == 2) {
+            txtgiamtheopt.setEnabled(false);
+            txtgiamtheotien.setEnabled(true);
+            txtgiamtheopt.setText("0");
+        } else {
+            txtgiamtheopt.setEnabled(false);
+            txtgiamtheotien.setEnabled(false);
+            txtgiamtheopt.setText("0");
+            txtgiamtheotien.setText("0");
+        }
+    }//GEN-LAST:event_cboLoaiActionPerformed
 private void detailData(Voucher voucher) {
         txtID.setText(String.valueOf(voucher.getId()));
         cboLoai.setSelectedIndex(voucher.getLoaiKhuyenMai());
         txtgiamtheopt.setText(String.valueOf(voucher.getGiamTheoPhanTram()));
-         txtgiamtheotien.setText(String.valueOf(voucher.getGiamtheoGiaTien()));
+        txtgiamtheotien.setText(String.valueOf(voucher.getGiamtheoGiaTien()));
         txtSoLuong.setText(String.valueOf(voucher.getSoLuong()));
         txtTimeStart.setText(voucher.getThoiGianBatDau());
         txtTimeEnd.setText(voucher.getThoiGianKetThuc());
+//        if (voucher.getLoaiKhuyenMai() == 0) {
+//            txtgiamtheotien.setEnabled(false);
+//            txtgiamtheopt.setEnabled(true);
+//            txtgiamtheotien.setText("0");
+//        } else if (cboLoai.getSelectedIndex() == 1) {
+//            txtgiamtheopt.setEnabled(false);
+//            txtgiamtheotien.setEnabled(true);
+//            txtgiamtheopt.setText("0");
+//        } else {
+//            txtgiamtheopt.setEnabled(false);
+//            txtgiamtheotien.setEnabled(false);
+//            txtgiamtheopt.setText("0");
+//            txtgiamtheotien.setText("0");
+//        }
     if(voucher.getTrangThai() == 0) {
             rdDangHoatDong.setSelected(true);
         } else {
@@ -837,12 +832,10 @@ private void detailData(Voucher voucher) {
     }
     
     private void showData(List<Voucher> list) {
-        int stt = 1;
         dtm.setRowCount(0);
         
         for (Voucher voucher : list) {
             Object data[] = {
-                stt++,
                 voucher.getId(),
                 voucher.getLoaiKhuyenMai(),
                 voucher.getGiamTheoPhanTram(),
@@ -851,7 +844,7 @@ private void detailData(Voucher voucher) {
                 voucher.getThoiGianBatDau(),
                 voucher.getThoiGianKetThuc(),
                 getTrangThai(voucher.getTrangThai()),
-                     voucher.getMoTa()
+                voucher.getMoTa()
             };
             dtm.addRow(data);
         }
@@ -860,9 +853,9 @@ private void detailData(Voucher voucher) {
     private String getTrangThai(int TrangThai) {
         switch (TrangThai) {
             case 0:
-                return "Đang Hoạt Động";
+                return "Đang hoạt động";
             case 1:
-                return "Hết hạn";
+                return "Ngừng hoạt động";
             default:
                 return "";
 
@@ -983,43 +976,81 @@ private void detailData(Voucher voucher) {
         dongHo.start();
     }
     boolean checkFrom() {
-        if (txtgiamtheopt.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Giảm theo phần trăm không được để trống");
-            txtgiamtheopt.requestFocus();
-            return false;
-        }
-        if (txtgiamtheotien.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Giảm theo giá tiền không được để trống");
-            txtgiamtheotien.requestFocus();
-            return false;
+        if (cboLoai.getSelectedIndex() == 0) {
+            txtgiamtheotien.setEnabled(false);
+            txtgiamtheotien.setText("0");
+            if (txtgiamtheopt.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "% giảm không được để trống!");
+                return false;
+            } else {
+                try {
+                    int phanTramGiam = Integer.parseInt(txtgiamtheopt.getText());
+                    if (phanTramGiam <= 0 && phanTramGiam > 100) {
+                        JOptionPane.showMessageDialog(this, "% giảm phải trong khoảng 1-100");
+                        return false;
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "% giảm phải là số nguyên");
+                    return false;
+                }
+            }
+        } else {
+            txtgiamtheopt.setEnabled(false);
+            txtgiamtheopt.setText("0");
+            if (txtgiamtheotien.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Tiền giảm không được để trống!");
+                return false;
+            } else {
+                try {
+                    int tienGiam = Integer.parseInt(txtgiamtheotien.getText());
+                    if (tienGiam <= 0) {
+                        JOptionPane.showMessageDialog(this, "Tiền giảm giảm phải > 0");
+                        return false;
+                    }
+                } catch (HeadlessException | NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "Tiền giảm giảm phải là số nguyên");
+                    return false;
+                }
+            }
         }
         if (txtSoLuong.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Sô lượng không được để trống");
             txtSoLuong.requestFocus();
             return false;
+        } else {
+            try {
+                int soLuong = Integer.parseInt(txtSoLuong.getText());
+                if (soLuong <= 0) {
+                    JOptionPane.showMessageDialog(this, "Số lượng giảm phải > 0");
+                    return false;
+                }
+            } catch (HeadlessException | NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Số lượng giảm phải là số nguyên");
+                return false;
+            }
         }
-        if (txtTimeStart.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Sô lượng không được để trống");
-            txtTimeStart.requestFocus();
-            return false;
-        }
-        Pattern p = Pattern.compile("^[0-9]{2}-[0-9]{2}-[0-9]{4}$");
-        if (!p.matcher(txtTimeStart.getText()).find()) {
-            JOptionPane.showMessageDialog(this, "Time start phải đúng định dạng [dd-mm-yyyy]");
-            txtTimeStart.requestFocus();
-            return false;
-        }
-        if (txtTimeEnd.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Sô lượng không được để trống");
-            txtTimeEnd.requestFocus();
-            return false;
-        }
-        Pattern pn = Pattern.compile("^[0-9]{2}-[0-9]{2}-[0-9]{4}$");
-        if (!pn.matcher(txtTimeEnd.getText()).find()) {
-            JOptionPane.showMessageDialog(this, "Time end phải đúng định dạng [dd-mm-yyyy]");
-            txtTimeEnd.requestFocus();
-            return false;
-        }
+//        if (txtTimeStart.getText().isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Sô lượng không được để trống");
+//            txtTimeStart.requestFocus();
+//            return false;
+//        }
+//        Pattern p = Pattern.compile("^[0-9]{2}-[0-9]{2}-[0-9]{4}$");
+//        if (!p.matcher(txtTimeStart.getText()).find()) {
+//            JOptionPane.showMessageDialog(this, "Time start phải đúng định dạng [dd-mm-yyyy]");
+//            txtTimeStart.requestFocus();
+//            return false;
+//        }
+//        if (txtTimeEnd.getText().isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Sô lượng không được để trống");
+//            txtTimeEnd.requestFocus();
+//            return false;
+//        }
+//        Pattern pn = Pattern.compile("^[0-9]{2}-[0-9]{2}-[0-9]{4}$");
+//        if (!pn.matcher(txtTimeEnd.getText()).find()) {
+//            JOptionPane.showMessageDialog(this, "Time end phải đúng định dạng [dd-mm-yyyy]");
+//            txtTimeEnd.requestFocus();
+//            return false;
+//        }
         return true;
     }
 
@@ -1038,9 +1069,9 @@ private void detailData(Voucher voucher) {
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnTaiKhoan;
     private javax.swing.JButton btnThem;
-    private javax.swing.JButton btnTimByID;
     private javax.swing.JButton btnTrangChu;
     private javax.swing.JButton btnXoa;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cboLoai;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

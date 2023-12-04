@@ -133,9 +133,8 @@ public class VoucherDAO {
 
         if (rowsUpdated > 0) {
             return "Xóa thành công!";
-        } else {
-            return "Không có nhân viên để xóa";
         }
+        return null;
     }
 
     public double giamTheoPhanTram(int id) throws SQLException {

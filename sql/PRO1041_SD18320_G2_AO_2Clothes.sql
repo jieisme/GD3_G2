@@ -221,7 +221,8 @@ go
 
 go
 insert into KhachHang
-values (N'Vũ Tuấn A', '', '', 0),
+values ('', '', '', 0),
+	   (N'Vũ Tuấn A', '', '', 0),
 	   (N'Vũ Tuấn B', '', N'Hà Nội', 0),
 	   (N'Vũ Tuấn C', '0989999999', '', 0),
 	   (N'Vũ Tuấn D', '', '', 0),

@@ -6,8 +6,10 @@ package View;
 
 import DAO.ChatLieuDAO;
 import DAO.MauSacDAO;
+import DAO.NhanVienDAO;
 import Entity.ChatLieu;
 import Entity.MauSac;
+import Utils.DongHo;
 import Utils.Session;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
     List<ChatLieu> listCL;
     ChatLieuDAO chatLieuDAO = new ChatLieuDAO();
     private String loggedInUser = Session.getInstance().getLoggedInUsername();
+    private NhanVienDAO nhanVienDAO = new NhanVienDAO();
 
     /**
      * Creates new form QuanLyThuocTinhJFrame
@@ -42,6 +45,10 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
         dtmChatLieu.setRowCount(0);
         list = mauSacDAO.getAll();
         listCL = chatLieuDAO.getAll();
+        txtXinChao.setText("Xin chào: " + nhanVienDAO.searchHoVaTen(loggedInUser));
+        int chucVu = Integer.parseInt(nhanVienDAO.searchChucVu(loggedInUser));
+        txtChucVu.setText("Chức vụ: " + getChucVu(chucVu));
+        dongHo();
         showDataMauSac(list);
         showDataChatLieu(listCL);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -98,9 +105,6 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
         btnTaiKhoan = new javax.swing.JButton();
         btnDoiMatKhau = new javax.swing.JButton();
         btnDangXuat = new javax.swing.JButton();
-        txtXinChao = new javax.swing.JLabel();
-        txtChucVu = new javax.swing.JLabel();
-        txtDongHo = new javax.swing.JLabel();
         txtTile = new javax.swing.JLabel();
         txtLogo = new javax.swing.JLabel();
         btnBanHang = new javax.swing.JButton();
@@ -130,12 +134,15 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
         tblChatLieu = new javax.swing.JTable();
         jLabel10 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        btnTimID2 = new javax.swing.JButton();
-        btnTimID3 = new javax.swing.JButton();
-        btnTimID4 = new javax.swing.JButton();
-        btnthem = new javax.swing.JButton();
-        btnsua = new javax.swing.JButton();
-        btnXoa = new javax.swing.JButton();
+        btnThemCL = new javax.swing.JButton();
+        btnSuaCL = new javax.swing.JButton();
+        btnXoaCL = new javax.swing.JButton();
+        btnThemMS = new javax.swing.JButton();
+        btnSuaMS = new javax.swing.JButton();
+        btnXoaMS = new javax.swing.JButton();
+        txtXinChao = new javax.swing.JLabel();
+        txtChucVu = new javax.swing.JLabel();
+        txtDongHo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -174,17 +181,6 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
                 btnDangXuatActionPerformed(evt);
             }
         });
-
-        txtXinChao.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        txtXinChao.setText("Xin chào,");
-
-        txtChucVu.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        txtChucVu.setText("Chức vụ: ");
-
-        txtDongHo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        txtDongHo.setForeground(new java.awt.Color(22, 72, 99));
-        txtDongHo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Alarm.png"))); // NOI18N
-        txtDongHo.setText("09:11:2001");
 
         txtTile.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         txtTile.setText("HỆ THỐNG QUẢN LÝ BẢN ÁO");
@@ -346,65 +342,76 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel9.setText("THÔNG TIN MÀU SẮC");
 
-        btnTimID2.setBackground(new java.awt.Color(22, 72, 99));
-        btnTimID2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnTimID2.setForeground(new java.awt.Color(255, 255, 255));
-        btnTimID2.setText("Thêm");
-        btnTimID2.addActionListener(new java.awt.event.ActionListener() {
+        btnThemCL.setBackground(new java.awt.Color(22, 72, 99));
+        btnThemCL.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnThemCL.setForeground(new java.awt.Color(255, 255, 255));
+        btnThemCL.setText("Thêm");
+        btnThemCL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTimID2ActionPerformed(evt);
+                btnThemCLActionPerformed(evt);
             }
         });
 
-        btnTimID3.setBackground(new java.awt.Color(22, 72, 99));
-        btnTimID3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnTimID3.setForeground(new java.awt.Color(255, 255, 255));
-        btnTimID3.setText("Sửa");
-        btnTimID3.addActionListener(new java.awt.event.ActionListener() {
+        btnSuaCL.setBackground(new java.awt.Color(22, 72, 99));
+        btnSuaCL.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnSuaCL.setForeground(new java.awt.Color(255, 255, 255));
+        btnSuaCL.setText("Sửa");
+        btnSuaCL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTimID3ActionPerformed(evt);
+                btnSuaCLActionPerformed(evt);
             }
         });
 
-        btnTimID4.setBackground(new java.awt.Color(22, 72, 99));
-        btnTimID4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnTimID4.setForeground(new java.awt.Color(255, 255, 255));
-        btnTimID4.setText("Xóa");
-        btnTimID4.addActionListener(new java.awt.event.ActionListener() {
+        btnXoaCL.setBackground(new java.awt.Color(22, 72, 99));
+        btnXoaCL.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnXoaCL.setForeground(new java.awt.Color(255, 255, 255));
+        btnXoaCL.setText("Xóa");
+        btnXoaCL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTimID4ActionPerformed(evt);
+                btnXoaCLActionPerformed(evt);
             }
         });
 
-        btnthem.setBackground(new java.awt.Color(22, 72, 99));
-        btnthem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnthem.setForeground(new java.awt.Color(255, 255, 255));
-        btnthem.setText("Thêm");
-        btnthem.addActionListener(new java.awt.event.ActionListener() {
+        btnThemMS.setBackground(new java.awt.Color(22, 72, 99));
+        btnThemMS.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnThemMS.setForeground(new java.awt.Color(255, 255, 255));
+        btnThemMS.setText("Thêm");
+        btnThemMS.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnthemActionPerformed(evt);
+                btnThemMSActionPerformed(evt);
             }
         });
 
-        btnsua.setBackground(new java.awt.Color(22, 72, 99));
-        btnsua.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnsua.setForeground(new java.awt.Color(255, 255, 255));
-        btnsua.setText("Sửa");
-        btnsua.addActionListener(new java.awt.event.ActionListener() {
+        btnSuaMS.setBackground(new java.awt.Color(22, 72, 99));
+        btnSuaMS.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnSuaMS.setForeground(new java.awt.Color(255, 255, 255));
+        btnSuaMS.setText("Sửa");
+        btnSuaMS.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnsuaActionPerformed(evt);
+                btnSuaMSActionPerformed(evt);
             }
         });
 
-        btnXoa.setBackground(new java.awt.Color(22, 72, 99));
-        btnXoa.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnXoa.setForeground(new java.awt.Color(255, 255, 255));
-        btnXoa.setText("Xóa");
-        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+        btnXoaMS.setBackground(new java.awt.Color(22, 72, 99));
+        btnXoaMS.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnXoaMS.setForeground(new java.awt.Color(255, 255, 255));
+        btnXoaMS.setText("Xóa");
+        btnXoaMS.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXoaActionPerformed(evt);
+                btnXoaMSActionPerformed(evt);
             }
         });
+
+        txtXinChao.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtXinChao.setText("Xin chào,");
+
+        txtChucVu.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtChucVu.setText("Chức vụ: ");
+
+        txtDongHo.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        txtDongHo.setForeground(new java.awt.Color(22, 72, 99));
+        txtDongHo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Alarm.png"))); // NOI18N
+        txtDongHo.setText("09:11:2001");
 
         javax.swing.GroupLayout BackgroundLayout = new javax.swing.GroupLayout(Background);
         Background.setLayout(BackgroundLayout);
@@ -415,6 +422,7 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
                 .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(BackgroundLayout.createSequentialGroup()
                         .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtXinChao)
                             .addGroup(BackgroundLayout.createSequentialGroup()
                                 .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnQuanLyKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -429,31 +437,14 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
                                 .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(BackgroundLayout.createSequentialGroup()
                                         .addGap(5, 5, 5)
-                                        .addComponent(jLabel5)
-                                        .addGap(23, 23, 23)
-                                        .addComponent(txtIDMau, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jLabel5))
                                     .addGroup(BackgroundLayout.createSequentialGroup()
-                                        .addComponent(btnthem)
+                                        .addComponent(btnThemMS)
                                         .addGap(18, 18, 18)
-                                        .addComponent(btnsua)
+                                        .addComponent(btnSuaMS)
                                         .addGap(18, 18, 18)
-                                        .addComponent(btnXoa))
+                                        .addComponent(btnXoaMS))
                                     .addComponent(jLabel14)
-                                    .addGroup(BackgroundLayout.createSequentialGroup()
-                                        .addGap(8, 8, 8)
-                                        .addComponent(jLabel11)
-                                        .addGap(13, 13, 13)
-                                        .addComponent(txtIDChatLieu, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(BackgroundLayout.createSequentialGroup()
-                                        .addComponent(jLabel12)
-                                        .addGap(13, 13, 13)
-                                        .addComponent(txtTenChatLieu, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(BackgroundLayout.createSequentialGroup()
-                                        .addComponent(btnTimID2)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(btnTimID3)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(btnTimID4))
                                     .addGroup(BackgroundLayout.createSequentialGroup()
                                         .addGap(136, 136, 136)
                                         .addComponent(txtErrorTenChatLieu, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -463,40 +454,59 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
                                                 .addComponent(jLabel6)
                                                 .addGap(23, 23, 23)
                                                 .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(txtTenMau, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                     .addGroup(BackgroundLayout.createSequentialGroup()
                                                         .addGap(110, 110, 110)
-                                                        .addComponent(txtErrorIDMau, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                        .addComponent(txtErrorIDMau, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                        .addComponent(txtIDMau, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(txtTenMau, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                             .addComponent(jLabel8))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel9)
-                                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                            .addComponent(txtXinChao))
-                        .addGap(803, 803, 803)
-                        .addComponent(txtErrorTenMau, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(BackgroundLayout.createSequentialGroup()
-                            .addComponent(txtChucVu)
-                            .addGap(1295, 1295, 1295)
-                            .addComponent(txtDongHo))
-                        .addGroup(BackgroundLayout.createSequentialGroup()
-                            .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(btnBanHang, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnQuanLySanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(256, 256, 256)
-                            .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, BackgroundLayout.createSequentialGroup()
+                                            .addComponent(jLabel12)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(txtTenChatLieu, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(BackgroundLayout.createSequentialGroup()
+                                                .addGap(8, 8, 8)
+                                                .addComponent(jLabel11)
+                                                .addGap(13, 13, 13)
+                                                .addComponent(txtIDChatLieu, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, BackgroundLayout.createSequentialGroup()
+                                                .addComponent(btnThemCL)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(btnSuaCL)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(btnXoaCL)))))
+                                .addGap(803, 803, 803)
+                                .addComponent(txtErrorTenMau, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(BackgroundLayout.createSequentialGroup()
-                                    .addComponent(txtTile)
-                                    .addGap(164, 164, 164)
-                                    .addComponent(btnTrangChu, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(BackgroundLayout.createSequentialGroup()
-                                    .addGap(90, 90, 90)
-                                    .addComponent(txtLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(btnBanHang, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnQuanLySanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(256, 256, 256)
+                                    .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(BackgroundLayout.createSequentialGroup()
+                                            .addComponent(txtTile)
+                                            .addGap(164, 164, 164)
+                                            .addComponent(btnTrangChu, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(BackgroundLayout.createSequentialGroup()
+                                            .addGap(90, 90, 90)
+                                            .addComponent(txtLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(BackgroundLayout.createSequentialGroup()
+                        .addComponent(txtChucVu)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtDongHo)
+                        .addGap(530, 530, 530))))
         );
 
         BackgroundLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jScrollPane4, jScrollPane7});
@@ -534,11 +544,7 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
                         .addGap(6, 6, 6)
                         .addComponent(btnDoiMatKhau)
                         .addGap(6, 6, 6)
-                        .addComponent(btnDangXuat)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtXinChao)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtChucVu))
+                        .addComponent(btnDangXuat))
                     .addGroup(BackgroundLayout.createSequentialGroup()
                         .addGap(71, 71, 71)
                         .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -565,9 +571,9 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
                                                     .addComponent(txtErrorIDMau))))
                                         .addGap(26, 26, 26)
                                         .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(btnthem, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(btnsua, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnThemMS, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnSuaMS, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnXoaMS, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(BackgroundLayout.createSequentialGroup()
                                                 .addGap(8, 8, 8)
                                                 .addComponent(txtErrorTenMau)))
@@ -587,15 +593,19 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
                                             .addComponent(txtTenChatLieu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(18, 18, 18)
                                         .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(btnTimID2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(btnTimID3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(btnTimID4, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(btnThemCL, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnSuaCL, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(btnXoaCL, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtErrorTenChatLieu))
-                            .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addGap(167, 167, 167)
-                        .addComponent(txtDongHo)))
+                            .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addComponent(txtXinChao)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtChucVu)
+                    .addComponent(txtDongHo))
                 .addContainerGap())
         );
 
@@ -605,9 +615,7 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(Background, javax.swing.GroupLayout.PREFERRED_SIZE, 1519, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(Background, javax.swing.GroupLayout.PREFERRED_SIZE, 1536, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -617,9 +625,9 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+    private void btnXoaMSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaMSActionPerformed
         // TODO add your handling code here:
-        if (checkForm()) {
+        if (tblMauSac.getSelectedRow() != -1) {
             int chon = (JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn xóa thuộc tính này?", "Thông báo", JOptionPane.YES_NO_OPTION));
             if (chon == JOptionPane.YES_OPTION) {
                 try {
@@ -630,11 +638,12 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
                 } catch (SQLException ex) {
                 }
             }
-            return;
+        } else {
+            JOptionPane.showMessageDialog(this, "Chưa chọn dòng để xóa!");
         }
-    }//GEN-LAST:event_btnXoaActionPerformed
+    }//GEN-LAST:event_btnXoaMSActionPerformed
 
-    private void btnsuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsuaActionPerformed
+    private void btnSuaMSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaMSActionPerformed
         // TODO add your handling code here:
         if (checkForm()) {
             int selectedRow = tblMauSac.getSelectedRow();
@@ -642,40 +651,23 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Chưa chọn dòng để sửa!");
             } else {
                 try {
-                    int id = Integer.parseInt(txtIDMau.getText());
+                    int macSacID = Integer.parseInt(txtIDMau.getText());
+                    String ten = txtTenMau.getText();
+                    JOptionPane.showMessageDialog(this, mauSacDAO.updateData(macSacID, ten));
                     list = mauSacDAO.getAll();
-
-                    boolean isIdDuplicated = false;
-
-                    for (MauSac mauSac : list) {
-                        if (id == mauSac.getId()) {
-                            isIdDuplicated = true;
-                            break;
-                        }
-                    }
-
-                    if (isIdDuplicated == false) {
-                        JOptionPane.showMessageDialog(this, "Không có mã hóa đơn cần sửa!");
-                    } else {
-                        String ten = txtTenMau.getText();
-
-                        JOptionPane.showMessageDialog(this, mauSacDAO.updateData(id, ten));
-                        list = mauSacDAO.getAll();
-                        showDataMauSac(list);
-                    }
+                    showDataMauSac(list);
                 } catch (SQLException ex) {
-                    System.out.println(ex.getMessage());
+                    Logger.getLogger(QuanLyThuocTinhJFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
-    }//GEN-LAST:event_btnsuaActionPerformed
+    }//GEN-LAST:event_btnSuaMSActionPerformed
 
-    private void btnthemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnthemActionPerformed
+    private void btnThemMSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemMSActionPerformed
         // TODO add your handling code here:
         if (checkForm()) {
             try {
                 String ten = txtTenMau.getText();
-
                 JOptionPane.showMessageDialog(this, mauSacDAO.addData(ten));
                 list = mauSacDAO.getAll();
                 showDataMauSac(list);
@@ -683,12 +675,12 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
                 System.out.println(ex.getMessage());
             }
         }
-    }//GEN-LAST:event_btnthemActionPerformed
+    }//GEN-LAST:event_btnThemMSActionPerformed
 
-    private void btnTimID4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimID4ActionPerformed
+    private void btnXoaCLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaCLActionPerformed
         // TODO add your handling code here:
-        if (checkFormCL()) {
-            int chon = (JOptionPane.showConfirmDialog(this, "Delete ?", "Confirm", JOptionPane.YES_NO_OPTION));
+        if (tblChatLieu.getSelectedRow() != -1) {
+            int chon = (JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa thuộc tính này không?", "Thông báo", JOptionPane.YES_NO_OPTION));
             if (chon == JOptionPane.YES_OPTION) {
                 try {
                     // TODO add your handling code here:
@@ -698,11 +690,12 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
                 } catch (SQLException ex) {
                 }
             }
-            return;
+        } else {
+            JOptionPane.showMessageDialog(this, "Chưa chọn dòng để xóa!");
         }
-    }//GEN-LAST:event_btnTimID4ActionPerformed
+    }//GEN-LAST:event_btnXoaCLActionPerformed
 
-    private void btnTimID3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimID3ActionPerformed
+    private void btnSuaCLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaCLActionPerformed
         // TODO add your handling code here:
         if (checkFormCL()) {
             int selectedRow = tblChatLieu.getSelectedRow();
@@ -710,49 +703,31 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Chưa chọn dòng để sửa!");
             } else {
                 try {
-                    int id = Integer.parseInt(txtIDChatLieu.getText());
+                    int chatLieuID = Integer.parseInt(txtIDChatLieu.getText());
+                    String ten = txtTenChatLieu.getText();
+                    JOptionPane.showMessageDialog(this, chatLieuDAO.updateData(chatLieuID, ten));
                     listCL = chatLieuDAO.getAll();
-
-                    boolean isIdDuplicated = false;
-
-                    for (ChatLieu chatLieu : listCL) {
-                        if (id == chatLieu.getId()) {
-                            isIdDuplicated = true;
-                            break;
-                        }
-                    }
-
-                    if (isIdDuplicated == false) {
-                        JOptionPane.showMessageDialog(this, "Không có mã hóa đơn cần sửa!");
-                    } else {
-                        String ten = txtTenChatLieu.getText();
-
-                        JOptionPane.showMessageDialog(this, chatLieuDAO.updateData(id, ten));
-                        listCL = chatLieuDAO.getAll();
-                        showDataChatLieu(listCL);
-                    }
+                    showDataChatLieu(listCL);
                 } catch (SQLException ex) {
-                    System.out.println(ex.getMessage());
+                    Logger.getLogger(QuanLyThuocTinhJFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
-    }//GEN-LAST:event_btnTimID3ActionPerformed
+    }//GEN-LAST:event_btnSuaCLActionPerformed
 
-    private void btnTimID2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimID2ActionPerformed
+    private void btnThemCLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemCLActionPerformed
         // TODO add your handling code here:
         if (checkFormCL()) {
             try {
                 String ten = txtTenChatLieu.getText();
-
                 JOptionPane.showMessageDialog(this, chatLieuDAO.addData(ten));
                 listCL = chatLieuDAO.getAll();
                 showDataChatLieu(listCL);
-
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
         }
-    }//GEN-LAST:event_btnTimID2ActionPerformed
+    }//GEN-LAST:event_btnThemCLActionPerformed
 
     private void tblChatLieuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblChatLieuMouseClicked
         // TODO add your handling code here:
@@ -946,14 +921,12 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Tên màu không được trùng");
                 txtTenMau.requestFocus();
                 return false;
-
             }
         }
         return true;
     }
 
     boolean checkFormCL() {
-
         if (txtTenChatLieu.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Tên Chất liệu không được để trống !");
             txtTenChatLieu.requestFocus();
@@ -970,6 +943,19 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
 
         return true;
     }
+    
+    private String getChucVu(int chucVu) {
+        if (chucVu == 0) {
+            return "Quản lý";
+        } else {
+            return "Nhân viên";
+        }
+    }
+
+    private void dongHo() {
+        DongHo dongHo = new DongHo(txtDongHo);
+        dongHo.start();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Background;
@@ -982,14 +968,14 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnQuanLySanPham;
     private javax.swing.JButton btnQuanLyThuocTinh;
     private javax.swing.JButton btnQuanLyVoucher;
+    private javax.swing.JButton btnSuaCL;
+    private javax.swing.JButton btnSuaMS;
     private javax.swing.JButton btnTaiKhoan;
-    private javax.swing.JButton btnTimID2;
-    private javax.swing.JButton btnTimID3;
-    private javax.swing.JButton btnTimID4;
+    private javax.swing.JButton btnThemCL;
+    private javax.swing.JButton btnThemMS;
     private javax.swing.JButton btnTrangChu;
-    private javax.swing.JButton btnXoa;
-    private javax.swing.JButton btnsua;
-    private javax.swing.JButton btnthem;
+    private javax.swing.JButton btnXoaCL;
+    private javax.swing.JButton btnXoaMS;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
