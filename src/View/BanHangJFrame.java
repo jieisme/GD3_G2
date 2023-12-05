@@ -649,7 +649,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
     private void tblHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonMouseClicked
         try {
             // TODO add your handling code here:
-            detailDataHD(hoaDonDAO.getAll().get(tblHoaDon.getSelectedRow()));
+            detailDataHD(hoaDonDAO.getAllChuaThanhToan().get(tblHoaDon.getSelectedRow()));
             int hoaDonID = (int) tblHoaDon.getValueAt(tblHoaDon.getSelectedRow(), 0);
             showDataHDCT(hoaDonChiTietDAO.getSPCTByHDID(hoaDonID));
         } catch (SQLException ex) {
@@ -782,21 +782,18 @@ public class BanHangJFrame extends javax.swing.JFrame {
             }
     
             int hoaDonID = (int) tblHoaDon.getValueAt(selectedRowHD, 0);
-            
             int selectedSPCT = tblSanPhamChiTiet.getSelectedRow();
             int selectedRowHDCT = tblHoaDonChiTiet.getSelectedRow();
-
-    
             int sanPhamChiTietID = hoaDonChiTietDAO.getIDSPCTByHDID(hoaDonID);
             int soLuongMua = hoaDonChiTietDAO.getSoLuongByHDID(hoaDonID);
 
-            sanPhamChiTietDAO.updateSoLuong(soLuongMua, sanPhamChiTietID);
-            showDataHD(hoaDonDAO.getAllChuaThanhToan());
-            showDataSPCT(sanPhamChiTietDAO.getAllDuDieuKien());
             txtTongTienHang.setText("TỔNG TIỀN HÀNG: 0 VNĐ");
             txtTienDuocGiam.setText("TIỀN ĐƯỢC GIẢM: 0 VNĐ");
             txtTongTienPhaiTra.setText("TỔNG TIỀN PHẢI TRẢ: 0 VNĐ");
             hoaDonDAO.thanhToanHoaDon(hoaDonID);
+            sanPhamChiTietDAO.updateSoLuong(soLuongMua, sanPhamChiTietID);
+            showDataHD(hoaDonDAO.getAllChuaThanhToan());
+            showDataSPCT(sanPhamChiTietDAO.getAllDuDieuKien());
             JOptionPane.showMessageDialog(this, "Thanh toán thành công!");
    
         } catch (SQLException ex) {
@@ -845,7 +842,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                     int tongTienHang = 0;
                     List<HoaDonChiTietVER2> listHDCT = hoaDonChiTietDAO.getSPCTByHDID(hoaDonID);
                     for (HoaDonChiTietVER2 hoaDonChiTietVER2 : listHDCT) {
-                        int giaBan = sanPhamChiTietDAO.getDonGiabyIDSPCT(hoaDonChiTietVER2.getId());
+                        int giaBan = hoaDonChiTietVER2.getSpct().getDonGia();
                         int soLuongMua = hoaDonChiTietVER2.getSoluong();
                         tongTienHang += (giaBan * soLuongMua);
                     }

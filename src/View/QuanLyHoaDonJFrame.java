@@ -667,6 +667,14 @@ public class QuanLyHoaDonJFrame extends javax.swing.JFrame {
 
     private void btnQuanLySanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLySanPhamActionPerformed
         // TODO add your handling code here:
+        QuanLySanPhamJFrame banHangJFrame = null;
+        try {
+            banHangJFrame = new QuanLySanPhamJFrame();
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+        banHangJFrame.setVisible(true);
     }//GEN-LAST:event_btnQuanLySanPhamActionPerformed
 
     private void btnBanHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBanHangActionPerformed

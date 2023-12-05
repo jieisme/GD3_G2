@@ -28,7 +28,7 @@ TrangThaiXoa int null
  go
 
 create table SanPham(
-ID int primary key ,
+ID int identity(0,1) primary key,
 Ten nvarchar(50) not null,
 DonViTinh nvarchar(20) not null,
 MoTa nvarchar(200) null,
@@ -63,7 +63,7 @@ SoLuong int not null,
 go
 
 create table SanPhamChiTiet(
-ID int primary key ,
+ID int identity(0,1) primary key,
 SanPhamID int not null,
 MauSacID int not null,
 ChatLieuID int not null,
@@ -188,25 +188,25 @@ go
 -- Ngừng kinh doanh: 1
 
 insert into SanPham
-values (0,N'Áo thun sporty line shoulder',N'Chiếc','',0, 0, 0),
-		(1,N'Áo Polo united waffle shirt',N'Chiếc','',1, 0, 0),
-		(2,N'Ao sơ mi unisex waffle shirt',N'Chiếc','',2, 1, 0),
-		(3,N'Áo Hoodie morning star bunny',N'Chiếc','',3, 0, 0)
+values (N'Áo thun sporty line shoulder',N'Chiếc','',0, 0, 0),
+		(N'Áo Polo united waffle shirt',N'Chiếc','',1, 0, 0),
+		(N'Ao sơ mi unisex waffle shirt',N'Chiếc','',2, 1, 0),
+		(N'Áo Hoodie morning star bunny',N'Chiếc','',3, 0, 0)
 go
 insert into SanPhamChiTiet
-values (0, 0, 0, 0, 0, 185000, 1234, 0),
-		(1, 0, 0, 1, 1, 185000, 8543, 0),
-		(2, 0, 0, 1, 2, 185000, 0, 0),
-		(3, 0, 1, 1, 3, 185000, 4542, 0),
-		(4, 0, 1, 1, 2, 185000, 0, 0),
-		(5, 0, 1, 1, 1, 185000, 5437, 0),
-		(6, 1, 0, 5, 1, 189000, 4676, 0),
-		(7, 1, 0, 5, 2, 189000, 5647, 0),
-		(8, 2, 0, 5, 2, 185000, 6789, 0),
-		(9, 2, 1, 5, 1, 185000, 0, 0),
-		(10, 3, 0, 6, 1, 299000, 1354, 0),
-		(11, 3, 1, 6, 2, 299000, 3545, 0),
-		(12, 3, 5, 6, 3, 299000, 1469, 0)
+values (0, 0, 0, 0, 185000, 1234, 0),
+		(0, 0, 1, 1, 185000, 8543, 0),
+		(0, 0, 1, 2, 185000, 0, 0),
+		(0, 1, 1, 3, 185000, 4542, 0),
+		(0, 1, 1, 2, 185000, 0, 0),
+		(0, 1, 1, 1, 185000, 5437, 0),
+		(1, 0, 5, 1, 189000, 4676, 0),
+		(1, 0, 5, 2, 189000, 5647, 0),
+		(2, 0, 5, 2, 185000, 6789, 0),
+		(2, 1, 5, 1, 185000, 0, 0),
+		(3, 0, 6, 1, 299000, 1354, 0),
+		(3, 1, 6, 2, 299000, 3545, 0),
+		(3, 5, 6, 3, 299000, 1469, 0)
 go
 insert into NhanVien
 values ('kietvt', 123, N'Vũ Tuấn Kiệt', 0, '0862132564', 0),
