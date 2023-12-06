@@ -199,6 +199,21 @@ public class NhanVienDAO {
         return null;
     }
     
+    public String searchHoVaTenbyID(int id) throws SQLException {
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "SELECT HoVaTen FROM NHANVIEN WHERE ID = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("HoVaTen");
+            }
+        }
+        return null;
+    }
+    
     public String getTenNhanVien(int nhanVienID) throws SQLException {
         Connection conn = ConnnectToSQLServer.getConnection();
         String sql = "SELECT HoVaTen FROM NhanVien WHERE ID = " + nhanVienID;

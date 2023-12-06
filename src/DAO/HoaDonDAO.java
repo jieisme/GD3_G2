@@ -101,6 +101,44 @@ public class HoaDonDAO {
         conn.close();
         return list;
     }
+    
+    public List<HoaDon> getAllbyTrangThai(int trangThai) throws SQLException {
+        list = new ArrayList<>();
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "SELECT [ID]\n" +
+                    "      ,[NhanVienId]\n" +
+                    "      ,[KhachHangId]\n" +
+                    "      ,[KhuyenMaiID]\n" +
+                    "      ,[TongTienHang]\n" +
+                    "      ,[TongTienDuocGiam]\n" +
+                    "      ,[TongTienPhaiTra]\n" +
+                    "      ,[Trangthai]\n" +
+                    "      ,[TrangThaiXoa]\n" +
+                    "  FROM [dbo].[HoaDon]\n" +
+                    "  WHERE Trangthai = " + trangThai;
+        Statement st = conn.createStatement();
+        ResultSet rs = st.executeQuery(sql);
+
+        while (rs.next()) {            
+            int id = rs.getInt("ID");
+            int nhanVienID = rs.getInt("NhanVienID");
+            int khachHangID  = rs.getInt("KhachHangID");
+            int KhuyenMaiID = rs.getInt("KhuyenMaiID");
+            int TongTienHang = rs.getInt("TongTienHang");
+            int TongTienDuocGiam = rs.getInt("TongTienDuocGiam");
+            int TongTienPhaiTra = rs.getInt("TongTienPhaiTra");
+            int Trangthai = rs.getInt("Trangthai");
+            int TrangThaiXoa = rs.getInt("TrangThaiXoa");
+            
+            
+            HoaDon hoadon = new HoaDon(id, nhanVienID, khachHangID, KhuyenMaiID, TongTienHang, TongTienDuocGiam, TongTienPhaiTra, Trangthai, TrangThaiXoa);
+            list.add(hoadon);
+        }
+        rs.close();
+        st.close();
+        conn.close();
+        return list;
+    }
 
     public String addData(int nhanVienID, int khachHangID, int khuyenMaiID, int tongTienHang, int tongTienDuocGiam, int tongTienPhaiTra, int trangthai) throws SQLException {
         Connection conn = ConnnectToSQLServer.getConnection();

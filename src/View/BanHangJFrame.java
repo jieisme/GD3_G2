@@ -485,7 +485,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(BackgroundLayout.createSequentialGroup()
                         .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 733, Short.MAX_VALUE)
+                            .addComponent(jScrollPane3)
                             .addComponent(jScrollPane2)
                             .addComponent(jScrollPane1)
                             .addGroup(BackgroundLayout.createSequentialGroup()
@@ -494,7 +494,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                                     .addComponent(jLabel1)
                                     .addComponent(jLabel2)
                                     .addComponent(btnThemSPToHoaDon))
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(0, 553, Short.MAX_VALUE)))
                         .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(BackgroundLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -596,8 +596,8 @@ public class BanHangJFrame extends javax.swing.JFrame {
                                     .addComponent(btnThemSoDienThoaiKH))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnTaoHoaDonMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(32, 32, 32)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnThemSPToHoaDon)
                         .addGap(7, 7, 7)
@@ -659,7 +659,10 @@ public class BanHangJFrame extends javax.swing.JFrame {
 
     private void btnThemSoDienThoaiKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemSoDienThoaiKHActionPerformed
         // TODO add your handling code here:
-        String soDienThoaiKH = txtSoDienThoaiKH.getText();
+        if (tblHoaDon.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa chọn hóa đơn để thêm!");
+        } else {
+            String soDienThoaiKH = txtSoDienThoaiKH.getText();
         if (soDienThoaiKH.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Không được để trống số điện thoại khách hàng!");
         } else {
@@ -680,14 +683,16 @@ public class BanHangJFrame extends javax.swing.JFrame {
                     if (check == 0) {
                         JOptionPane.showMessageDialog(this, "Số điện thoại này không tồn tại!");
                     } else {
-                        JOptionPane.showMessageDialog(this, "Thêm thành công!");
                         hoaDonDAO.updateKhachHang(khachHangDAO.getIDBSoDienThoai(soDienThoaiKH), (int) tblHoaDon.getValueAt(tblHoaDon.getSelectedRow(), 0));
+                        showDataHD(hoaDonDAO.getAllChuaThanhToan());
+                        JOptionPane.showMessageDialog(this, "Thêm thành công!, Khách hàng: " + khachHangDAO.getTenKhachHang(khachHangDAO.getIDBSoDienThoai(soDienThoaiKH)));
                     }
-                } catch (SQLException ex) {
-                    Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
-        }
+        } 
     }//GEN-LAST:event_btnThemSoDienThoaiKHActionPerformed
 
     private void txtSoDienThoaiKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSoDienThoaiKHActionPerformed
@@ -802,14 +807,58 @@ public class BanHangJFrame extends javax.swing.JFrame {
     }
     
     private void btnXoaSanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaSanPhamActionPerformed
-        try {
-            // TODO add your handling code here:
-            JOptionPane.showMessageDialog(this, hoaDonChiTietDAO.removeData((int) tblHoaDonChiTiet.getValueAt(tblHoaDonChiTiet.getSelectedRow(), 0)));
-            showDataHDCT(hoaDonChiTietDAO.getSPCTByHDID((int) tblHoaDon.getValueAt(tblHoaDon.getSelectedRow(), 0)));
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Có lỗi gì đó: " + ex.getMessage());
+        int checkHD = 0;
+        int checkHDCT = 0;
+    
+        if (tblHoaDon.getSelectedRow() == -1) {
+            checkHD++;
+            JOptionPane.showMessageDialog(this, "Chưa chọn hóa đơn trong bảng hóa đơn!");
+            return;
+        }
+    
+        if (tblHoaDonChiTiet.getSelectedRow() == -1) {
+            checkHDCT++;
+            JOptionPane.showMessageDialog(this, "Chưa chọn dòng sản phẩm trong giỏ hàng!");
+            return;
+        }
+    
+        if (checkHD == 0 && checkHDCT == 0) {
+            if (JOptionPane.showConfirmDialog(this, "Bạn chắc chán muốn xóa sản phẩm này ra khỏi giỏ hàng?", "Thông báo", JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+                try {
+                    int selectedRowHDCT = tblHoaDonChiTiet.getSelectedRow();
+                    int hoaDonChiTietID = (int) tblHoaDonChiTiet.getValueAt(selectedRowHDCT, 0);
+    
+                    // Check if the selected row index is valid
+                    if (selectedRowHDCT >= 0 && selectedRowHDCT < tblHoaDonChiTiet.getRowCount()) {
+                        JOptionPane.showMessageDialog(this, hoaDonChiTietDAO.removeData(hoaDonChiTietID));
+    
+                        int selectedRowHD = tblHoaDon.getSelectedRow();
+                        int tongTienHang = 0;
+    
+                        List<HoaDonChiTietVER2> listHDCT = hoaDonChiTietDAO.getSPCTByHDID((int) tblHoaDon.getValueAt(selectedRowHD, 0));
+                        for (HoaDonChiTietVER2 hoaDonChiTietVER2 : listHDCT) {
+                            int giaBan = sanPhamChiTietDAO.getDonGiabyIDSPCT(hoaDonChiTietVER2.getId());
+                            int soLuongMua = hoaDonChiTietVER2.getSoluong();
+                            tongTienHang += (giaBan * soLuongMua);
+                        }
+    
+                        hoaDonDAO.updateData(nhanVienID, 0, 0, tongTienHang, 0, tongTienHang, 1, (int) tblHoaDon.getValueAt(selectedRowHD, 0));
+                        showDataHDCT(hoaDonChiTietDAO.getSPCTByHDID((int) tblHoaDon.getValueAt(selectedRowHD, 0)));
+                        showDataHD(hoaDonDAO.getAllChuaThanhToan());
+                        detailDataHD(hoaDonDAO.getAllChuaThanhToan().get(selectedRowHD));
+                        showDataHDCT(hoaDonChiTietDAO.getSPCTByHDID((int) tblHoaDon.getValueAt(selectedRowHD, 0)));
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Lỗi: Chỉ mục hàng đã chọn không hợp lệ!");
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(this, "Có lỗi gì đó: " + ex.getMessage());
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Không có sản phẩm nào được xóa!");
+            }
         }
     }//GEN-LAST:event_btnXoaSanPhamActionPerformed
+    
 
     private void btnThemSPToHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemSPToHoaDonActionPerformed
         int selectedRowHD = tblHoaDon.getSelectedRow();
@@ -839,6 +888,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 } else if (soLuong <= 0) {
                     JOptionPane.showMessageDialog(this, "Số lượng nhập phải > 0");
                 } else {
+                    hoaDonChiTietDAO.addData(hoaDonID, sanPhamChiTietID, soLuong);
                     int tongTienHang = 0;
                     List<HoaDonChiTietVER2> listHDCT = hoaDonChiTietDAO.getSPCTByHDID(hoaDonID);
                     for (HoaDonChiTietVER2 hoaDonChiTietVER2 : listHDCT) {
@@ -846,7 +896,6 @@ public class BanHangJFrame extends javax.swing.JFrame {
                         int soLuongMua = hoaDonChiTietVER2.getSoluong();
                         tongTienHang += (giaBan * soLuongMua);
                     }
-                    hoaDonChiTietDAO.addData(hoaDonID, sanPhamChiTietID, soLuong);
                     hoaDonDAO.updateData(nhanVienID, 0, 0, tongTienHang, 0, tongTienHang, 1, hoaDonID);
                     showDataHDCT(hoaDonChiTietDAO.getSPCTByHDID(hoaDonID));
                     showDataHD(hoaDonDAO.getAllChuaThanhToan());
@@ -1043,6 +1092,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
                                 JOptionPane.showMessageDialog(this, "Số lượng nhập phải > 0");
                             } else {
                                 int selectedRowHD = tblHoaDon.getSelectedRow();
+                                hoaDonChiTietDAO.updateSoLuong(soLuong, hoaDonChiTietID);
                                 int tongTienHang = 0;
                                 List<HoaDonChiTietVER2> listHDCT = hoaDonChiTietDAO.getSPCTByHDID(hoaDonID);
                                 for (HoaDonChiTietVER2 hoaDonChiTietVER2 : listHDCT) {
@@ -1050,7 +1100,6 @@ public class BanHangJFrame extends javax.swing.JFrame {
                                     int soLuongMua = hoaDonChiTietVER2.getSoluong();
                                     tongTienHang += (giaBan * soLuongMua);
                                 }
-                                hoaDonChiTietDAO.updateSoLuong(soLuong, hoaDonChiTietID);
                                 hoaDonDAO.updateData(nhanVienID, 0, 0, tongTienHang, 0, tongTienHang, 1, hoaDonID);
                                 showDataHDCT(hoaDonChiTietDAO.getSPCTByHDID(hoaDonID));
                                 showDataHD(hoaDonDAO.getAllChuaThanhToan());
