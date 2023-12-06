@@ -313,6 +313,9 @@ public class QuanLySanPhamJFrame extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblQuanLySanPham);
 
+        btnThem.setBackground(new java.awt.Color(22, 72, 99));
+        btnThem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnThem.setForeground(new java.awt.Color(255, 255, 255));
         btnThem.setText("Thêm");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -320,6 +323,9 @@ public class QuanLySanPhamJFrame extends javax.swing.JFrame {
             }
         });
 
+        btnSua.setBackground(new java.awt.Color(22, 72, 99));
+        btnSua.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnSua.setForeground(new java.awt.Color(255, 255, 255));
         btnSua.setText("Sửa");
         btnSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -360,6 +366,9 @@ public class QuanLySanPhamJFrame extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setText("Tên:");
 
+        btnSua1.setBackground(new java.awt.Color(22, 72, 99));
+        btnSua1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnSua1.setForeground(new java.awt.Color(255, 255, 255));
         btnSua1.setText("Xóa");
         btnSua1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -440,7 +449,7 @@ public class QuanLySanPhamJFrame extends javax.swing.JFrame {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(btnSua1))
                                             .addComponent(btnQuanLyThuocTinh1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                                .addGap(70, 70, 70)
+                                .addGap(76, 76, 76)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 646, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(107, 107, 107)))
                         .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -21,12 +21,36 @@ import java.sql.PreparedStatement;
 public class SanPhamChiTietDAO {
 
     private List<SanPhamChiTiet> list;
-    private List<SanPhamChiTiet> listSPCT;
 
     public List<SanPhamChiTiet> getAll() throws SQLException {
         list = new ArrayList<>();
         Connection conn = ConnnectToSQLServer.getConnection();
         String sql = "SELECT * FROM SANPHAMCHITIET where TrangThaiXoa = 0;";
+        Statement st = conn.createStatement();
+        ResultSet rs = st.executeQuery(sql);
+
+        while (rs.next()) {
+            int id = rs.getInt("ID");
+            int sanPhamId = rs.getInt("SanPhamID");
+            int mauSacId = rs.getInt("MauSacID");
+            int chatLieuId = rs.getInt("ChatLieuID");
+            int kichThuoc = rs.getInt("KichThuoc");
+            int donGia = rs.getInt("DonGia");
+            int soLuong = rs.getInt("soLuong");
+
+            SanPhamChiTiet sanPhamChiTiet = new SanPhamChiTiet(id, sanPhamId, mauSacId, chatLieuId, kichThuoc, donGia, soLuong, sanPhamId);
+            list.add(sanPhamChiTiet);
+        }
+        rs.close();
+        st.close();
+        conn.close();
+        return list;
+    }
+    
+    public List<SanPhamChiTiet> getAllbySanPhamID(int sanPhamID) throws SQLException {
+        list = new ArrayList<>();
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "SELECT * FROM SANPHAMCHITIET where TrangThaiXoa = 0 AND SanPhamID = " + sanPhamID;
         Statement st = conn.createStatement();
         ResultSet rs = st.executeQuery(sql);
 
@@ -92,17 +116,16 @@ public class SanPhamChiTietDAO {
         return "Thêm thành công!";
     }
 
-    public String updateData(int id, int sanPhamId, int mauSacId, int chatLieuId, int kichThuoc, float donGia, int soLuong) throws SQLException {
+    public String updateData(int id,int mauSacId, int chatLieuId, int kichThuoc, int donGia, int soLuong) throws SQLException {
         Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "update SanPhamChiTiet set SanPhamID = ? ,MauSacID = ?,ChatLieuID = ?, KichThuoc = ?,DonGia = ?,SoLuong = ? where ID = ?";
+        String sql = "update SanPhamChiTiet set MauSacID = ?,ChatLieuID = ?, KichThuoc = ?,DonGia = ?,SoLuong = ? where ID = ?";
         PreparedStatement preSt = conn.prepareCall(sql);
-        preSt.setInt(1, sanPhamId);
-        preSt.setInt(2, mauSacId);
-        preSt.setInt(3, chatLieuId);
-        preSt.setInt(4, kichThuoc);
-        preSt.setFloat(5, donGia);
-        preSt.setInt(6, soLuong);
-        preSt.setInt(7, id);
+        preSt.setInt(1, mauSacId);
+        preSt.setInt(2, chatLieuId);
+        preSt.setInt(3, kichThuoc);
+        preSt.setInt(4, donGia);
+        preSt.setInt(5, soLuong);
+        preSt.setInt(6, id);
 
         // Execute the update query
         int rowsUpdated = preSt.executeUpdate();
@@ -131,8 +154,6 @@ public class SanPhamChiTietDAO {
     }
 
     public SanPhamChiTiet getSPCTbyID(int idSPCT) throws SQLException {
-        listSPCT = new ArrayList<>();
-
         Connection conn = ConnnectToSQLServer.getConnection();
         String sql = "SELECT * FROM SANPHAMCHITIET where ID = " + idSPCT;
         Statement st = conn.createStatement();

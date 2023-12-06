@@ -97,9 +97,10 @@ public class SanPhamDAO {
     
     public String removeData(int id) throws SQLException {
         Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "UPDATE SANPHAM SET TRANGTHAIXOA = 1 WHERE ID = ?";
+        String sql = "UPDATE SANPHAM SET TRANGTHAIXOA = 1 WHERE SANPHAM.ID = ? DELETE FROM [dbo].[SanPhamChiTiet] WHERE SanPhamChiTiet.SanPhamID = ?";
         PreparedStatement preSt = conn.prepareCall(sql);
         preSt.setInt(1, id);
+        preSt.setInt(2, id);
         int rs = preSt.executeUpdate();
         return "Xóa thành công!";
     }
