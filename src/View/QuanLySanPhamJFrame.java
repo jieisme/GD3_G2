@@ -541,7 +541,7 @@ public class QuanLySanPhamJFrame extends javax.swing.JFrame {
                                     .addComponent(jLabel9)
                                     .addComponent(rdDangBan)
                                     .addComponent(rdNgungBan))
-                                .addGap(64, 64, 64)
+                                .addGap(18, 18, 18)
                                 .addGroup(BackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)

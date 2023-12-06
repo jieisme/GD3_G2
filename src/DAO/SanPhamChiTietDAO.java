@@ -47,7 +47,7 @@ public class SanPhamChiTietDAO {
         conn.close();
         return list;
     }
-    
+
     public List<SanPhamChiTiet> getAllDuDieuKien() throws SQLException {
         list = new ArrayList<>();
         Connection conn = ConnnectToSQLServer.getConnection();
@@ -73,19 +73,18 @@ public class SanPhamChiTietDAO {
         return list;
     }
 
-    public String addData(int id ,int sanPhamId, int mauSacId, int chatLieuId, int kichThuoc, float donGia, int soLuong) throws SQLException {
+    public String addData(int sanPhamId, int mauSacId, int chatLieuId, int kichThuoc, int donGia, int soLuong) throws SQLException {
         Connection conn = ConnnectToSQLServer.getConnection();
         String sql = "insert into SanPhamChiTiet\n"
-                + "values (?, ?, ?, ?, ?, ?, ?,0)";
+                + "values ( ?, ?, ?, ?, ?, ?,0)";
         PreparedStatement preSt = conn.prepareCall(sql);
-        
-        preSt.setInt(1, id);
-        preSt.setInt(2, sanPhamId);
-        preSt.setInt(3, mauSacId);
-        preSt.setInt(4, chatLieuId);
-        preSt.setInt(5, kichThuoc);
-        preSt.setFloat(6, donGia);
-        preSt.setInt(7, soLuong);
+
+        preSt.setInt(1, sanPhamId);
+        preSt.setInt(2, mauSacId);
+        preSt.setInt(3, chatLieuId);
+        preSt.setInt(4, kichThuoc);
+        preSt.setInt(5, donGia);
+        preSt.setInt(6, soLuong);
 
         int rs = preSt.executeUpdate();
         preSt.close();
@@ -117,23 +116,24 @@ public class SanPhamChiTietDAO {
             return "Không có sản phẩm nào được sửa!";
         }
     }
+
     public String removeData(String id) throws SQLException {
-         Connection conn = ConnnectToSQLServer.getConnection();
-         String sql = "UPDATE [dbo].[SanPhamChiTiet]\n" +
-                    "   SET [TrangThaiXoa] = 1\n" +
-                    " WHERE ID = ?";
-         PreparedStatement preSt = conn.prepareCall(sql);
-         preSt.setString(1, id);
-         int rs = preSt.executeUpdate();
-         preSt.close();
-         conn.close();
-         return "Xóa thành công!";
-     }
-    
+        Connection conn = ConnnectToSQLServer.getConnection();
+        String sql = "UPDATE [dbo].[SanPhamChiTiet]\n"
+                + "   SET [TrangThaiXoa] = 1\n"
+                + " WHERE ID = ?";
+        PreparedStatement preSt = conn.prepareCall(sql);
+        preSt.setString(1, id);
+        int rs = preSt.executeUpdate();
+        preSt.close();
+        conn.close();
+        return "Xóa thành công!";
+    }
+
     public SanPhamChiTiet getSPCTbyID(int idSPCT) throws SQLException {
         listSPCT = new ArrayList<>();
-          
-  Connection conn = ConnnectToSQLServer.getConnection();
+
+        Connection conn = ConnnectToSQLServer.getConnection();
         String sql = "SELECT * FROM SANPHAMCHITIET where ID = " + idSPCT;
         Statement st = conn.createStatement();
         ResultSet rs = st.executeQuery(sql);
@@ -154,7 +154,7 @@ public class SanPhamChiTietDAO {
         conn.close();
         return null;
     }
-    
+
     public int getIDSPbyIDSPCT(int id) throws SQLException {
         Connection conn = ConnnectToSQLServer.getConnection();
         String sql = "SELECT SanPhamID FROM SanPhamChiTiet WHERE ID = ?";
@@ -168,7 +168,7 @@ public class SanPhamChiTietDAO {
         }
         return 0;
     }
-    
+
     public int getIDMauSacbyIDSPCT(int id) throws SQLException {
         Connection conn = ConnnectToSQLServer.getConnection();
         String sql = "SELECT MauSacID FROM SanPhamChiTiet WHERE ID = ?";
@@ -182,7 +182,7 @@ public class SanPhamChiTietDAO {
         }
         return 0;
     }
-    
+
     public int getKichThuocbyIDSPCT(int id) throws SQLException {
         Connection conn = ConnnectToSQLServer.getConnection();
         String sql = "SELECT KichThuoc FROM SanPhamChiTiet WHERE ID = ?";
@@ -196,7 +196,7 @@ public class SanPhamChiTietDAO {
         }
         return 0;
     }
-    
+
     public int getDonGiabyIDSPCT(int id) throws SQLException {
         Connection conn = ConnnectToSQLServer.getConnection();
         String sql = "SELECT DonGia FROM SanPhamChiTiet WHERE ID = ?";
@@ -210,7 +210,7 @@ public class SanPhamChiTietDAO {
         }
         return 0;
     }
-        
+
     public int getSoLuongByIDSPCT(int id) throws SQLException {
         Connection conn = ConnnectToSQLServer.getConnection();
         String sql = "SELECT SoLuong FROM SanPhamChiTiet WHERE ID = ?";
@@ -223,8 +223,8 @@ public class SanPhamChiTietDAO {
             }
         }
         return 0;
-    }  
-    
+    }
+
     public int getIDSPByHDCTID(int id) throws SQLException {
         Connection conn = ConnnectToSQLServer.getConnection();
         String sql = "SELECT SanPhamID FROM SanPhamChiTiet WHERE ID = ?";
@@ -238,7 +238,7 @@ public class SanPhamChiTietDAO {
         }
         return 0;
     }
-    
+
     public void updateSoLuong(int soLuong, int sanPhamChiTietID) throws SQLException {
         Connection conn = ConnnectToSQLServer.getConnection();
         String sql = "UPDATE SanPhamChiTiet SET SoLuong = SoLuong - ? WHERE ID = ?";
