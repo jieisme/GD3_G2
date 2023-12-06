@@ -13,12 +13,9 @@ import DAO.SanPhamChiTietDAO;
 import DAO.SanPhamDAO;
 import DAO.VoucherDAO;
 import Entity.HoaDon;
-import Entity.HoaDonChiTiet;
 import Entity.HoaDonChiTietVER2;
 import Entity.KhachHang;
-import Entity.SanPham;
 import Entity.SanPhamChiTiet;
-import Entity.SanPhamChiTietV3;
 import Entity.Voucher;
 import Utils.DongHo;
 import Utils.Session;
@@ -59,6 +56,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
     private KhachHangDAO khachHangDAO = new KhachHangDAO();
     private HoaDonChiTietDAO hoaDonChiTietDAO = new HoaDonChiTietDAO();
     private int nhanVienID = nhanVienDAO.getIDByUsername(loggedInUser);
+    private int chucVu = Integer.parseInt(nhanVienDAO.searchChucVu(loggedInUser));
 
     public BanHangJFrame() throws SQLException {
         initComponents();
@@ -72,7 +70,6 @@ public class BanHangJFrame extends javax.swing.JFrame {
         showDataSPCT(sanPhamChiTietDAO.getAllDuDieuKien());
         showDataHD(hoaDonDAO.getAllChuaThanhToan());
         txtXinChao.setText("Xin chào: " + nhanVienDAO.searchHoVaTen(loggedInUser));
-        int chucVu = Integer.parseInt(nhanVienDAO.searchChucVu(loggedInUser));
         txtChucVu.setText("Chức vụ: " + getChucVu(chucVu));
         dongHo();
         txtTongTienHang.setText("TỔNG TIỀN HÀNG: 0 VNĐ");
@@ -935,14 +932,18 @@ public class BanHangJFrame extends javax.swing.JFrame {
 
     private void btnQuanLyThuocTinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyThuocTinhActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
-        QuanLyThuocTinhJFrame quanLiThuocTinh = null;
-        try {
-            quanLiThuocTinh = new QuanLyThuocTinhJFrame();
-        } catch (SQLException ex) {
-            Logger.getLogger(DoiMatKhauJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        if (chucVu == 0) {
+            QuanLyThuocTinhJFrame quanLiNhanVien = null;
+            try {
+                quanLiNhanVien = new QuanLyThuocTinhJFrame();
+            } catch (SQLException ex) {
+                Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            this.setVisible(false);
+            quanLiNhanVien.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Bạn không đủ quyền hạn để truy cập chức năng này!");
         }
-        quanLiThuocTinh.setVisible(true);
     }//GEN-LAST:event_btnQuanLyThuocTinhActionPerformed
 
     private void btnTrangChuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTrangChuActionPerformed
@@ -959,30 +960,36 @@ public class BanHangJFrame extends javax.swing.JFrame {
 
     private void btnQuanLyVoucherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyVoucherActionPerformed
         // TODO add your handling code here:
-        QuanLyVoucherJFrame quanLiVoucherJFrame = null;
-        try {
-            quanLiVoucherJFrame = new QuanLyVoucherJFrame();
-        } catch (SQLException ex) {
-            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        if (chucVu == 0) {
+            QuanLyVoucherJFrame quanLiNhanVien = null;
+            try {
+                quanLiNhanVien = new QuanLyVoucherJFrame();
+            } catch (SQLException ex) {
+                Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            this.setVisible(false);
+            quanLiNhanVien.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Bạn không đủ quyền hạn để truy cập chức năng này!");
         }
-        this.setVisible(false);
-        quanLiVoucherJFrame.setVisible(true);
     }//GEN-LAST:event_btnQuanLyVoucherActionPerformed
 
     private void btnQuanLyNhanVienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyNhanVienActionPerformed
-        // TODO add your handling code here:
-        QuanLyNhanVienJFrame quanLiNhanVien = null;
-        try {
-            quanLiNhanVien = new QuanLyNhanVienJFrame();
-        } catch (SQLException ex) {
-            Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        if (chucVu == 0) {
+            QuanLyNhanVienJFrame quanLiNhanVien = null;
+            try {
+                quanLiNhanVien = new QuanLyNhanVienJFrame();
+            } catch (SQLException ex) {
+                Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            this.setVisible(false);
+            quanLiNhanVien.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Bạn không đủ quyền hạn để truy cập chức năng này!");
         }
-        this.setVisible(false);
-        quanLiNhanVien.setVisible(true);
     }//GEN-LAST:event_btnQuanLyNhanVienActionPerformed
 
     private void btnQuanLyHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuanLyHoaDonActionPerformed
-        // TODO add your handling code here:
         QuanLyHoaDonJFrame quanLiHoaDon = null;
         try {
             quanLiHoaDon = new QuanLyHoaDonJFrame();
