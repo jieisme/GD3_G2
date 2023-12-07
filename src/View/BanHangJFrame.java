@@ -709,61 +709,38 @@ public class BanHangJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cboThemThongTinKhachHangActionPerformed
 
-    private void btnKiemTraActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    private void btnKiemTraActionPerformed(java.awt.event.ActionEvent evt) {
         try {
-            List<Voucher> listVoucher = voucherDAO.getAll();
             int selectedRowHD = tblHoaDon.getSelectedRow();
     
             if (selectedRowHD == -1) {
                 JOptionPane.showMessageDialog(this, "Bạn chưa chọn hóa đơn để kiểm tra voucher!");
                 return;
             }
-            
-            int tongTienHang = 0;
-                List<HoaDonChiTietVER2> listHDCT = hoaDonChiTietDAO.getSPCTByHDID((int) tblHoaDon.getValueAt(selectedRowHD, 0));
-                for (HoaDonChiTietVER2 hoaDonChiTietVER2 : listHDCT) {
-                    int giaBan = sanPhamChiTietDAO.getDonGiabyIDSPCT(hoaDonChiTietVER2.getId());
-                    int soLuongMua = hoaDonChiTietVER2.getSoluong();
-                    tongTienHang += (giaBan * soLuongMua);
-                }
     
-            int voucherIDToCheck = Integer.parseInt(txtMaGiamGia.getText());
-            boolean foundVoucher = false;
-            soTienGiam = 0;
+            int hoaDonID = (int) tblHoaDon.getValueAt(selectedRowHD, 0);
+            List<HoaDonChiTietVER2> listHDCT = hoaDonChiTietDAO.getSPCTByHDID(hoaDonID);
+            int tongTienHang = tinhTongTien(listHDCT);
     
-            for (Voucher voucher : listVoucher) {
-                if (voucherIDToCheck == voucher.getId() && voucher.getTrangThai() == 0) {
-                    try {
-                        soTienGiam = (int) ((tongTienHang * voucherDAO.giamTheoPhanTram(voucher.getId())) - voucherDAO.giamTheoGiaTien(voucher.getId()));
-                        JOptionPane.showMessageDialog(this, "Chúc mừng bạn được " + voucher.getMoTa());
-                        foundVoucher = true;
-                        break;
-                    } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(this, "Voucher này đã không còn hoạt động!");
-                        foundVoucher = true;
-                        break;
-                    }
-                }
+            int voucherIDToCheck;
+            try {
+                voucherIDToCheck = Integer.parseInt(txtMaGiamGia.getText());
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Mã Voucher không hợp lệ!");
+                return;
             }
     
-            if (!foundVoucher) {
-                JOptionPane.showMessageDialog(this, "Không tồn tại mã Voucher này hoặc Voucher đã không còn hoạt động!");
+            Voucher foundVoucher = findValidVoucher(voucherIDToCheck);
+            if (foundVoucher != null) {
+                handleValidVoucher(foundVoucher, hoaDonID, tongTienHang);
             } else {
-                if (soTienGiam <= 0) {
-                    soTienGiam *= -1;
-                }
-                tongTienPhaiTra = tongTienHang - soTienGiam;
-                hoaDonDAO.updateVoucher(voucherIDToCheck, tongTienHang, soTienGiam, tongTienPhaiTra, (int) tblHoaDon.getValueAt(selectedRowHD, 0));
-                detailDataHD(hoaDonDAO.getAllChuaThanhToan().get(selectedRowHD));
-                showDataHD(hoaDonDAO.getAllChuaThanhToan());
-                tblHoaDon.setRowSelectionInterval(selectedRowHD, selectedRowHD);
+                JOptionPane.showMessageDialog(this, "Không tồn tại mã Voucher này hoặc Voucher đã không còn hoạt động!");
             }
         } catch (SQLException ex) {
             Logger.getLogger(BanHangJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-
     private void cboMaGiamGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboMaGiamGiaActionPerformed
         // TODO add your handling code here:
         if (cboMaGiamGia.isSelected()) {
@@ -772,7 +749,7 @@ public class BanHangJFrame extends javax.swing.JFrame {
         } else {
             txtMaGiamGia.setEnabled(false);
             btnKiemTra.setEnabled(false);
-            txtTienDuocGiam.setText("TIỀN ĐƯỢC GIẢM: 0");
+            txtTienDuocGiam.setText("TIỀN ĐƯỢC GIẢM: 0 VNĐ");
         }
     }//GEN-LAST:event_cboMaGiamGiaActionPerformed
 
@@ -1167,6 +1144,31 @@ public class BanHangJFrame extends javax.swing.JFrame {
                 }
             }
         });
+    }
+
+    private Voucher findValidVoucher(int voucherIDToCheck) throws SQLException {
+        List<Voucher> listVoucher = voucherDAO.getAll();
+        for (Voucher voucher : listVoucher) {
+            if (voucherIDToCheck == voucher.getId() && voucher.getTrangThai() == 0) {
+                return voucher;
+            }
+        }
+        return null;
+    }
+    
+    private void handleValidVoucher(Voucher voucher, int hoaDonID, int tongTienHang) {
+        try {
+            int selectedRowHD = tblHoaDon.getSelectedRow();
+            soTienGiam = (int) ((tongTienHang * voucherDAO.giamTheoPhanTram(voucher.getId())) - voucherDAO.giamTheoGiaTien(voucher.getId()));
+            JOptionPane.showMessageDialog(this, "Chúc mừng bạn được " + voucher.getMoTa());
+            tongTienPhaiTra = tongTienHang - soTienGiam;
+            hoaDonDAO.updateVoucher(voucher.getId(), tongTienHang, soTienGiam, tongTienPhaiTra, hoaDonID);
+            detailDataHD(hoaDonDAO.getAllChuaThanhToan().get(selectedRowHD));
+            showDataHD(hoaDonDAO.getAllChuaThanhToan());
+            tblHoaDon.setRowSelectionInterval(selectedRowHD, selectedRowHD);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Voucher này đã không còn hoạt động!");
+        }
     }
     
     private int tinhTongTien(List<HoaDonChiTietVER2> listHDCT) {
