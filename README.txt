@@ -4,5 +4,9 @@ BƯỚC 2: VÀO NETBEANS VÀ IMPORT PROJECT GD3_G2.
 BƯỚC 3: VÀO FILE GD3_G2\Utils\ConnnectToSQLServer.java RỒI SỬA PASSWORD TRONG "DB_URL" THEO PASSWORD CỦA TÀI KHOẢN SA CỦA MÁY ĐƯỢC CHẠY.
 BƯỚC 4: TÌM ĐẾN FILE "MainApp.java" CLICK CHUỘT FILE CHỌN "RUN FILE" HOẶC TỔ HỢP SHIFT + F6 ĐỂ CHẠY CHƯƠNG TRÌNH.
 BƯỚC 5: Ở GIAO DIỆN ĐĂNG NHẬP CÓ THỂ ĐĂNG NHẬP BẰNG TÀI KHOẢN VÀ MẬT KHẨU VỚI DŨ LIỆU SAU ĐỂ CHẠY CHƯƠNG TRÌNH: 
-TÀI KHOẢN: "kietvt".
-MẬT KHẨU: "123".
+- TÀI KHOẢN VỚI CHỨC VỤ QUẢN LÝ:
+TÀI KHOẢN: "kietvt"
+MẬT KHẨU: "123"
+- TÀI KHOẢN VỚI CHỨC VỤ NHÂN VIÊN:
+TÀI KHOẢN: "user"
+MẬT KHẨU: "123"

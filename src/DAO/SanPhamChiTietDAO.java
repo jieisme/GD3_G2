@@ -260,12 +260,29 @@ public class SanPhamChiTietDAO {
         return 0;
     }
 
-    public void updateSoLuong(int soLuong, int sanPhamChiTietID) throws SQLException {
+    public void updateSoLuong(int hoaDonID) throws SQLException {
         Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "UPDATE SanPhamChiTiet SET SoLuong = SoLuong - ? WHERE ID = ?";
-        PreparedStatement preSt = conn.prepareCall(sql);
-        preSt.setInt(1, soLuong);
-        preSt.setInt(2, sanPhamChiTietID);
-        int rs = preSt.executeUpdate();
+        String sqlSelect = "SELECT SanPhamChiTietID, SoLuong FROM HoaDonChiTiet WHERE HoaDonID = ?";
+        PreparedStatement preStSelect = conn.prepareStatement(sqlSelect);
+        preStSelect.setInt(1, hoaDonID);
+        ResultSet rs = preStSelect.executeQuery();
+        
+        String sqlUpdate = "UPDATE SanPhamChiTiet SET SoLuong = SoLuong - ? WHERE ID = ?";
+        PreparedStatement preStUpdate = conn.prepareStatement(sqlUpdate);
+        
+        while (rs.next()) {
+            int sanPhamChiTietID = rs.getInt("SanPhamChiTietID");
+            int soLuongMua = rs.getInt("SoLuong");
+            
+            preStUpdate.setInt(1, soLuongMua);
+            preStUpdate.setInt(2, sanPhamChiTietID);
+            preStUpdate.executeUpdate();
+        }
+        
+        rs.close();
+        preStSelect.close();
+        preStUpdate.close();
+        conn.close();
     }
 }
+    

@@ -4,12 +4,15 @@
  */
 package Entity;
 
+import java.text.DecimalFormat;
+
 /**
  *
  * @author zudd4
  */
 public class HoaDonChiTietVER2 {
-
+    private DecimalFormat decimalFormat = new DecimalFormat("#,###");
+    
     public int getId() {
         return id;
     }
@@ -59,7 +62,7 @@ public class HoaDonChiTietVER2 {
     
     public Object[] toDatarow(){
        return new Object[]{
-           id, spct.getSp().getTen(), spct.getMau().getTen(), getKichThuoc(spct.getKichThuocID()), spct.getDonGia(), soluong
+           id, spct.getSp().getTen(), spct.getMau().getTen(), getKichThuoc(spct.getKichThuocID()), decimalFormat.format(spct.getDonGia()) + " VNĐ", soluong
        };
     }
    

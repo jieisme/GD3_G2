@@ -97,7 +97,7 @@ public class SanPhamDAO {
     
     public String removeData(int id) throws SQLException {
         Connection conn = ConnnectToSQLServer.getConnection();
-        String sql = "UPDATE SANPHAM SET TRANGTHAIXOA = 1 WHERE SANPHAM.ID = ? DELETE FROM [dbo].[SanPhamChiTiet] WHERE SanPhamChiTiet.SanPhamID = ?";
+        String sql = "UPDATE SANPHAM SET TRANGTHAIXOA = 1 WHERE SANPHAM.ID = ? UPDATE [dbo].[SanPhamChiTiet] SET TRANGTHAIXOA = 1 WHERE SanPhamChiTiet.SanPhamID = ?";
         PreparedStatement preSt = conn.prepareCall(sql);
         preSt.setInt(1, id);
         preSt.setInt(2, id);
