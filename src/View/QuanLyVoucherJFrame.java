@@ -253,6 +253,7 @@ public class QuanLyVoucherJFrame extends javax.swing.JFrame {
             }
         });
 
+        txtID.setBackground(new java.awt.Color(204, 204, 204));
         txtID.setEnabled(false);
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N

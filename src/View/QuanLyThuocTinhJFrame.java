@@ -244,6 +244,7 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setText("MÀU SẮC");
 
+        txtIDChatLieu.setBackground(new java.awt.Color(204, 204, 204));
         txtIDChatLieu.setEnabled(false);
 
         txtErrorTenMau.setForeground(new java.awt.Color(255, 0, 0));
@@ -255,6 +256,7 @@ public class QuanLyThuocTinhJFrame extends javax.swing.JFrame {
         txtErrorIDMau.setForeground(new java.awt.Color(255, 0, 0));
         txtErrorIDMau.setText(" ");
 
+        txtIDMau.setBackground(new java.awt.Color(204, 204, 204));
         txtIDMau.setEnabled(false);
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N

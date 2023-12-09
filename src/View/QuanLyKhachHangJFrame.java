@@ -187,6 +187,7 @@ public class QuanLyKhachHangJFrame extends javax.swing.JFrame {
         });
 
         txtID.setEditable(false);
+        txtID.setBackground(new java.awt.Color(204, 204, 204));
         txtID.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtID.setEnabled(false);
 

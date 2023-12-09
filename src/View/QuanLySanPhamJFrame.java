@@ -330,6 +330,7 @@ public class QuanLySanPhamJFrame extends javax.swing.JFrame {
             }
         });
 
+        txtID.setBackground(new java.awt.Color(204, 204, 204));
         txtID.setEnabled(false);
 
         txtErrorID.setForeground(new java.awt.Color(255, 0, 0));

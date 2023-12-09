@@ -335,6 +335,7 @@ public class QuanLySanPhamChiTietJFrame extends javax.swing.JFrame {
         txtErrorTenSanPham.setForeground(new java.awt.Color(255, 0, 0));
         txtErrorTenSanPham.setText(" ");
 
+        txtSanPhamID.setBackground(new java.awt.Color(204, 204, 204));
         txtSanPhamID.setEnabled(false);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -343,6 +344,7 @@ public class QuanLySanPhamChiTietJFrame extends javax.swing.JFrame {
         txtErrorID.setForeground(new java.awt.Color(255, 0, 0));
         txtErrorID.setText(" ");
 
+        txtID.setBackground(new java.awt.Color(204, 204, 204));
         txtID.setEnabled(false);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
